@@ -26,6 +26,7 @@ interface InventoryContextType {
   tags: MenuTag[];
   setTags: (tags: MenuTag[]) => void;
   addTag: (tag: MenuTag) => void;
+  removeTag: (tagId: string) => void;
   isLoading: boolean;
   collapsedGroups: Set<string>;
   toggleGroupCollapse: (subCategory: string) => void;
@@ -107,6 +108,14 @@ export function InventoryProvider({ children }: { children: React.ReactNode }) {
     setTags(prev => [...prev, tag]);
   }, []);
 
+  const removeTag = useCallback((tagId: string) => {
+    setTags(prev => prev.filter(t => t.id !== tagId));
+    setItems(prevItems => prevItems.map(item => ({
+      ...item,
+      menuTags: item.menuTags.filter(id => id !== tagId)
+    })));
+  }, []);
+
   const toggleGroupCollapse = useCallback((subCategory: string) => {
     setCollapsedGroups(prev => {
       const newSet = new Set(prev);
@@ -152,6 +161,7 @@ export function InventoryProvider({ children }: { children: React.ReactNode }) {
       tags,
       setTags,
       addTag,
+      removeTag,
       isLoading,
       collapsedGroups,
       toggleGroupCollapse,

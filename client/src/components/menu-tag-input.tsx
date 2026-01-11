@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { X, Plus } from "lucide-react";
+import { X, Plus, Trash2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import {
@@ -40,7 +40,7 @@ interface MenuTagInputProps {
 }
 
 export function MenuTagInput({ selectedTagIds, onChange, disabled }: MenuTagInputProps) {
-  const { tags, addTag, selectedTeam } = useInventory();
+  const { tags, addTag, removeTag, selectedTeam } = useInventory();
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
@@ -54,6 +54,18 @@ export function MenuTagInput({ selectedTagIds, onChange, disabled }: MenuTagInpu
       addTag(createdTag);
       onChange([...selectedTagIds, createdTag.id]);
       setSearch("");
+      queryClient.invalidateQueries({ queryKey: ["/api/inventory", selectedTeam] });
+    },
+  });
+
+  const deleteTagMutation = useMutation({
+    mutationFn: async (tagId: string) => {
+      await apiRequest("DELETE", `/api/tags/${tagId}`);
+      return tagId;
+    },
+    onSuccess: (deletedTagId: string) => {
+      removeTag(deletedTagId);
+      onChange(selectedTagIds.filter(id => id !== deletedTagId));
       queryClient.invalidateQueries({ queryKey: ["/api/inventory", selectedTeam] });
     },
   });
@@ -172,22 +184,39 @@ export function MenuTagInput({ selectedTagIds, onChange, disabled }: MenuTagInpu
           
           <div className="max-h-40 overflow-y-auto space-y-1">
             {filteredTags.map(tag => (
-              <button
+              <div
                 key={tag.id}
-                onClick={() => handleSelectTag(tag.id)}
                 className={cn(
                   "flex items-center justify-between w-full px-2 py-1.5 rounded-md text-left text-sm",
-                  "hover:bg-accent transition-colors"
+                  "hover:bg-accent transition-colors group"
                 )}
-                data-testid={`button-select-tag-${tag.id}`}
               >
-                <Badge
-                  variant="secondary"
-                  className={cn("text-xs", tag.color)}
+                <button
+                  onClick={() => handleSelectTag(tag.id)}
+                  className="flex-1"
+                  data-testid={`button-select-tag-${tag.id}`}
                 >
-                  {tag.name}
-                </Badge>
-              </button>
+                  <Badge
+                    variant="secondary"
+                    className={cn("text-xs", tag.color)}
+                  >
+                    {tag.name}
+                  </Badge>
+                </button>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (window.confirm(`"${tag.name}" 태그를 삭제하시겠습니까? 모든 항목에서 제거됩니다.`)) {
+                      deleteTagMutation.mutate(tag.id);
+                    }
+                  }}
+                  disabled={deleteTagMutation.isPending}
+                  className="opacity-0 group-hover:opacity-100 p-1 hover:bg-destructive/20 rounded transition-opacity"
+                  data-testid={`button-delete-tag-${tag.id}`}
+                >
+                  <Trash2 className="h-3.5 w-3.5 text-destructive" />
+                </button>
+              </div>
             ))}
             
             {showCreateOption && (

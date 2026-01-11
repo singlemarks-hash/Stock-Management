@@ -1,5 +1,5 @@
 import { randomUUID } from "crypto";
-import { eq, and } from "drizzle-orm";
+import { eq, and, sql } from "drizzle-orm";
 import { db } from "./db";
 import { 
   inventoryItems, 
@@ -100,6 +100,18 @@ export class DatabaseStorage implements IStorage {
 
   async deleteTag(id: string): Promise<boolean> {
     const result = await db.delete(menuTags).where(eq(menuTags.id, id)).returning();
+    if (result.length > 0) {
+      await db.execute(sql`
+        UPDATE inventory_items 
+        SET menu_tags = COALESCE(
+          (SELECT jsonb_agg(elem) 
+           FROM jsonb_array_elements(menu_tags) elem 
+           WHERE elem #>> '{}' != ${id}),
+          '[]'::jsonb
+        )
+        WHERE menu_tags @> ${JSON.stringify([id])}::jsonb
+      `);
+    }
     return result.length > 0;
   }
 
