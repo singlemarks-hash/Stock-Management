@@ -450,7 +450,7 @@ export function AddItemDialog({ onAdd }: AddItemDialogProps) {
                                     className="ml-1 rounded opacity-20 hover:opacity-100 hover:bg-destructive/10 text-muted-foreground hover:text-destructive transition-all"
                                     data-testid={`button-delete-subcategory-${sc.id}`}
                                   >
-                                    <X className="h-2 w-2" />
+                                    <X className="h-1.5 w-1.5" />
                                   </button>
                                 </CommandItem>
                               ))}
@@ -643,7 +643,7 @@ export function AddItemDialog({ onAdd }: AddItemDialogProps) {
                                     className="ml-1 rounded opacity-20 hover:opacity-100 hover:bg-destructive/10 text-muted-foreground hover:text-destructive transition-all"
                                     data-testid={`button-delete-supplier-${s.id}`}
                                   >
-                                    <X className="h-2 w-2" />
+                                    <X className="h-1.5 w-1.5" />
                                   </button>
                                 </CommandItem>
                               ))}
