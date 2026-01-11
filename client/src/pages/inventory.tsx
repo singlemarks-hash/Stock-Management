@@ -120,18 +120,22 @@ export default function InventoryPage() {
   return (
     <ScrollArea className="h-full">
       <div className="p-6 max-w-7xl mx-auto">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-          <div>
-            <h1 className="text-2xl font-semibold">
-              {teamLabels[selectedTeam]} 재고 관리
-            </h1>
-            <p className="text-sm text-muted-foreground mt-1">
-              현재 시즌: {seasonEmojis[selectedSeason]} {seasonLabels[selectedSeason]}
-            </p>
-          </div>
-          
-          <div className="flex items-center gap-2">
-            {isEditMode ? (
+        <div className="mb-6">
+          <h1 className="text-2xl font-semibold">
+            {teamLabels[selectedTeam]} 재고 관리
+          </h1>
+          <p className="text-sm text-muted-foreground mt-1">
+            현재 시즌: {seasonEmojis[selectedSeason]} {seasonLabels[selectedSeason]}
+          </p>
+        </div>
+
+        <OrderAlertBanner />
+
+        <CategoryTabs 
+          selectedStorageType={storageTypeFilter}
+          onStorageTypeChange={setStorageTypeFilter}
+          actionButtons={
+            isEditMode ? (
               <>
                 <Button 
                   variant="outline" 
@@ -167,15 +171,8 @@ export default function InventoryPage() {
                   편집 모드
                 </Button>
               </>
-            )}
-          </div>
-        </div>
-
-        <OrderAlertBanner />
-
-        <CategoryTabs 
-          selectedStorageType={storageTypeFilter}
-          onStorageTypeChange={setStorageTypeFilter}
+            )
+          }
         />
 
         <InventoryTable 

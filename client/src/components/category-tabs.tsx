@@ -18,36 +18,45 @@ const storageTypeIcons: Record<StorageType, typeof Snowflake> = {
 interface CategoryTabsProps {
   selectedStorageType: StorageType | "all";
   onStorageTypeChange: (type: StorageType | "all") => void;
+  actionButtons?: React.ReactNode;
 }
 
-export function CategoryTabs({ selectedStorageType, onStorageTypeChange }: CategoryTabsProps) {
+export function CategoryTabs({ selectedStorageType, onStorageTypeChange, actionButtons }: CategoryTabsProps) {
   const { selectedMainCategory, setSelectedMainCategory } = useInventory();
   
   const storageTypes: (StorageType | "all")[] = ["all", "refrigerated", "frozen", "room-temp"];
 
   return (
     <div className="space-y-3 mb-6">
-      <Tabs 
-        value={selectedMainCategory} 
-        onValueChange={(v) => setSelectedMainCategory(v as MainCategory)}
-      >
-        <TabsList className="grid w-full max-w-md grid-cols-2">
-          {(["food", "non-food"] as MainCategory[]).map((category) => {
-            const Icon = mainCategoryIcons[category];
-            return (
-              <TabsTrigger 
-                key={category} 
-                value={category}
-                className="gap-2"
-                data-testid={`tab-category-${category}`}
-              >
-                <Icon className="h-4 w-4" />
-                {mainCategoryLabels[category]}
-              </TabsTrigger>
-            );
-          })}
-        </TabsList>
-      </Tabs>
+      <div className="flex items-center justify-between gap-4 flex-wrap">
+        <Tabs 
+          value={selectedMainCategory} 
+          onValueChange={(v) => setSelectedMainCategory(v as MainCategory)}
+        >
+          <TabsList className="grid w-full max-w-md grid-cols-2">
+            {(["food", "non-food"] as MainCategory[]).map((category) => {
+              const Icon = mainCategoryIcons[category];
+              return (
+                <TabsTrigger 
+                  key={category} 
+                  value={category}
+                  className="gap-2"
+                  data-testid={`tab-category-${category}`}
+                >
+                  <Icon className="h-4 w-4" />
+                  {mainCategoryLabels[category]}
+                </TabsTrigger>
+              );
+            })}
+          </TabsList>
+        </Tabs>
+        
+        {actionButtons && (
+          <div className="flex items-center gap-2">
+            {actionButtons}
+          </div>
+        )}
+      </div>
 
       {selectedMainCategory === "food" && (
         <Tabs 
