@@ -373,8 +373,8 @@ export function InventoryTable({
                   <TableHead className="whitespace-nowrap text-right px-2 w-20">하루사용량</TableHead>
                   <TableHead className="whitespace-nowrap text-right px-2 w-20">리드타임</TableHead>
                   <TableHead className="whitespace-nowrap text-right px-2 w-16">안전재고</TableHead>
-                  <TableHead className="whitespace-nowrap text-right px-2 w-16">필요재고</TableHead>
-                  <TableHead className="whitespace-nowrap px-1 w-20">체크날짜</TableHead>
+                  <TableHead className="whitespace-nowrap text-right px-2 w-20">필요재고</TableHead>
+                  <TableHead className="whitespace-nowrap text-center px-2 w-20">체크날짜</TableHead>
                   <TableHead className="whitespace-nowrap px-1 w-16">상태</TableHead>
                   <TableHead className="whitespace-nowrap px-1 w-20">발주처</TableHead>
                 </TableRow>
@@ -587,29 +587,29 @@ export function InventoryTable({
                                 )}
                               </TableCell>
                               
-                              <TableCell className="text-right text-xs px-2 w-16">
-                                <div className="flex items-center justify-end gap-1">
-                                  {editedOrderQty > 0 && (
-                                    <Badge variant="destructive" className="tabular-nums text-[10px] px-1" data-testid={`badge-shortage-${item.id}`}>
-                                      +{editedOrderQty}
-                                    </Badge>
-                                  )}
-                                  {isEditMode ? (
-                                    <Input
-                                      type="number"
-                                      value={requiredStockValue ?? 0}
-                                      onChange={(e) => handleRequiredStockChange(Number(e.target.value))}
-                                      className="h-7 text-sm text-right w-full"
-                                      min={0}
-                                      data-testid={`input-required-${item.id}`}
-                                    />
-                                  ) : (
+                              <TableCell className="text-right text-xs px-2 w-20">
+                                {isEditMode ? (
+                                  <Input
+                                    type="number"
+                                    value={requiredStockValue ?? 0}
+                                    onChange={(e) => handleRequiredStockChange(Number(e.target.value))}
+                                    className="h-7 text-sm text-right w-full"
+                                    min={0}
+                                    data-testid={`input-required-${item.id}`}
+                                  />
+                                ) : (
+                                  <div className="flex items-center justify-end gap-1">
                                     <span className="tabular-nums text-muted-foreground">{required}</span>
-                                  )}
-                                </div>
+                                    {editedOrderQty > 0 && (
+                                      <Badge variant="destructive" className="tabular-nums text-[10px] px-1" data-testid={`badge-shortage-${item.id}`}>
+                                        +{editedOrderQty}
+                                      </Badge>
+                                    )}
+                                  </div>
+                                )}
                               </TableCell>
                               
-                              <TableCell className="text-xs px-1 w-20">
+                              <TableCell className="text-center text-xs px-2 w-20">
                                 {isEditMode ? (
                                   <Popover>
                                     <PopoverTrigger asChild>
