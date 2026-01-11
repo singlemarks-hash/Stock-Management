@@ -465,7 +465,7 @@ export function InventoryTable({
                               <TableCell>
                                 {isEditMode ? (
                                   <Select
-                                    value={item.supplierId || "none"}
+                                    value={getEditedValue(item, "supplierId") || "none"}
                                     onValueChange={(value) => 
                                       handleFieldChange(item, "supplierId", value === "none" ? null : value)
                                     }
