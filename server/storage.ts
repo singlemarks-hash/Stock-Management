@@ -17,6 +17,7 @@ import {
   type Team,
   type MainCategory
 } from "@shared/schema";
+import { fullInventoryData } from "./seed-data";
 
 export interface IStorage {
   getItems(team: Team): Promise<InventoryItem[]>;
@@ -140,8 +141,23 @@ export class DatabaseStorage implements IStorage {
   }
 
   async seedDataIfEmpty(): Promise<void> {
+    // Check if inventory items exist - this is the primary data we want to seed
+    const existingItems = await db.select().from(inventoryItems).limit(1);
+    if (existingItems.length > 0) {
+      console.log("Database already has inventory items, skipping seed");
+      return;
+    }
+    
+    console.log("Database is empty, starting seed process...");
+    
+    // Check each reference table independently
     const existingTags = await db.select().from(menuTags).limit(1);
-    if (existingTags.length > 0) return;
+    const existingSubCategories = await db.select().from(subCategories).limit(1);
+    const existingSuppliers = await db.select().from(suppliers).limit(1);
+    
+    const needsTags = existingTags.length === 0;
+    const needsSubCategories = existingSubCategories.length === 0;
+    const needsSuppliers = existingSuppliers.length === 0;
 
     // Seed Menu Tags
     const kitchenTags = [
@@ -173,7 +189,10 @@ export class DatabaseStorage implements IStorage {
       { id: "tag-c6", team: "cafe", name: "모카", color: "bg-teal-100 text-teal-700 dark:bg-teal-900/30 dark:text-teal-300" },
     ];
 
-    await db.insert(menuTags).values([...kitchenTags, ...cafeTags]);
+    if (needsTags) {
+      await db.insert(menuTags).values([...kitchenTags, ...cafeTags]);
+      console.log("Seeded menu tags");
+    }
 
     // Seed SubCategories
     const kitchenSubCategories = [
@@ -205,7 +224,10 @@ export class DatabaseStorage implements IStorage {
       { id: "subcat-c3", team: "cafe", mainCategory: "non-food", name: "소모품" },
     ];
 
-    await db.insert(subCategories).values([...kitchenSubCategories, ...cafeSubCategories]);
+    if (needsSubCategories) {
+      await db.insert(subCategories).values([...kitchenSubCategories, ...cafeSubCategories]);
+      console.log("Seeded subcategories");
+    }
 
     // Seed Suppliers
     const kitchenSuppliers = [
@@ -224,28 +246,40 @@ export class DatabaseStorage implements IStorage {
       { id: "sup-c5", team: "cafe", name: "기타", url: null },
     ];
 
-    await db.insert(suppliers).values([...kitchenSuppliers, ...cafeSuppliers]);
+    if (needsSuppliers) {
+      await db.insert(suppliers).values([...kitchenSuppliers, ...cafeSuppliers]);
+      console.log("Seeded suppliers");
+    }
 
-    // Seed sample inventory items
-    const defaultSeasonalReqs = [
-      { season: "winter" as const, requiredStock: 0 },
-      { season: "spring" as const, requiredStock: 0 },
-      { season: "summer" as const, requiredStock: 0 },
-      { season: "fall" as const, requiredStock: 0 },
-    ];
-
-    const sampleKitchenItems = [
-      { id: "item-1", team: "kitchen", name: "슬라이스 치즈", mainCategory: "food", storageType: "refrigerated", subCategory: "유제품&치즈", unit: "개", currentStock: 0, dailyUsage: 0, leadTime: 1, safetyStock: 0, seasonalRequirements: defaultSeasonalReqs, menuTags: [], checkDate: null, orderStatus: "normal", orderedQuantity: null, orderedAt: null, supplierId: null },
-      { id: "item-2", team: "kitchen", name: "까망베르 치즈", mainCategory: "food", storageType: "refrigerated", subCategory: "유제품&치즈", unit: "개", currentStock: 0, dailyUsage: 0, leadTime: 1, safetyStock: 0, seasonalRequirements: defaultSeasonalReqs, menuTags: [], checkDate: null, orderStatus: "normal", orderedQuantity: null, orderedAt: null, supplierId: null },
-      { id: "item-3", team: "kitchen", name: "그라나파다노", mainCategory: "food", storageType: "refrigerated", subCategory: "유제품&치즈", unit: "개", currentStock: 0, dailyUsage: 0, leadTime: 1, safetyStock: 0, seasonalRequirements: defaultSeasonalReqs, menuTags: [], checkDate: null, orderStatus: "normal", orderedQuantity: null, orderedAt: null, supplierId: null },
-    ];
-
-    const sampleCafeItems = [
-      { id: "item-cafe-1", team: "cafe", name: "원두 (에티오피아)", mainCategory: "food", storageType: "room-temp", subCategory: "원두·커피", unit: "kg", currentStock: 5, dailyUsage: 1, leadTime: 3, safetyStock: 5, seasonalRequirements: [{ season: "winter" as const, requiredStock: 10 }, { season: "spring" as const, requiredStock: 8 }, { season: "summer" as const, requiredStock: 6 }, { season: "fall" as const, requiredStock: 8 }], menuTags: ["tag-c1", "tag-c5"], checkDate: "2026-01-10", orderStatus: "normal", orderedQuantity: null, orderedAt: null, supplierId: "sup-c1" },
-      { id: "item-cafe-2", team: "cafe", name: "바닐라 시럽", mainCategory: "food", storageType: "room-temp", subCategory: "시럽·소스", unit: "병", currentStock: 3, dailyUsage: 0.5, leadTime: 2, safetyStock: 2, seasonalRequirements: [{ season: "winter" as const, requiredStock: 4 }, { season: "spring" as const, requiredStock: 5 }, { season: "summer" as const, requiredStock: 6 }, { season: "fall" as const, requiredStock: 5 }], menuTags: ["tag-c3"], checkDate: "2026-01-10", orderStatus: "normal", orderedQuantity: null, orderedAt: null, supplierId: "sup-c2" },
-    ];
-
-    await db.insert(inventoryItems).values([...sampleKitchenItems, ...sampleCafeItems]);
+    // Seed inventory items with full production data
+    if (fullInventoryData && fullInventoryData.length > 0) {
+      try {
+        // Insert in batches to avoid hitting limits
+        const batchSize = 20;
+        let insertedCount = 0;
+        for (let i = 0; i < fullInventoryData.length; i += batchSize) {
+          const batch = fullInventoryData.slice(i, i + batchSize);
+          try {
+            await db.insert(inventoryItems).values(batch as any[]);
+            insertedCount += batch.length;
+          } catch (batchError) {
+            console.error(`Error inserting batch starting at index ${i}:`, batchError);
+            // Try inserting one by one for this batch
+            for (const item of batch) {
+              try {
+                await db.insert(inventoryItems).values(item as any);
+                insertedCount++;
+              } catch (itemError) {
+                console.error(`Failed to insert item ${item.id}:`, itemError);
+              }
+            }
+          }
+        }
+        console.log(`Database seeded with ${insertedCount}/${fullInventoryData.length} inventory items`);
+      } catch (error) {
+        console.error("Error seeding inventory items:", error);
+      }
+    }
 
     console.log("Database seeded with initial data");
   }
