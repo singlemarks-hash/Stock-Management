@@ -194,8 +194,12 @@ export class DatabaseStorage implements IStorage {
     ];
 
     if (needsTags) {
-      await db.insert(menuTags).values([...kitchenTags, ...cafeTags]);
-      console.log("Seeded menu tags");
+      try {
+        await db.insert(menuTags).values([...kitchenTags, ...cafeTags]);
+        console.log("Seeded menu tags");
+      } catch (e) {
+        console.error("Error seeding tags:", e);
+      }
     }
 
     // Seed SubCategories
@@ -229,8 +233,12 @@ export class DatabaseStorage implements IStorage {
     ];
 
     if (needsSubCategories) {
-      await db.insert(subCategories).values([...kitchenSubCategories, ...cafeSubCategories]);
-      console.log("Seeded subcategories");
+      try {
+        await db.insert(subCategories).values([...kitchenSubCategories, ...cafeSubCategories]);
+        console.log("Seeded subcategories");
+      } catch (e) {
+        console.error("Error seeding subcategories:", e);
+      }
     }
 
     // Seed Suppliers
@@ -251,12 +259,16 @@ export class DatabaseStorage implements IStorage {
     ];
 
     if (needsSuppliers) {
-      await db.insert(suppliers).values([...kitchenSuppliers, ...cafeSuppliers]);
-      console.log("Seeded suppliers");
+      try {
+        await db.insert(suppliers).values([...kitchenSuppliers, ...cafeSuppliers]);
+        console.log("Seeded suppliers");
+      } catch (e) {
+        console.error("Error seeding suppliers:", e);
+      }
     }
 
     // Seed inventory items with full production data
-    if (fullInventoryData && fullInventoryData.length > 0) {
+    if (needsInventory && fullInventoryData && fullInventoryData.length > 0) {
       try {
         // Insert in batches to avoid hitting limits
         const batchSize = 20;
