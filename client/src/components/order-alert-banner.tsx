@@ -215,7 +215,7 @@ export function OrderAlertBanner() {
     <div className="mb-6 space-y-4">
       {stats.total > 0 && (
         <Collapsible open={isExpanded} onOpenChange={setIsExpanded}>
-          <div className="rounded-md border border-destructive/30 bg-destructive/5 overflow-hidden">
+          <div className="rounded-md border border-destructive/30 bg-destructive/5">
             <CollapsibleTrigger asChild>
               <button 
                 className="w-full p-4 flex items-center justify-between hover:bg-destructive/10 transition-colors"
@@ -346,7 +346,7 @@ export function OrderAlertBanner() {
 
       {stats.ordered > 0 && (
         <Collapsible open={isOrderedExpanded} onOpenChange={setIsOrderedExpanded}>
-          <div className="rounded-md border border-chart-4/30 bg-chart-4/5 overflow-hidden">
+          <div className="rounded-md border border-chart-4/30 bg-chart-4/5">
             <CollapsibleTrigger asChild>
               <button 
                 className="w-full p-4 flex items-center justify-between hover:bg-chart-4/10 transition-colors"
