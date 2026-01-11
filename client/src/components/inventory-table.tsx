@@ -33,6 +33,13 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { MenuTagInput } from "@/components/menu-tag-input";
 import { useInventory } from "@/lib/inventory-context";
 import { 
@@ -456,22 +463,43 @@ export function InventoryTable({
                               </TableCell>
                               
                               <TableCell>
-                                {supplier ? (
-                                  supplier.url ? (
-                                    <a 
-                                      href={supplier.url} 
-                                      target="_blank" 
-                                      rel="noopener noreferrer"
-                                      className="flex items-center gap-1 text-xs text-primary hover:underline"
-                                    >
-                                      {supplier.name}
-                                      <ExternalLink className="h-3 w-3" />
-                                    </a>
-                                  ) : (
-                                    <span className="text-xs text-muted-foreground">{supplier.name}</span>
-                                  )
+                                {isEditMode ? (
+                                  <Select
+                                    value={item.supplierId || "none"}
+                                    onValueChange={(value) => 
+                                      handleFieldChange(item, "supplierId", value === "none" ? null : value)
+                                    }
+                                  >
+                                    <SelectTrigger className="h-7 w-full text-xs" data-testid={`select-supplier-${item.id}`}>
+                                      <SelectValue placeholder="선택" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                      <SelectItem value="none">-</SelectItem>
+                                      {suppliers.map((s) => (
+                                        <SelectItem key={s.id} value={s.id}>
+                                          {s.name}
+                                        </SelectItem>
+                                      ))}
+                                    </SelectContent>
+                                  </Select>
                                 ) : (
-                                  <span className="text-xs text-muted-foreground">-</span>
+                                  supplier ? (
+                                    supplier.url ? (
+                                      <a 
+                                        href={supplier.url} 
+                                        target="_blank" 
+                                        rel="noopener noreferrer"
+                                        className="flex items-center gap-1 text-xs text-primary hover:underline"
+                                      >
+                                        {supplier.name}
+                                        <ExternalLink className="h-3 w-3" />
+                                      </a>
+                                    ) : (
+                                      <span className="text-xs text-muted-foreground">{supplier.name}</span>
+                                    )
+                                  ) : (
+                                    <span className="text-xs text-muted-foreground">-</span>
+                                  )
                                 )}
                               </TableCell>
                               
