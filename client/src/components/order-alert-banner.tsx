@@ -247,7 +247,7 @@ export function OrderAlertBanner() {
     }
     return (
       <div className="flex flex-wrap gap-0.5">
-        {menuTags.slice(0, 2).map(tagId => {
+        {menuTags.map(tagId => {
           const tag = getTagById(tagId);
           if (!tag) return null;
           return (
@@ -260,9 +260,6 @@ export function OrderAlertBanner() {
             </Badge>
           );
         })}
-        {menuTags.length > 2 && (
-          <span className="text-[9px] text-muted-foreground">+{menuTags.length - 2}</span>
-        )}
       </div>
     );
   };
