@@ -1,4 +1,4 @@
-import { ChefHat, Coffee, Snowflake, Flower2, Sun, Leaf } from "lucide-react";
+import { ChefHat, Coffee, Snowflake, Flower2, Sun, Leaf, ChevronDown } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -11,11 +11,11 @@ import {
   SidebarMenuButton,
 } from "@/components/ui/sidebar";
 import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
-import { ChevronDown } from "lucide-react";
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { useInventory } from "@/lib/inventory-context";
 import type { Team, Season } from "@shared/schema";
 import { teamLabels, seasonLabels, seasonMonths } from "@shared/schema";
@@ -98,40 +98,52 @@ export function AppSidebar() {
         </SidebarGroup>
 
         <SidebarGroup>
-          <Collapsible defaultOpen className="group/collapsible">
-            <SidebarGroupLabel asChild className="text-xs font-medium text-muted-foreground px-4">
-              <CollapsibleTrigger className="flex w-full items-center justify-between" data-testid="button-season-toggle">
-                <span>시즌 선택</span>
-                <ChevronDown className="h-4 w-4 transition-transform group-data-[state=open]/collapsible:rotate-180" />
-              </CollapsibleTrigger>
-            </SidebarGroupLabel>
-            <CollapsibleContent>
-              <SidebarGroupContent>
-                <SidebarMenu>
-                  {seasons.map((season) => {
-                    const Icon = seasonIcons[season];
-                    const isSelected = selectedSeason === season;
-                    return (
-                      <SidebarMenuItem key={season}>
-                        <SidebarMenuButton
-                          onClick={() => setSelectedSeason(season)}
-                          className={cn(
-                            "w-full justify-start gap-3",
-                            isSelected && seasonBgColors[season]
-                          )}
-                          data-testid={`button-season-${season}`}
-                        >
-                          <Icon className={cn("h-4 w-4", seasonColors[season])} />
-                          <span>{seasonLabels[season].replace(" 시즌", "")}</span>
-                          <span className="text-xs text-muted-foreground ml-auto">{seasonMonths[season]}</span>
-                        </SidebarMenuButton>
-                      </SidebarMenuItem>
-                    );
-                  })}
-                </SidebarMenu>
-              </SidebarGroupContent>
-            </CollapsibleContent>
-          </Collapsible>
+          <SidebarGroupLabel className="text-xs font-medium text-muted-foreground px-4">
+            시즌 선택
+          </SidebarGroupLabel>
+          <SidebarGroupContent className="px-2">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button
+                  className={cn(
+                    "flex w-full items-center justify-between gap-2 rounded-md border border-sidebar-border px-3 py-2 hover-elevate",
+                    seasonBgColors[selectedSeason]
+                  )}
+                  data-testid="button-season-dropdown"
+                >
+                  <div className="flex items-center gap-2">
+                    {(() => {
+                      const Icon = seasonIcons[selectedSeason];
+                      return <Icon className={cn("h-4 w-4", seasonColors[selectedSeason])} />;
+                    })()}
+                    <span className="text-sm font-medium">{seasonLabels[selectedSeason].replace(" 시즌", "")}</span>
+                    <span className="text-xs text-muted-foreground">{seasonMonths[selectedSeason]}</span>
+                  </div>
+                  <ChevronDown className="h-4 w-4 text-muted-foreground" />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start" className="w-[200px]">
+                {seasons.map((season) => {
+                  const Icon = seasonIcons[season];
+                  return (
+                    <DropdownMenuItem
+                      key={season}
+                      onClick={() => setSelectedSeason(season)}
+                      className={cn(
+                        "flex items-center gap-2 cursor-pointer",
+                        selectedSeason === season && seasonBgColors[season]
+                      )}
+                      data-testid={`button-season-${season}`}
+                    >
+                      <Icon className={cn("h-4 w-4", seasonColors[season])} />
+                      <span>{seasonLabels[season].replace(" 시즌", "")}</span>
+                      <span className="text-xs text-muted-foreground ml-auto">{seasonMonths[season]}</span>
+                    </DropdownMenuItem>
+                  );
+                })}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </SidebarGroupContent>
         </SidebarGroup>
 
         <SidebarGroup className="mt-auto">
