@@ -68,9 +68,12 @@ import { useInventory } from "@/lib/inventory-context";
 import { 
   getRequiredStock, 
   getOrderQuantity,
+  getDailyUsage,
+  getLeadTime,
+  getSafetyStock,
   storageTypeLabels 
 } from "@shared/schema";
-import type { InventoryItem, StorageType, Supplier } from "@shared/schema";
+import type { InventoryItem, StorageType, Supplier, SeasonalRequirement } from "@shared/schema";
 import { cn } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 
@@ -417,31 +420,35 @@ export function InventoryTable({
                           const menuTags = isEditMode 
                             ? getEditedValue(item, "menuTags") 
                             : item.menuTags;
-                          const dailyUsage = isEditMode
-                            ? getEditedValue(item, "dailyUsage")
-                            : item.dailyUsage;
-                          const leadTime = isEditMode
-                            ? getEditedValue(item, "leadTime")
-                            : item.leadTime;
-                          const safetyStock = isEditMode
-                            ? getEditedValue(item, "safetyStock")
-                            : item.safetyStock;
                           
-                          const getRequiredStockValue = () => {
-                            if (isEditMode) {
-                              const editedReqs = getEditedValue(item, "seasonalRequirements");
-                              const req = editedReqs.find(r => r.season === selectedSeason);
-                              return req?.requiredStock ?? 0;
-                            }
-                            return required;
+                          const getSeasonalValue = <K extends keyof SeasonalRequirement>(field: K): SeasonalRequirement[K] => {
+                            const editedReqs = getEditedValue(item, "seasonalRequirements") as SeasonalRequirement[];
+                            const req = editedReqs?.find(r => r.season === selectedSeason);
+                            if (req) return req[field];
+                            if (field === "dailyUsage") return getDailyUsage(item, selectedSeason) as SeasonalRequirement[K];
+                            if (field === "leadTime") return getLeadTime(item, selectedSeason) as SeasonalRequirement[K];
+                            if (field === "safetyStock") return getSafetyStock(item, selectedSeason) as SeasonalRequirement[K];
+                            return getRequiredStock(item, selectedSeason) as SeasonalRequirement[K];
                           };
-                          const requiredStockValue = getRequiredStockValue();
                           
-                          const handleRequiredStockChange = (newValue: number) => {
-                            const currentReqs = getEditedValue(item, "seasonalRequirements");
+                          const dailyUsage = isEditMode
+                            ? getSeasonalValue("dailyUsage")
+                            : getDailyUsage(item, selectedSeason);
+                          const leadTime = isEditMode
+                            ? getSeasonalValue("leadTime")
+                            : getLeadTime(item, selectedSeason);
+                          const safetyStock = isEditMode
+                            ? getSeasonalValue("safetyStock")
+                            : getSafetyStock(item, selectedSeason);
+                          const requiredStockValue = isEditMode
+                            ? getSeasonalValue("requiredStock")
+                            : required;
+                          
+                          const handleSeasonalFieldChange = (field: keyof SeasonalRequirement, newValue: number) => {
+                            const currentReqs = getEditedValue(item, "seasonalRequirements") as SeasonalRequirement[];
                             const updatedReqs = currentReqs.map(r => 
                               r.season === selectedSeason 
-                                ? { ...r, requiredStock: newValue }
+                                ? { ...r, [field]: newValue }
                                 : r
                             );
                             handleFieldChange(item, "seasonalRequirements", updatedReqs);
@@ -571,14 +578,14 @@ export function InventoryTable({
                                   <Input
                                     type="number"
                                     value={dailyUsage ?? 0}
-                                    onChange={(e) => handleFieldChange(item, "dailyUsage", Number(e.target.value))}
+                                    onChange={(e) => handleSeasonalFieldChange("dailyUsage", Number(e.target.value))}
                                     className="h-7 text-sm text-right w-full"
                                     min={0}
                                     step={0.1}
                                     data-testid={`input-daily-${item.id}`}
                                   />
                                 ) : (
-                                  <span className="tabular-nums text-muted-foreground">{item.dailyUsage}</span>
+                                  <span className="tabular-nums text-muted-foreground">{dailyUsage}</span>
                                 )}
                               </TableCell>
                               
@@ -587,13 +594,13 @@ export function InventoryTable({
                                   <Input
                                     type="number"
                                     value={leadTime ?? 0}
-                                    onChange={(e) => handleFieldChange(item, "leadTime", Number(e.target.value))}
+                                    onChange={(e) => handleSeasonalFieldChange("leadTime", Number(e.target.value))}
                                     className="h-7 text-sm text-right w-full"
                                     min={0}
                                     data-testid={`input-lead-${item.id}`}
                                   />
                                 ) : (
-                                  <span className="tabular-nums text-muted-foreground">{item.leadTime}일</span>
+                                  <span className="tabular-nums text-muted-foreground">{leadTime}일</span>
                                 )}
                               </TableCell>
                               
@@ -602,13 +609,13 @@ export function InventoryTable({
                                   <Input
                                     type="number"
                                     value={safetyStock ?? 0}
-                                    onChange={(e) => handleFieldChange(item, "safetyStock", Number(e.target.value))}
+                                    onChange={(e) => handleSeasonalFieldChange("safetyStock", Number(e.target.value))}
                                     className="h-7 text-sm text-right w-full"
                                     min={0}
                                     data-testid={`input-safety-${item.id}`}
                                   />
                                 ) : (
-                                  <span className="tabular-nums text-muted-foreground">{item.safetyStock}</span>
+                                  <span className="tabular-nums text-muted-foreground">{safetyStock}</span>
                                 )}
                               </TableCell>
                               
@@ -617,7 +624,7 @@ export function InventoryTable({
                                   <Input
                                     type="number"
                                     value={requiredStockValue ?? 0}
-                                    onChange={(e) => handleRequiredStockChange(Number(e.target.value))}
+                                    onChange={(e) => handleSeasonalFieldChange("requiredStock", Number(e.target.value))}
                                     className="h-7 text-sm text-right w-full"
                                     min={0}
                                     data-testid={`input-required-${item.id}`}
