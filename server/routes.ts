@@ -64,7 +64,7 @@ export async function registerRoutes(
       }
       
       if (parsed.data.menuTags && parsed.data.menuTags.length > 0) {
-        const teamTags = await storage.getTags(parsed.data.team);
+        const teamTags = await storage.getTags(parsed.data.team as Team);
         const teamTagIds = new Set(teamTags.map(t => t.id));
         const invalidTags = parsed.data.menuTags.filter(id => !teamTagIds.has(id));
         if (invalidTags.length > 0) {
@@ -97,7 +97,7 @@ export async function registerRoutes(
       }
       
       if (parsed.data.menuTags && parsed.data.menuTags.length > 0) {
-        const teamTags = await storage.getTags(existingItem.team);
+        const teamTags = await storage.getTags(existingItem.team as Team);
         const teamTagIds = new Set(teamTags.map(t => t.id));
         const invalidTags = parsed.data.menuTags.filter(id => !teamTagIds.has(id));
         if (invalidTags.length > 0) {
@@ -148,7 +148,7 @@ export async function registerRoutes(
             if (partialParsed.data.menuTags && partialParsed.data.menuTags.length > 0) {
               const existingItem = await storage.getItem(id);
               if (existingItem) {
-                const teamTags = await storage.getTags(existingItem.team);
+                const teamTags = await storage.getTags(existingItem.team as Team);
                 const teamTagIds = new Set(teamTags.map(t => t.id));
                 const invalidTags = partialParsed.data.menuTags.filter(tagId => !teamTagIds.has(tagId));
                 if (invalidTags.length > 0) {
@@ -223,16 +223,17 @@ export async function registerRoutes(
       const mainCategory = req.query.mainCategory as MainCategory | undefined;
       
       if (!team || (team !== "kitchen" && team !== "cafe")) {
-        return res.status(400).json({ error: "Invalid team parameter" });
+        return res.status(400).json([]);
       }
       if (mainCategory && mainCategory !== "food" && mainCategory !== "non-food") {
-        return res.status(400).json({ error: "Invalid mainCategory parameter" });
+        return res.status(400).json([]);
       }
       
       const subCategories = await storage.getSubCategories(team, mainCategory);
-      res.json(subCategories);
+      res.json(subCategories || []);
     } catch (error) {
-      res.status(500).json({ error: "Failed to fetch subcategories" });
+      console.error("Failed to fetch subcategories:", error);
+      res.status(500).json([]);
     }
   });
 
@@ -257,13 +258,14 @@ export async function registerRoutes(
       const team = req.query.team as Team;
       
       if (!team || (team !== "kitchen" && team !== "cafe")) {
-        return res.status(400).json({ error: "Invalid team parameter" });
+        return res.status(400).json([]);
       }
       
       const suppliers = await storage.getSuppliers(team);
-      res.json(suppliers);
+      res.json(suppliers || []);
     } catch (error) {
-      res.status(500).json({ error: "Failed to fetch suppliers" });
+      console.error("Failed to fetch suppliers:", error);
+      res.status(500).json([]);
     }
   });
 

@@ -8,6 +8,7 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { InventoryProvider } from "@/lib/inventory-context";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
+import { ErrorBoundary } from "@/components/error-boundary";
 import InventoryPage from "@/pages/inventory";
 import NotFound from "@/pages/not-found";
 
@@ -40,7 +41,9 @@ function App() {
                     <ThemeToggle />
                   </header>
                   <main className="flex-1 overflow-hidden bg-muted/30">
-                    <Router />
+                    <ErrorBoundary>
+                      <Router />
+                    </ErrorBoundary>
                   </main>
                 </div>
               </div>

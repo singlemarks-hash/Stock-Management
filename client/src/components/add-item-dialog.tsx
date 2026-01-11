@@ -109,23 +109,37 @@ export function AddItemDialog({ onAdd }: AddItemDialogProps) {
 
   const watchMainCategory = form.watch("mainCategory");
 
-  const { data: subCategories = [], refetch: refetchSubCategories } = useQuery<SubCategory[]>({
+  const { data: subCategoriesData, isLoading: isLoadingSubCategories } = useQuery<SubCategory[]>({
     queryKey: ['/api/subcategories', selectedTeam, watchMainCategory],
     queryFn: async () => {
-      const res = await fetch(`/api/subcategories?team=${selectedTeam}&mainCategory=${watchMainCategory}`);
-      return res.json();
+      try {
+        const res = await fetch(`/api/subcategories?team=${selectedTeam}&mainCategory=${watchMainCategory}`);
+        if (!res.ok) return [];
+        const data = await res.json();
+        return Array.isArray(data) ? data : [];
+      } catch {
+        return [];
+      }
     },
     enabled: open,
   });
+  const subCategories = subCategoriesData ?? [];
 
-  const { data: suppliers = [] } = useQuery<Supplier[]>({
+  const { data: suppliersData, isLoading: isLoadingSuppliers } = useQuery<Supplier[]>({
     queryKey: ['/api/suppliers', selectedTeam],
     queryFn: async () => {
-      const res = await fetch(`/api/suppliers?team=${selectedTeam}`);
-      return res.json();
+      try {
+        const res = await fetch(`/api/suppliers?team=${selectedTeam}`);
+        if (!res.ok) return [];
+        const data = await res.json();
+        return Array.isArray(data) ? data : [];
+      } catch {
+        return [];
+      }
     },
     enabled: open,
   });
+  const suppliers = suppliersData ?? [];
 
   const createSubCategoryMutation = useMutation({
     mutationFn: async (name: string) => {
