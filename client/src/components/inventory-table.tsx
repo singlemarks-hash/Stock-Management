@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
 import { 
@@ -9,8 +9,26 @@ import {
   ChevronDown,
   ChevronRight,
   Trash2,
-  ExternalLink
+  ExternalLink,
+  GripVertical
 } from "lucide-react";
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  useSortable,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import {
   Table,
   TableBody,
@@ -82,6 +100,78 @@ const orderStatusColors = {
   "ordered": "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300",
 } as const;
 
+interface SortableHeaderRowProps {
+  id: string;
+  subCategory: string;
+  itemCount: number;
+  isExpanded: boolean;
+  onToggle: () => void;
+  isEditMode: boolean;
+  colSpan: number;
+}
+
+function SortableHeaderRow({ 
+  id, 
+  subCategory, 
+  itemCount, 
+  isExpanded, 
+  onToggle,
+  isEditMode,
+  colSpan 
+}: SortableHeaderRowProps) {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+  };
+
+  return (
+    <TableRow 
+      ref={setNodeRef}
+      style={style}
+      className="bg-muted/30 hover:bg-muted/50 cursor-pointer"
+      onClick={onToggle}
+      data-testid={`row-subcategory-${subCategory}`}
+    >
+      <TableCell className="w-8 p-0">
+        {isEditMode && (
+          <button
+            {...attributes}
+            {...listeners}
+            className="p-2 cursor-grab active:cursor-grabbing hover:bg-muted rounded"
+            onClick={(e) => e.stopPropagation()}
+            data-testid={`drag-handle-${subCategory}`}
+          >
+            <GripVertical className="h-4 w-4 text-muted-foreground" />
+          </button>
+        )}
+      </TableCell>
+      <TableCell colSpan={colSpan - 1} className="py-2">
+        <div className="flex items-center gap-2">
+          {isExpanded ? (
+            <ChevronDown className="h-4 w-4" />
+          ) : (
+            <ChevronRight className="h-4 w-4" />
+          )}
+          <span className="text-sm font-medium">{subCategory}</span>
+          <Badge variant="secondary" className="text-xs">
+            {itemCount}
+          </Badge>
+        </div>
+      </TableCell>
+    </TableRow>
+  );
+}
+
 export function InventoryTable({ 
   storageTypeFilter, 
   onDeleteItem, 
@@ -96,7 +186,9 @@ export function InventoryTable({
     updateEditedItem,
     selectedTeam,
     collapsedGroups,
-    toggleGroupCollapse
+    toggleGroupCollapse,
+    getSubCategoryOrder,
+    setSubCategoryOrder
   } = useInventory();
   
   const [selectAllDate, setSelectAllDate] = useState<Date | undefined>();
@@ -119,7 +211,51 @@ export function InventoryTable({
   });
 
   const groupedItems = groupBySubCategory(filteredItems);
-  const subCategories = Object.keys(groupedItems).sort();
+  
+  const sortedSubCategories = useMemo(() => {
+    const allSubCategories = Object.keys(groupedItems);
+    const savedOrder = getSubCategoryOrder(storageTypeFilter);
+    
+    if (savedOrder.length === 0) {
+      return allSubCategories.sort();
+    }
+    
+    const orderedCategories: string[] = [];
+    savedOrder.forEach(cat => {
+      if (allSubCategories.includes(cat)) {
+        orderedCategories.push(cat);
+      }
+    });
+    allSubCategories.forEach(cat => {
+      if (!orderedCategories.includes(cat)) {
+        orderedCategories.push(cat);
+      }
+    });
+    
+    return orderedCategories;
+  }, [groupedItems, getSubCategoryOrder, storageTypeFilter]);
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+    
+    if (over && active.id !== over.id) {
+      const oldIndex = sortedSubCategories.indexOf(active.id as string);
+      const newIndex = sortedSubCategories.indexOf(over.id as string);
+      const newOrder = arrayMove(sortedSubCategories, oldIndex, newIndex);
+      setSubCategoryOrder(storageTypeFilter, newOrder);
+    }
+  };
 
   const isGroupExpanded = (category: string) => !collapsedGroups.has(category);
 
@@ -209,62 +345,62 @@ export function InventoryTable({
         </div>
       )}
 
-      <div 
-        className="rounded-md border overflow-x-auto" 
-        style={{ WebkitOverflowScrolling: 'touch', touchAction: 'pan-x pan-y' }}
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragEnd={handleDragEnd}
       >
-        <Table className="min-w-[1000px]">
-          <TableHeader>
-            <TableRow className="bg-muted/50">
-              <TableHead className="w-8"></TableHead>
-              <TableHead className="whitespace-nowrap">항목</TableHead>
-              {selectedMainCategory === "food" && storageTypeFilter === "all" && (
-                <TableHead className="whitespace-nowrap">보관</TableHead>
-              )}
-              <TableHead className="whitespace-nowrap min-w-[120px]">사용메뉴</TableHead>
-              <TableHead className="whitespace-nowrap text-center">단위</TableHead>
-              <TableHead className="whitespace-nowrap text-right">현재고</TableHead>
-              <TableHead className="whitespace-nowrap text-right">일사용</TableHead>
-              <TableHead className="whitespace-nowrap text-right">리드</TableHead>
-              <TableHead className="whitespace-nowrap text-right">안전</TableHead>
-              <TableHead className="whitespace-nowrap text-right">필요</TableHead>
-              <TableHead className="whitespace-nowrap text-right">발주량</TableHead>
-              <TableHead className="whitespace-nowrap">체크일</TableHead>
-              <TableHead className="whitespace-nowrap">상태</TableHead>
-              <TableHead className="whitespace-nowrap">발주처</TableHead>
-              {isEditMode && <TableHead className="w-10"></TableHead>}
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {subCategories.map(subCategory => {
-              const categoryItems = groupedItems[subCategory];
-              const isExpanded = isGroupExpanded(subCategory);
-              
-              return (
-                <Collapsible key={subCategory} open={isExpanded} onOpenChange={() => toggleGroup(subCategory)} asChild>
-                  <>
-                    <CollapsibleTrigger asChild>
-                      <TableRow 
-                        className="bg-muted/30 hover:bg-muted/50 cursor-pointer"
-                      >
-                        <TableCell colSpan={isEditMode ? 15 : 14} className="py-2">
-                          <div className="flex items-center gap-2">
-                            {isExpanded ? (
-                              <ChevronDown className="h-4 w-4" />
-                            ) : (
-                              <ChevronRight className="h-4 w-4" />
-                            )}
-                            <span className="text-sm font-medium">{subCategory}</span>
-                            <Badge variant="secondary" className="text-xs">
-                              {categoryItems.length}
-                            </Badge>
-                          </div>
-                        </TableCell>
-                      </TableRow>
-                    </CollapsibleTrigger>
-                    <CollapsibleContent asChild>
+        <SortableContext
+          items={sortedSubCategories}
+          strategy={verticalListSortingStrategy}
+        >
+          <div 
+            className="rounded-md border overflow-x-auto" 
+            style={{ WebkitOverflowScrolling: 'touch', touchAction: 'pan-x pan-y' }}
+          >
+            <Table className="min-w-[1000px]">
+              <TableHeader>
+                <TableRow className="bg-muted/50">
+                  <TableHead className="w-8"></TableHead>
+                  <TableHead className="whitespace-nowrap">항목</TableHead>
+                  {selectedMainCategory === "food" && storageTypeFilter === "all" && (
+                    <TableHead className="whitespace-nowrap">보관</TableHead>
+                  )}
+                  <TableHead className="whitespace-nowrap min-w-[120px]">사용메뉴</TableHead>
+                  <TableHead className="whitespace-nowrap text-center">단위</TableHead>
+                  <TableHead className="whitespace-nowrap text-right">현재고</TableHead>
+                  <TableHead className="whitespace-nowrap text-right">일사용</TableHead>
+                  <TableHead className="whitespace-nowrap text-right">리드</TableHead>
+                  <TableHead className="whitespace-nowrap text-right">안전</TableHead>
+                  <TableHead className="whitespace-nowrap text-right">필요</TableHead>
+                  <TableHead className="whitespace-nowrap text-right">발주량</TableHead>
+                  <TableHead className="whitespace-nowrap">체크일</TableHead>
+                  <TableHead className="whitespace-nowrap">상태</TableHead>
+                  <TableHead className="whitespace-nowrap">발주처</TableHead>
+                  {isEditMode && <TableHead className="w-10"></TableHead>}
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {sortedSubCategories.map(subCategory => {
+                  const categoryItems = groupedItems[subCategory];
+                  const isExpanded = isGroupExpanded(subCategory);
+                  const colSpan = isEditMode ? 15 : 14;
+                  
+                  return (
+                    <Collapsible key={subCategory} open={isExpanded} asChild>
                       <>
-                        {categoryItems.map(item => {
+                        <SortableHeaderRow
+                          id={subCategory}
+                          subCategory={subCategory}
+                          itemCount={categoryItems.length}
+                          isExpanded={isExpanded}
+                          onToggle={() => toggleGroup(subCategory)}
+                          isEditMode={isEditMode}
+                          colSpan={colSpan}
+                        />
+                        <CollapsibleContent asChild>
+                          <>
+                            {categoryItems.map(item => {
                           const required = getRequiredStock(item, selectedSeason);
                           const orderQty = getOrderQuantity(item, selectedSeason);
                           const currentStock = isEditMode 
@@ -525,9 +661,11 @@ export function InventoryTable({
                 </Collapsible>
               );
             })}
-          </TableBody>
-        </Table>
-      </div>
+              </TableBody>
+            </Table>
+          </div>
+        </SortableContext>
+      </DndContext>
     </div>
   );
 }

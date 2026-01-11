@@ -29,6 +29,8 @@ interface InventoryContextType {
   isLoading: boolean;
   collapsedGroups: Set<string>;
   toggleGroupCollapse: (subCategory: string) => void;
+  getSubCategoryOrder: (storageType: string) => string[];
+  setSubCategoryOrder: (storageType: string, order: string[]) => void;
 }
 
 const InventoryContext = createContext<InventoryContextType | undefined>(undefined);
@@ -52,6 +54,11 @@ export function InventoryProvider({ children }: { children: React.ReactNode }) {
   const [collapsedGroups, setCollapsedGroups] = useState<Set<string>>(() => {
     const saved = localStorage.getItem("inventory-collapsed-groups");
     return saved ? new Set(JSON.parse(saved)) : new Set();
+  });
+
+  const [subCategoryOrders, setSubCategoryOrders] = useState<Record<string, string[]>>(() => {
+    const saved = localStorage.getItem("inventory-subcategory-orders");
+    return saved ? JSON.parse(saved) : {};
   });
 
   const { data, isLoading } = useQuery<{ items: InventoryItem[]; tags: MenuTag[] }>({
@@ -113,6 +120,20 @@ export function InventoryProvider({ children }: { children: React.ReactNode }) {
     });
   }, []);
 
+  const getSubCategoryOrder = useCallback((storageType: string): string[] => {
+    const key = `${selectedTeam}-${selectedMainCategory}-${storageType}`;
+    return subCategoryOrders[key] || [];
+  }, [selectedTeam, selectedMainCategory, subCategoryOrders]);
+
+  const setSubCategoryOrder = useCallback((storageType: string, order: string[]) => {
+    const key = `${selectedTeam}-${selectedMainCategory}-${storageType}`;
+    setSubCategoryOrders(prev => {
+      const updated = { ...prev, [key]: order };
+      localStorage.setItem("inventory-subcategory-orders", JSON.stringify(updated));
+      return updated;
+    });
+  }, [selectedTeam, selectedMainCategory]);
+
   return (
     <InventoryContext.Provider value={{
       selectedTeam,
@@ -134,6 +155,8 @@ export function InventoryProvider({ children }: { children: React.ReactNode }) {
       isLoading,
       collapsedGroups,
       toggleGroupCollapse,
+      getSubCategoryOrder,
+      setSubCategoryOrder,
     }}>
       {children}
     </InventoryContext.Provider>
