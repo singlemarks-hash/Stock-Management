@@ -5,6 +5,7 @@ import {
   insertInventoryItemSchema, 
   insertMenuTagSchema,
   insertSubCategorySchema,
+  insertSupplierSchema,
   type Team,
   type MainCategory
 } from "@shared/schema";
@@ -241,6 +242,37 @@ export async function registerRoutes(
       res.status(201).json(subCategory);
     } catch (error) {
       res.status(500).json({ error: "Failed to create subcategory" });
+    }
+  });
+
+  app.get("/api/suppliers", async (req, res) => {
+    try {
+      const team = req.query.team as Team;
+      
+      if (!team || (team !== "kitchen" && team !== "cafe")) {
+        return res.status(400).json({ error: "Invalid team parameter" });
+      }
+      
+      const suppliers = await storage.getSuppliers(team);
+      res.json(suppliers);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch suppliers" });
+    }
+  });
+
+  app.post("/api/suppliers", async (req, res) => {
+    try {
+      const parsed = insertSupplierSchema.safeParse(req.body);
+      if (!parsed.success) {
+        return res.status(400).json({ 
+          error: "Invalid request body", 
+          details: parsed.error.flatten() 
+        });
+      }
+      const supplier = await storage.createSupplier(parsed.data);
+      res.status(201).json(supplier);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to create supplier" });
     }
   });
 

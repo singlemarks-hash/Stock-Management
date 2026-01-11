@@ -4,7 +4,22 @@ export type Season = "winter" | "spring" | "summer" | "fall";
 export type Team = "cafe" | "kitchen";
 export type MainCategory = "food" | "non-food";
 export type StorageType = "refrigerated" | "frozen" | "room-temp";
-export type OrderStatus = "none" | "ordered" | "delivered";
+export type OrderStatus = "normal" | "need-order" | "ordered";
+
+export interface Supplier {
+  id: string;
+  team: Team;
+  name: string;
+  url: string | null;
+}
+
+export const defaultSuppliers = [
+  { name: "도레미", url: null },
+  { name: "쿠팡", url: "https://www.coupang.com" },
+  { name: "그린팜", url: null },
+  { name: "네이버", url: "https://shopping.naver.com" },
+  { name: "기타", url: null },
+];
 
 export const seasonLabels: Record<Season, string> = {
   winter: "겨울 시즌",
@@ -71,13 +86,16 @@ export interface InventoryItem {
   subCategory: string;
   unit: string;
   currentStock: number;
+  dailyUsage: number;
+  leadTime: number;
+  safetyStock: number;
   seasonalRequirements: SeasonalRequirement[];
   menuTags: string[];
   checkDate: string | null;
   orderStatus: OrderStatus;
   orderedQuantity: number | null;
   orderedAt: string | null;
-  deliveredAt: string | null;
+  supplierId: string | null;
 }
 
 export interface AppSettings {
@@ -93,17 +111,28 @@ export const insertInventoryItemSchema = z.object({
   subCategory: z.string(),
   unit: z.string().min(1, "단위를 입력해주세요"),
   currentStock: z.number().min(0, "재고는 0 이상이어야 합니다"),
+  dailyUsage: z.number().min(0, "하루사용량은 0 이상이어야 합니다"),
+  leadTime: z.number().min(0, "리드타임은 0 이상이어야 합니다"),
+  safetyStock: z.number().min(0, "안전재고는 0 이상이어야 합니다"),
   seasonalRequirements: z.array(z.object({
     season: z.enum(["winter", "spring", "summer", "fall"]),
     requiredStock: z.number().min(0),
   })),
   menuTags: z.array(z.string()),
   checkDate: z.string().nullable(),
-  orderStatus: z.enum(["none", "ordered", "delivered"]),
+  orderStatus: z.enum(["normal", "need-order", "ordered"]),
   orderedQuantity: z.number().nullable(),
   orderedAt: z.string().nullable(),
-  deliveredAt: z.string().nullable(),
+  supplierId: z.string().nullable(),
 });
+
+export const insertSupplierSchema = z.object({
+  team: z.enum(["cafe", "kitchen"]),
+  name: z.string().min(1, "발주처 이름을 입력해주세요"),
+  url: z.string().nullable(),
+});
+
+export type InsertSupplier = z.infer<typeof insertSupplierSchema>;
 
 export type InsertInventoryItem = z.infer<typeof insertInventoryItemSchema>;
 
@@ -138,7 +167,7 @@ export function getRequiredStock(item: InventoryItem, season: Season): number {
 
 export function needsOrder(item: InventoryItem, season: Season): boolean {
   const required = getRequiredStock(item, season);
-  return item.currentStock < required && item.orderStatus === "none";
+  return item.currentStock < required && item.orderStatus !== "ordered";
 }
 
 export function getOrderQuantity(item: InventoryItem, season: Season): number {

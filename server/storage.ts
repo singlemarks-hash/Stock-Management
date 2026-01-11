@@ -6,6 +6,8 @@ import type {
   InsertMenuTag,
   SubCategory,
   InsertSubCategory,
+  Supplier,
+  InsertSupplier,
   Team,
   Season,
   MainCategory
@@ -25,17 +27,22 @@ export interface IStorage {
   
   getSubCategories(team: Team, mainCategory?: MainCategory): Promise<SubCategory[]>;
   createSubCategory(subCategory: InsertSubCategory): Promise<SubCategory>;
+  
+  getSuppliers(team: Team): Promise<Supplier[]>;
+  createSupplier(supplier: InsertSupplier): Promise<Supplier>;
 }
 
 export class MemStorage implements IStorage {
   private items: Map<string, InventoryItem>;
   private tags: Map<string, MenuTag>;
   private subCategories: Map<string, SubCategory>;
+  private suppliers: Map<string, Supplier>;
 
   constructor() {
     this.items = new Map();
     this.tags = new Map();
     this.subCategories = new Map();
+    this.suppliers = new Map();
     this.seedData();
   }
 
@@ -78,6 +85,24 @@ export class MemStorage implements IStorage {
 
     [...kitchenSubCategories, ...cafeSubCategories].forEach(sc => this.subCategories.set(sc.id, sc));
 
+    const kitchenSuppliers: Supplier[] = [
+      { id: "sup-k1", team: "kitchen", name: "도레미", url: null },
+      { id: "sup-k2", team: "kitchen", name: "쿠팡", url: "https://www.coupang.com" },
+      { id: "sup-k3", team: "kitchen", name: "그린팜", url: null },
+      { id: "sup-k4", team: "kitchen", name: "네이버", url: "https://shopping.naver.com" },
+      { id: "sup-k5", team: "kitchen", name: "기타", url: null },
+    ];
+
+    const cafeSuppliers: Supplier[] = [
+      { id: "sup-c1", team: "cafe", name: "도레미", url: null },
+      { id: "sup-c2", team: "cafe", name: "쿠팡", url: "https://www.coupang.com" },
+      { id: "sup-c3", team: "cafe", name: "그린팜", url: null },
+      { id: "sup-c4", team: "cafe", name: "네이버", url: "https://shopping.naver.com" },
+      { id: "sup-c5", team: "cafe", name: "기타", url: null },
+    ];
+
+    [...kitchenSuppliers, ...cafeSuppliers].forEach(s => this.suppliers.set(s.id, s));
+
     const kitchenItems: InventoryItem[] = [
       {
         id: "item-1",
@@ -88,6 +113,9 @@ export class MemStorage implements IStorage {
         subCategory: "유제품·치즈",
         unit: "L",
         currentStock: 5,
+        dailyUsage: 2,
+        leadTime: 1,
+        safetyStock: 3,
         seasonalRequirements: [
           { season: "winter", requiredStock: 8 },
           { season: "spring", requiredStock: 10 },
@@ -96,10 +124,10 @@ export class MemStorage implements IStorage {
         ],
         menuTags: ["tag-k2", "tag-k3"],
         checkDate: "2026-01-10",
-        orderStatus: "none",
+        orderStatus: "need-order",
         orderedQuantity: null,
         orderedAt: null,
-        deliveredAt: null,
+        supplierId: "sup-k1",
       },
       {
         id: "item-2",
@@ -110,6 +138,9 @@ export class MemStorage implements IStorage {
         subCategory: "유제품·치즈",
         unit: "L",
         currentStock: 2,
+        dailyUsage: 0.5,
+        leadTime: 1,
+        safetyStock: 1,
         seasonalRequirements: [
           { season: "winter", requiredStock: 3 },
           { season: "spring", requiredStock: 4 },
@@ -118,10 +149,10 @@ export class MemStorage implements IStorage {
         ],
         menuTags: ["tag-k5"],
         checkDate: "2026-01-10",
-        orderStatus: "none",
+        orderStatus: "normal",
         orderedQuantity: null,
         orderedAt: null,
-        deliveredAt: null,
+        supplierId: "sup-k1",
       },
       {
         id: "item-3",
@@ -132,6 +163,9 @@ export class MemStorage implements IStorage {
         subCategory: "유제품·치즈",
         unit: "kg",
         currentStock: 1,
+        dailyUsage: 0.3,
+        leadTime: 2,
+        safetyStock: 1,
         seasonalRequirements: [
           { season: "winter", requiredStock: 2 },
           { season: "spring", requiredStock: 2 },
@@ -143,7 +177,7 @@ export class MemStorage implements IStorage {
         orderStatus: "ordered",
         orderedQuantity: 1,
         orderedAt: "2026-01-10T09:30:00.000Z",
-        deliveredAt: null,
+        supplierId: "sup-k2",
       },
       {
         id: "item-4",
@@ -154,6 +188,9 @@ export class MemStorage implements IStorage {
         subCategory: "잎채소&허브류",
         unit: "묶음",
         currentStock: 3,
+        dailyUsage: 1,
+        leadTime: 1,
+        safetyStock: 2,
         seasonalRequirements: [
           { season: "winter", requiredStock: 2 },
           { season: "spring", requiredStock: 4 },
@@ -162,10 +199,10 @@ export class MemStorage implements IStorage {
         ],
         menuTags: ["tag-k2", "tag-k3"],
         checkDate: "2026-01-10",
-        orderStatus: "none",
+        orderStatus: "normal",
         orderedQuantity: null,
         orderedAt: null,
-        deliveredAt: null,
+        supplierId: "sup-k3",
       },
       {
         id: "item-5",
@@ -176,6 +213,9 @@ export class MemStorage implements IStorage {
         subCategory: "잎채소&허브류",
         unit: "kg",
         currentStock: 2,
+        dailyUsage: 1,
+        leadTime: 1,
+        safetyStock: 2,
         seasonalRequirements: [
           { season: "winter", requiredStock: 3 },
           { season: "spring", requiredStock: 5 },
@@ -184,10 +224,10 @@ export class MemStorage implements IStorage {
         ],
         menuTags: ["tag-k3"],
         checkDate: "2026-01-10",
-        orderStatus: "none",
+        orderStatus: "normal",
         orderedQuantity: null,
         orderedAt: null,
-        deliveredAt: null,
+        supplierId: "sup-k3",
       },
       {
         id: "item-6",
@@ -198,6 +238,9 @@ export class MemStorage implements IStorage {
         subCategory: "해산물",
         unit: "kg",
         currentStock: 3,
+        dailyUsage: 0.5,
+        leadTime: 2,
+        safetyStock: 2,
         seasonalRequirements: [
           { season: "winter", requiredStock: 4 },
           { season: "spring", requiredStock: 5 },
@@ -206,10 +249,10 @@ export class MemStorage implements IStorage {
         ],
         menuTags: ["tag-k2"],
         checkDate: "2026-01-08",
-        orderStatus: "none",
+        orderStatus: "need-order",
         orderedQuantity: null,
         orderedAt: null,
-        deliveredAt: null,
+        supplierId: "sup-k1",
       },
       {
         id: "item-7",
@@ -220,6 +263,9 @@ export class MemStorage implements IStorage {
         subCategory: "육류",
         unit: "kg",
         currentStock: 5,
+        dailyUsage: 1,
+        leadTime: 2,
+        safetyStock: 3,
         seasonalRequirements: [
           { season: "winter", requiredStock: 8 },
           { season: "spring", requiredStock: 6 },
@@ -228,10 +274,10 @@ export class MemStorage implements IStorage {
         ],
         menuTags: ["tag-k1"],
         checkDate: "2026-01-10",
-        orderStatus: "none",
+        orderStatus: "need-order",
         orderedQuantity: null,
         orderedAt: null,
-        deliveredAt: null,
+        supplierId: "sup-k1",
       },
       {
         id: "item-8",
@@ -242,6 +288,9 @@ export class MemStorage implements IStorage {
         subCategory: "오일·소스",
         unit: "L",
         currentStock: 4,
+        dailyUsage: 0.2,
+        leadTime: 3,
+        safetyStock: 1,
         seasonalRequirements: [
           { season: "winter", requiredStock: 3 },
           { season: "spring", requiredStock: 3 },
@@ -250,10 +299,10 @@ export class MemStorage implements IStorage {
         ],
         menuTags: ["tag-k1", "tag-k2", "tag-k3"],
         checkDate: "2026-01-10",
-        orderStatus: "none",
+        orderStatus: "normal",
         orderedQuantity: null,
         orderedAt: null,
-        deliveredAt: null,
+        supplierId: "sup-k2",
       },
       {
         id: "item-9",
@@ -264,6 +313,9 @@ export class MemStorage implements IStorage {
         subCategory: "면류·곡류",
         unit: "kg",
         currentStock: 8,
+        dailyUsage: 1,
+        leadTime: 3,
+        safetyStock: 5,
         seasonalRequirements: [
           { season: "winter", requiredStock: 10 },
           { season: "spring", requiredStock: 10 },
@@ -272,10 +324,10 @@ export class MemStorage implements IStorage {
         ],
         menuTags: ["tag-k2"],
         checkDate: "2026-01-10",
-        orderStatus: "none",
+        orderStatus: "need-order",
         orderedQuantity: null,
         orderedAt: null,
-        deliveredAt: null,
+        supplierId: "sup-k2",
       },
       {
         id: "item-10",
@@ -286,6 +338,9 @@ export class MemStorage implements IStorage {
         subCategory: "위생용품",
         unit: "박스",
         currentStock: 2,
+        dailyUsage: 0.1,
+        leadTime: 5,
+        safetyStock: 1,
         seasonalRequirements: [
           { season: "winter", requiredStock: 3 },
           { season: "spring", requiredStock: 3 },
@@ -294,10 +349,10 @@ export class MemStorage implements IStorage {
         ],
         menuTags: [],
         checkDate: "2026-01-05",
-        orderStatus: "none",
+        orderStatus: "need-order",
         orderedQuantity: null,
         orderedAt: null,
-        deliveredAt: null,
+        supplierId: "sup-k2",
       },
       {
         id: "item-11",
@@ -308,6 +363,9 @@ export class MemStorage implements IStorage {
         subCategory: "청소용품",
         unit: "개",
         currentStock: 4,
+        dailyUsage: 0.05,
+        leadTime: 5,
+        safetyStock: 1,
         seasonalRequirements: [
           { season: "winter", requiredStock: 2 },
           { season: "spring", requiredStock: 2 },
@@ -316,10 +374,10 @@ export class MemStorage implements IStorage {
         ],
         menuTags: [],
         checkDate: "2026-01-10",
-        orderStatus: "none",
+        orderStatus: "normal",
         orderedQuantity: null,
         orderedAt: null,
-        deliveredAt: null,
+        supplierId: "sup-k2",
       },
     ];
 
@@ -333,6 +391,9 @@ export class MemStorage implements IStorage {
         subCategory: "원두·커피",
         unit: "kg",
         currentStock: 5,
+        dailyUsage: 1,
+        leadTime: 3,
+        safetyStock: 5,
         seasonalRequirements: [
           { season: "winter", requiredStock: 10 },
           { season: "spring", requiredStock: 8 },
@@ -341,10 +402,10 @@ export class MemStorage implements IStorage {
         ],
         menuTags: ["tag-c1", "tag-c5"],
         checkDate: "2026-01-10",
-        orderStatus: "none",
+        orderStatus: "need-order",
         orderedQuantity: null,
         orderedAt: null,
-        deliveredAt: null,
+        supplierId: "sup-c1",
       },
       {
         id: "item-cafe-2",
@@ -355,6 +416,9 @@ export class MemStorage implements IStorage {
         subCategory: "시럽·소스",
         unit: "병",
         currentStock: 3,
+        dailyUsage: 0.5,
+        leadTime: 2,
+        safetyStock: 2,
         seasonalRequirements: [
           { season: "winter", requiredStock: 4 },
           { season: "spring", requiredStock: 5 },
@@ -363,10 +427,10 @@ export class MemStorage implements IStorage {
         ],
         menuTags: ["tag-c3"],
         checkDate: "2026-01-10",
-        orderStatus: "none",
+        orderStatus: "normal",
         orderedQuantity: null,
         orderedAt: null,
-        deliveredAt: null,
+        supplierId: "sup-c2",
       },
       {
         id: "item-cafe-3",
@@ -377,6 +441,9 @@ export class MemStorage implements IStorage {
         subCategory: "포장용품",
         unit: "박스",
         currentStock: 5,
+        dailyUsage: 0.3,
+        leadTime: 5,
+        safetyStock: 3,
         seasonalRequirements: [
           { season: "winter", requiredStock: 4 },
           { season: "spring", requiredStock: 6 },
@@ -385,10 +452,10 @@ export class MemStorage implements IStorage {
         ],
         menuTags: [],
         checkDate: "2026-01-09",
-        orderStatus: "none",
+        orderStatus: "normal",
         orderedQuantity: null,
         orderedAt: null,
-        deliveredAt: null,
+        supplierId: "sup-c2",
       },
     ];
 
@@ -412,7 +479,7 @@ export class MemStorage implements IStorage {
       checkDate: insertItem.checkDate ?? null,
       orderedQuantity: insertItem.orderedQuantity ?? null,
       orderedAt: insertItem.orderedAt ?? null,
-      deliveredAt: insertItem.deliveredAt ?? null,
+      supplierId: insertItem.supplierId ?? null,
     };
     this.items.set(id, item);
     return item;
@@ -475,6 +542,18 @@ export class MemStorage implements IStorage {
     const subCategory: SubCategory = { ...insertSubCategory, id };
     this.subCategories.set(id, subCategory);
     return subCategory;
+  }
+
+  async getSuppliers(team: Team): Promise<Supplier[]> {
+    const allSuppliers = Array.from(this.suppliers.values());
+    return allSuppliers.filter(s => s.team === team);
+  }
+
+  async createSupplier(insertSupplier: InsertSupplier): Promise<Supplier> {
+    const id = randomUUID();
+    const supplier: Supplier = { ...insertSupplier, id };
+    this.suppliers.set(id, supplier);
+    return supplier;
   }
 }
 
