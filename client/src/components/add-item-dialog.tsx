@@ -394,15 +394,16 @@ export function AddItemDialog({ onAdd }: AddItemDialogProps) {
                           <CommandList>
                             <CommandEmpty>
                               {newSubCategoryInput.trim() && (
-                                <Button
-                                  variant="ghost"
-                                  className="w-full justify-start gap-2"
+                                <div
+                                  role="button"
+                                  tabIndex={0}
+                                  className="w-full flex items-center justify-start gap-2 px-2 py-1.5 text-sm cursor-pointer hover:bg-accent rounded-sm"
                                   onClick={handleAddNewSubCategory}
-                                  disabled={createSubCategoryMutation.isPending}
+                                  onKeyDown={(e) => e.key === 'Enter' && handleAddNewSubCategory()}
                                 >
                                   <Plus className="h-4 w-4" />
                                   "{newSubCategoryInput}" 새로 추가
-                                </Button>
+                                </div>
                               )}
                               {!newSubCategoryInput.trim() && (
                                 <span className="text-muted-foreground text-sm p-2">
@@ -581,15 +582,16 @@ export function AddItemDialog({ onAdd }: AddItemDialogProps) {
                           <CommandList>
                             <CommandEmpty>
                               {newSupplierInput.trim() && (
-                                <Button
-                                  variant="ghost"
-                                  className="w-full justify-start gap-2"
+                                <div
+                                  role="button"
+                                  tabIndex={0}
+                                  className="w-full flex items-center justify-start gap-2 px-2 py-1.5 text-sm cursor-pointer hover:bg-accent rounded-sm"
                                   onClick={handleAddNewSupplier}
-                                  disabled={createSupplierMutation.isPending}
+                                  onKeyDown={(e) => e.key === 'Enter' && handleAddNewSupplier()}
                                 >
                                   <Plus className="h-4 w-4" />
                                   "{newSupplierInput}" 새로 추가
-                                </Button>
+                                </div>
                               )}
                               {!newSupplierInput.trim() && (
                                 <span className="text-muted-foreground text-sm p-2">
