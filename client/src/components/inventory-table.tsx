@@ -296,8 +296,8 @@ export function InventoryTable({
     return suppliers.find(s => s.id === supplierId);
   };
 
-  const getStatusIcon = (item: InventoryItem) => {
-    switch (item.orderStatus) {
+  const getStatusIcon = (status: "normal" | "need-order" | "ordered") => {
+    switch (status) {
       case "need-order":
         return <AlertTriangle className="h-4 w-4 text-destructive" />;
       case "ordered":
@@ -445,19 +445,27 @@ export function InventoryTable({
                             ? Math.max(0, requiredStockValue - (currentStock as number))
                             : orderQty;
                           
+                          const computedStatus = (() => {
+                            const stock = isEditMode ? (currentStock as number) : item.currentStock;
+                            const req = isEditMode ? requiredStockValue : required;
+                            if (item.orderStatus === "ordered") return "ordered";
+                            if (stock < req) return "need-order";
+                            return "normal";
+                          })();
+                          
                           const supplier = getSupplierById(item.supplierId);
                           
                           return (
                             <TableRow 
                               key={item.id}
                               className={cn(
-                                item.orderStatus === "need-order" && "bg-destructive/5",
-                                item.orderStatus === "ordered" && "bg-amber-50 dark:bg-amber-900/10"
+                                computedStatus === "need-order" && "bg-destructive/5",
+                                computedStatus === "ordered" && "bg-amber-50 dark:bg-amber-900/10"
                               )}
                               data-testid={`row-item-${item.id}`}
                             >
                               <TableCell className="w-8">
-                                {getStatusIcon(item)}
+                                {getStatusIcon(computedStatus)}
                               </TableCell>
                               
                               <TableCell className="font-medium">
@@ -623,9 +631,9 @@ export function InventoryTable({
                               <TableCell>
                                 <Badge 
                                   variant="secondary" 
-                                  className={cn("text-[10px] px-1.5", orderStatusColors[item.orderStatus])}
+                                  className={cn("text-[10px] px-1.5", orderStatusColors[computedStatus])}
                                 >
-                                  {orderStatusLabels[item.orderStatus]}
+                                  {orderStatusLabels[computedStatus]}
                                 </Badge>
                               </TableCell>
                               
