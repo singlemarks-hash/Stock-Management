@@ -4,6 +4,7 @@ export type Season = "winter" | "spring" | "summer" | "fall";
 export type Team = "cafe" | "kitchen";
 export type MainCategory = "food" | "non-food";
 export type StorageType = "refrigerated" | "frozen" | "room-temp";
+export type OrderStatus = "none" | "ordered" | "delivered";
 
 export const seasonLabels: Record<Season, string> = {
   winter: "겨울 시즌",
@@ -66,9 +67,10 @@ export interface InventoryItem {
   seasonalRequirements: SeasonalRequirement[];
   menuTags: string[];
   checkDate: string | null;
-  orderPlaced: boolean;
-  orderPlacedAt: string | null;
-  orderPlacedBy: string | null;
+  orderStatus: OrderStatus;
+  orderedQuantity: number | null;
+  orderedAt: string | null;
+  deliveredAt: string | null;
 }
 
 export interface AppSettings {
@@ -90,9 +92,10 @@ export const insertInventoryItemSchema = z.object({
   })),
   menuTags: z.array(z.string()),
   checkDate: z.string().nullable(),
-  orderPlaced: z.boolean(),
-  orderPlacedAt: z.string().nullable(),
-  orderPlacedBy: z.string().nullable(),
+  orderStatus: z.enum(["none", "ordered", "delivered"]),
+  orderedQuantity: z.number().nullable(),
+  orderedAt: z.string().nullable(),
+  deliveredAt: z.string().nullable(),
 });
 
 export type InsertInventoryItem = z.infer<typeof insertInventoryItemSchema>;
@@ -120,7 +123,7 @@ export function getRequiredStock(item: InventoryItem, season: Season): number {
 
 export function needsOrder(item: InventoryItem, season: Season): boolean {
   const required = getRequiredStock(item, season);
-  return item.currentStock < required && !item.orderPlaced;
+  return item.currentStock < required && item.orderStatus === "none";
 }
 
 export function getOrderQuantity(item: InventoryItem, season: Season): number {

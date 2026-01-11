@@ -97,9 +97,10 @@ export function AddItemDialog({ onAdd }: AddItemDialogProps) {
       ],
       menuTags: [],
       checkDate: null,
-      orderPlaced: false,
-      orderPlacedAt: null,
-      orderPlacedBy: null,
+      orderStatus: "none",
+      orderedQuantity: null,
+      orderedAt: null,
+      deliveredAt: null,
     };
 
     onAdd(item);

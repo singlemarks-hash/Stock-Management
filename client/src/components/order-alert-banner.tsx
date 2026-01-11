@@ -1,15 +1,21 @@
 import { AlertTriangle, Package, Clock, CheckCircle2, ChevronDown, ChevronUp } from "lucide-react";
 import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { useInventory } from "@/lib/inventory-context";
-import { needsOrder, mainCategoryLabels, storageTypeLabels, getOrderQuantity } from "@shared/schema";
-import type { InventoryItem, StorageType } from "@shared/schema";
+import { needsOrder, mainCategoryLabels, storageTypeLabels, getOrderQuantity, getRequiredStock } from "@shared/schema";
+import type { InventoryItem, StorageType, Season } from "@shared/schema";
 import { cn } from "@/lib/utils";
+import { apiRequest } from "@/lib/queryClient";
+import { queryClient } from "@/lib/queryClient";
+import { useMutation } from "@tanstack/react-query";
 
 interface OrderItem {
   id: string;
@@ -31,10 +37,10 @@ interface AlertStats {
     "non-food": { total: number; items: OrderItem[] };
   };
   ordered: number;
-  orderedItems: InventoryItem[];
+  orderedItems: (InventoryItem & { calculatedOrderQty: number })[];
 }
 
-function calculateAlertStats(items: InventoryItem[], season: string): AlertStats {
+function calculateAlertStats(items: InventoryItem[], season: Season, team: string): AlertStats {
   const stats: AlertStats = {
     total: 0,
     items: [],
@@ -50,9 +56,9 @@ function calculateAlertStats(items: InventoryItem[], season: string): AlertStats
     orderedItems: [],
   };
 
-  items.forEach(item => {
-    if (needsOrder(item, season as any)) {
-      const orderQty = getOrderQuantity(item, season as any);
+  items.filter(item => item.team === team).forEach(item => {
+    if (needsOrder(item, season)) {
+      const orderQty = getOrderQuantity(item, season);
       const req = item.seasonalRequirements.find(r => r.season === season);
       const orderItem: OrderItem = {
         id: item.id,
@@ -80,20 +86,116 @@ function calculateAlertStats(items: InventoryItem[], season: string): AlertStats
         stats.byCategory["non-food"].items.push(orderItem);
       }
     }
-    if (item.orderPlaced) {
+    if (item.orderStatus === "ordered") {
+      const calculatedOrderQty = getOrderQuantity(item, season);
       stats.ordered++;
-      stats.orderedItems.push(item);
+      stats.orderedItems.push({ ...item, calculatedOrderQty });
     }
   });
 
   return stats;
 }
 
+function formatDateTime(isoString: string | null): string {
+  if (!isoString) return "";
+  const date = new Date(isoString);
+  return date.toLocaleString("ko-KR", {
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}
+
 export function OrderAlertBanner() {
-  const { items, selectedSeason } = useInventory();
-  const stats = calculateAlertStats(items, selectedSeason);
+  const { items, selectedSeason, selectedTeam } = useInventory();
+  const stats = calculateAlertStats(items, selectedSeason, selectedTeam);
   const [isExpanded, setIsExpanded] = useState(true);
-  const [isOrderedExpanded, setIsOrderedExpanded] = useState(false);
+  const [isOrderedExpanded, setIsOrderedExpanded] = useState(true);
+  const [editingQuantities, setEditingQuantities] = useState<Record<string, number>>({});
+
+  const markOrderedMutation = useMutation({
+    mutationFn: async ({ id, orderQuantity }: { id: string; orderQuantity: number }) => {
+      return apiRequest("PATCH", `/api/inventory/${id}`, {
+        orderStatus: "ordered",
+        orderedQuantity: orderQuantity,
+        orderedAt: new Date().toISOString(),
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/inventory"] });
+    },
+  });
+
+  const markDeliveredMutation = useMutation({
+    mutationFn: async (id: string) => {
+      return apiRequest("PATCH", `/api/inventory/${id}`, {
+        orderStatus: "delivered",
+        deliveredAt: new Date().toISOString(),
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/inventory"] });
+    },
+  });
+
+  const updateOrderQuantityMutation = useMutation({
+    mutationFn: async ({ id, quantity }: { id: string; quantity: number }) => {
+      return apiRequest("PATCH", `/api/inventory/${id}`, {
+        orderedQuantity: quantity,
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/inventory"] });
+    },
+  });
+
+  const clearAllNeedsOrderMutation = useMutation({
+    mutationFn: async (itemsToOrder: OrderItem[]) => {
+      await Promise.all(itemsToOrder.map(item => apiRequest("PATCH", `/api/inventory/${item.id}`, {
+        orderStatus: "ordered",
+        orderedQuantity: item.orderQuantity,
+        orderedAt: new Date().toISOString(),
+      })));
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/inventory"] });
+    },
+  });
+
+  const clearAllOrderedMutation = useMutation({
+    mutationFn: async (ids: string[]) => {
+      await Promise.all(ids.map(id => apiRequest("PATCH", `/api/inventory/${id}`, {
+        orderStatus: "delivered",
+        deliveredAt: new Date().toISOString(),
+      })));
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/inventory"] });
+    },
+  });
+
+  const handleMarkOrdered = (id: string, orderQuantity: number) => {
+    markOrderedMutation.mutate({ id, orderQuantity });
+  };
+
+  const handleMarkDelivered = (id: string) => {
+    markDeliveredMutation.mutate(id);
+  };
+
+  const handleQuantityChange = (id: string, value: string) => {
+    const numValue = parseInt(value, 10);
+    if (!isNaN(numValue) && numValue >= 0) {
+      setEditingQuantities(prev => ({ ...prev, [id]: numValue }));
+    }
+  };
+
+  const handleQuantityBlur = (id: string, originalQuantity: number | null) => {
+    const newQuantity = editingQuantities[id];
+    if (newQuantity !== undefined && newQuantity !== originalQuantity) {
+      updateOrderQuantityMutation.mutate({ id, quantity: newQuantity });
+    }
+  };
 
   if (stats.total === 0 && stats.ordered === 0) {
     return (
@@ -137,16 +239,17 @@ export function OrderAlertBanner() {
             </CollapsibleTrigger>
             
             <CollapsibleContent>
-              <div className="px-4 pb-4 space-y-3">
+              <div className="px-6 pb-4 space-y-3">
                 <div className="rounded-md border bg-background overflow-hidden">
                   <table className="w-full text-sm">
                     <thead>
                       <tr className="border-b bg-muted/50">
-                        <th className="text-left p-2 font-medium">재료명</th>
-                        <th className="text-left p-2 font-medium w-20">분류</th>
-                        <th className="text-right p-2 font-medium w-16">현재고</th>
-                        <th className="text-right p-2 font-medium w-16">필요</th>
-                        <th className="text-right p-2 font-medium w-20">발주수량</th>
+                        <th className="text-left p-3 font-medium">재료명</th>
+                        <th className="text-left p-3 font-medium w-24">분류</th>
+                        <th className="text-right p-3 font-medium w-20">현재고</th>
+                        <th className="text-right p-3 font-medium w-20">필요</th>
+                        <th className="text-right p-3 font-medium w-24">발주수량</th>
+                        <th className="text-center p-3 font-medium w-24">발주완료</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -159,11 +262,11 @@ export function OrderAlertBanner() {
                           )}
                           data-testid={`row-order-item-${item.id}`}
                         >
-                          <td className="p-2">
+                          <td className="p-3">
                             <div className="font-medium">{item.name}</div>
                             <div className="text-xs text-muted-foreground">{item.subCategory}</div>
                           </td>
-                          <td className="p-2">
+                          <td className="p-3">
                             <div className="flex flex-col gap-0.5">
                               <Badge variant="secondary" className="text-[10px] w-fit">
                                 {mainCategoryLabels[item.mainCategory]}
@@ -175,16 +278,24 @@ export function OrderAlertBanner() {
                               )}
                             </div>
                           </td>
-                          <td className="p-2 text-right tabular-nums">
+                          <td className="p-3 text-right tabular-nums">
                             {item.currentStock} {item.unit}
                           </td>
-                          <td className="p-2 text-right tabular-nums text-muted-foreground">
+                          <td className="p-3 text-right tabular-nums text-muted-foreground">
                             {item.requiredStock} {item.unit}
                           </td>
-                          <td className="p-2 text-right">
+                          <td className="p-3 text-right">
                             <Badge variant="destructive" className="tabular-nums">
                               +{item.orderQuantity} {item.unit}
                             </Badge>
+                          </td>
+                          <td className="p-3 text-center">
+                            <Checkbox
+                              checked={false}
+                              onCheckedChange={() => handleMarkOrdered(item.id, item.orderQuantity)}
+                              disabled={markOrderedMutation.isPending}
+                              data-testid={`checkbox-mark-ordered-${item.id}`}
+                            />
                           </td>
                         </tr>
                       ))}
@@ -192,29 +303,40 @@ export function OrderAlertBanner() {
                   </table>
                 </div>
                 
-                <div className="flex flex-wrap gap-2 pt-2">
-                  {stats.byCategory.food.total > 0 && (
-                    <div className="flex items-center gap-1.5 text-xs">
-                      <Package className="h-3.5 w-3.5 text-muted-foreground" />
-                      <span className="text-muted-foreground">{mainCategoryLabels.food}:</span>
-                      {Object.entries(stats.byCategory.food.byStorage).map(([storage, storageItems]) => 
-                        storageItems.length > 0 && (
-                          <Badge key={storage} variant="secondary" className="text-[10px]">
-                            {storageTypeLabels[storage as StorageType]} {storageItems.length}
-                          </Badge>
-                        )
-                      )}
-                    </div>
-                  )}
-                  {stats.byCategory["non-food"].total > 0 && (
-                    <div className="flex items-center gap-1.5 text-xs">
-                      <Package className="h-3.5 w-3.5 text-muted-foreground" />
-                      <span className="text-muted-foreground">{mainCategoryLabels["non-food"]}:</span>
-                      <Badge variant="secondary" className="text-[10px]">
-                        {stats.byCategory["non-food"].total}개
-                      </Badge>
-                    </div>
-                  )}
+                <div className="flex items-center justify-between pt-2">
+                  <div className="flex flex-wrap gap-2">
+                    {stats.byCategory.food.total > 0 && (
+                      <div className="flex items-center gap-1.5 text-xs">
+                        <Package className="h-3.5 w-3.5 text-muted-foreground" />
+                        <span className="text-muted-foreground">{mainCategoryLabels.food}:</span>
+                        {Object.entries(stats.byCategory.food.byStorage).map(([storage, storageItems]) => 
+                          storageItems.length > 0 && (
+                            <Badge key={storage} variant="secondary" className="text-[10px]">
+                              {storageTypeLabels[storage as StorageType]} {storageItems.length}
+                            </Badge>
+                          )
+                        )}
+                      </div>
+                    )}
+                    {stats.byCategory["non-food"].total > 0 && (
+                      <div className="flex items-center gap-1.5 text-xs">
+                        <Package className="h-3.5 w-3.5 text-muted-foreground" />
+                        <span className="text-muted-foreground">{mainCategoryLabels["non-food"]}:</span>
+                        <Badge variant="secondary" className="text-[10px]">
+                          {stats.byCategory["non-food"].total}개
+                        </Badge>
+                      </div>
+                    )}
+                  </div>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => clearAllNeedsOrderMutation.mutate(stats.items)}
+                    disabled={clearAllNeedsOrderMutation.isPending}
+                    data-testid="button-mark-all-ordered"
+                  >
+                    전체 발주완료
+                  </Button>
                 </div>
               </div>
             </CollapsibleContent>
@@ -248,18 +370,100 @@ export function OrderAlertBanner() {
             </CollapsibleTrigger>
             
             <CollapsibleContent>
-              <div className="px-4 pb-4">
-                <div className="flex flex-wrap gap-2">
-                  {stats.orderedItems.map(item => (
-                    <Badge 
-                      key={item.id} 
-                      variant="secondary" 
-                      className="text-xs bg-chart-4/20"
-                      data-testid={`badge-ordered-${item.id}`}
-                    >
-                      {item.name}
-                    </Badge>
-                  ))}
+              <div className="px-6 pb-4 space-y-3">
+                <div className="rounded-md border bg-background overflow-hidden">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="border-b bg-muted/50">
+                        <th className="text-left p-3 font-medium">재료명</th>
+                        <th className="text-left p-3 font-medium w-24">분류</th>
+                        <th className="text-right p-3 font-medium w-20">현재고</th>
+                        <th className="text-right p-3 font-medium w-20">필요</th>
+                        <th className="text-right p-3 font-medium w-28">발주수량</th>
+                        <th className="text-center p-3 font-medium w-32">발주시간</th>
+                        <th className="text-center p-3 font-medium w-24">입고완료</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {stats.orderedItems.map((item, index) => {
+                        const requiredStock = getRequiredStock(item, selectedSeason);
+                        const displayQuantity = editingQuantities[item.id] ?? item.orderedQuantity ?? item.calculatedOrderQty;
+                        return (
+                          <tr 
+                            key={item.id} 
+                            className={cn(
+                              "border-b last:border-0",
+                              index % 2 === 0 ? "bg-background" : "bg-muted/20"
+                            )}
+                            data-testid={`row-ordered-item-${item.id}`}
+                          >
+                            <td className="p-3">
+                              <div className="font-medium">{item.name}</div>
+                              <div className="text-xs text-muted-foreground">{item.subCategory}</div>
+                            </td>
+                            <td className="p-3">
+                              <div className="flex flex-col gap-0.5">
+                                <Badge variant="secondary" className="text-[10px] w-fit">
+                                  {mainCategoryLabels[item.mainCategory]}
+                                </Badge>
+                                {item.storageType && (
+                                  <Badge variant="outline" className="text-[10px] w-fit">
+                                    {storageTypeLabels[item.storageType]}
+                                  </Badge>
+                                )}
+                              </div>
+                            </td>
+                            <td className="p-3 text-right tabular-nums">
+                              {item.currentStock} {item.unit}
+                            </td>
+                            <td className="p-3 text-right tabular-nums text-muted-foreground">
+                              {requiredStock} {item.unit}
+                            </td>
+                            <td className="p-3 text-right">
+                              <div className="flex items-center justify-end gap-1">
+                                <span className="text-muted-foreground">+</span>
+                                <Input
+                                  type="number"
+                                  min={0}
+                                  value={displayQuantity}
+                                  onChange={(e) => handleQuantityChange(item.id, e.target.value)}
+                                  onBlur={() => handleQuantityBlur(item.id, item.orderedQuantity)}
+                                  className="w-16 h-7 text-right tabular-nums text-sm"
+                                  data-testid={`input-order-quantity-${item.id}`}
+                                />
+                                <span className="text-xs text-muted-foreground">{item.unit}</span>
+                              </div>
+                            </td>
+                            <td className="p-3 text-center">
+                              <span className="text-xs text-muted-foreground">
+                                {formatDateTime(item.orderedAt)}
+                              </span>
+                            </td>
+                            <td className="p-3 text-center">
+                              <Checkbox
+                                checked={false}
+                                onCheckedChange={() => handleMarkDelivered(item.id)}
+                                disabled={markDeliveredMutation.isPending}
+                                data-testid={`checkbox-mark-delivered-${item.id}`}
+                              />
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+                
+                <div className="flex justify-end pt-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => clearAllOrderedMutation.mutate(stats.orderedItems.map(i => i.id))}
+                    disabled={clearAllOrderedMutation.isPending}
+                    data-testid="button-mark-all-delivered"
+                  >
+                    전체 입고완료
+                  </Button>
                 </div>
               </div>
             </CollapsibleContent>

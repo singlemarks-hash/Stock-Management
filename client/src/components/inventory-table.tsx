@@ -138,17 +138,18 @@ export function InventoryTable({
   };
 
   const handleOrderCheck = (item: InventoryItem, checked: boolean) => {
+    const orderQty = getOrderQuantity(item, selectedSeason);
     if (checked) {
       onUpdateItem(item.id, {
-        orderPlaced: true,
-        orderPlacedAt: new Date().toISOString(),
-        orderPlacedBy: "사용자",
+        orderStatus: "ordered",
+        orderedQuantity: orderQty,
+        orderedAt: new Date().toISOString(),
       });
     } else {
       onUpdateItem(item.id, {
-        orderPlaced: false,
-        orderPlacedAt: null,
-        orderPlacedBy: null,
+        orderStatus: "none",
+        orderedQuantity: null,
+        orderedAt: null,
       });
     }
   };
@@ -258,19 +259,19 @@ export function InventoryTable({
                             <TableRow 
                               key={item.id}
                               className={cn(
-                                needsOrderFlag && !item.orderPlaced && "bg-destructive/5",
-                                item.orderPlaced && "bg-chart-4/5"
+                                needsOrderFlag && item.orderStatus === "none" && "bg-destructive/5",
+                                item.orderStatus === "ordered" && "bg-chart-4/5"
                               )}
                               data-testid={`row-item-${item.id}`}
                             >
                               <TableCell className="w-10">
-                                {needsOrderFlag && !item.orderPlaced && (
+                                {needsOrderFlag && item.orderStatus === "none" && (
                                   <AlertTriangle className="h-4 w-4 text-destructive" />
                                 )}
-                                {item.orderPlaced && (
+                                {item.orderStatus === "ordered" && (
                                   <Clock className="h-4 w-4 text-chart-4" />
                                 )}
-                                {!needsOrderFlag && !item.orderPlaced && (
+                                {!needsOrderFlag && item.orderStatus === "none" && (
                                   <Check className="h-4 w-4 text-primary" />
                                 )}
                               </TableCell>
@@ -384,19 +385,16 @@ export function InventoryTable({
                               <TableCell>
                                 <div className="flex items-center gap-2">
                                   <Checkbox
-                                    checked={item.orderPlaced}
+                                    checked={item.orderStatus === "ordered"}
                                     onCheckedChange={(checked) => 
                                       handleOrderCheck(item, checked as boolean)
                                     }
-                                    disabled={isEditMode || (!needsOrderFlag && !item.orderPlaced)}
+                                    disabled={isEditMode || (!needsOrderFlag && item.orderStatus === "none")}
                                     data-testid={`checkbox-order-${item.id}`}
                                   />
-                                  {item.orderPlaced && item.orderPlacedAt && (
+                                  {item.orderStatus === "ordered" && item.orderedAt && (
                                     <div className="text-[10px] text-muted-foreground leading-tight">
-                                      <div>{format(new Date(item.orderPlacedAt), "MM/dd HH:mm")}</div>
-                                      {item.orderPlacedBy && (
-                                        <div className="text-chart-4">{item.orderPlacedBy}</div>
-                                      )}
+                                      <div>{format(new Date(item.orderedAt), "MM/dd HH:mm")}</div>
                                     </div>
                                   )}
                                 </div>
