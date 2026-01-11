@@ -49,7 +49,8 @@ import {
   type MainCategory,
   type StorageType,
   type Season,
-  type SubCategory
+  type SubCategory,
+  type Supplier
 } from "@shared/schema";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "@/lib/queryClient";
@@ -62,10 +63,14 @@ const formSchema = z.object({
   subCategory: z.string().min(1, "소분류를 선택해주세요"),
   unit: z.string().min(1, "단위를 입력해주세요"),
   currentStock: z.number().min(0, "0 이상의 숫자를 입력해주세요"),
+  dailyUsage: z.number().min(0, "0 이상의 숫자를 입력해주세요"),
+  leadTime: z.number().min(0, "0 이상의 숫자를 입력해주세요"),
+  safetyStock: z.number().min(0, "0 이상의 숫자를 입력해주세요"),
   winterRequired: z.number().min(0),
   springRequired: z.number().min(0),
   summerRequired: z.number().min(0),
   fallRequired: z.number().min(0),
+  supplierId: z.string().nullable(),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -77,7 +82,9 @@ interface AddItemDialogProps {
 export function AddItemDialog({ onAdd }: AddItemDialogProps) {
   const [open, setOpen] = useState(false);
   const [subCategoryOpen, setSubCategoryOpen] = useState(false);
+  const [supplierOpen, setSupplierOpen] = useState(false);
   const [newSubCategoryInput, setNewSubCategoryInput] = useState("");
+  const [newSupplierInput, setNewSupplierInput] = useState("");
   const { selectedTeam, selectedMainCategory } = useInventory();
 
   const form = useForm<FormData>({
@@ -89,10 +96,14 @@ export function AddItemDialog({ onAdd }: AddItemDialogProps) {
       subCategory: "",
       unit: "개",
       currentStock: 0,
+      dailyUsage: 0,
+      leadTime: 1,
+      safetyStock: 0,
       winterRequired: 0,
       springRequired: 0,
       summerRequired: 0,
       fallRequired: 0,
+      supplierId: null,
     },
   });
 
@@ -102,6 +113,15 @@ export function AddItemDialog({ onAdd }: AddItemDialogProps) {
     queryKey: ['/api/subcategories', selectedTeam, watchMainCategory],
     queryFn: async () => {
       const res = await fetch(`/api/subcategories?team=${selectedTeam}&mainCategory=${watchMainCategory}`);
+      return res.json();
+    },
+    enabled: open,
+  });
+
+  const { data: suppliers = [] } = useQuery<Supplier[]>({
+    queryKey: ['/api/suppliers', selectedTeam],
+    queryFn: async () => {
+      const res = await fetch(`/api/suppliers?team=${selectedTeam}`);
       return res.json();
     },
     enabled: open,
@@ -124,6 +144,23 @@ export function AddItemDialog({ onAdd }: AddItemDialogProps) {
     },
   });
 
+  const createSupplierMutation = useMutation({
+    mutationFn: async (name: string) => {
+      const res = await apiRequest('POST', '/api/suppliers', {
+        team: selectedTeam,
+        name,
+        url: null,
+      });
+      return res.json() as Promise<Supplier>;
+    },
+    onSuccess: async (newSupplier: Supplier) => {
+      await queryClient.invalidateQueries({ queryKey: ['/api/suppliers'] });
+      form.setValue("supplierId", newSupplier.id);
+      setSupplierOpen(false);
+      setNewSupplierInput("");
+    },
+  });
+
   useEffect(() => {
     if (open) {
       form.reset({
@@ -133,10 +170,14 @@ export function AddItemDialog({ onAdd }: AddItemDialogProps) {
         subCategory: "",
         unit: "개",
         currentStock: 0,
+        dailyUsage: 0,
+        leadTime: 1,
+        safetyStock: 0,
         winterRequired: 0,
         springRequired: 0,
         summerRequired: 0,
         fallRequired: 0,
+        supplierId: null,
       });
     }
   }, [open, selectedMainCategory, form]);
@@ -155,6 +196,9 @@ export function AddItemDialog({ onAdd }: AddItemDialogProps) {
       subCategory: data.subCategory,
       unit: data.unit,
       currentStock: data.currentStock,
+      dailyUsage: data.dailyUsage,
+      leadTime: data.leadTime,
+      safetyStock: data.safetyStock,
       seasonalRequirements: [
         { season: "winter" as Season, requiredStock: data.winterRequired },
         { season: "spring" as Season, requiredStock: data.springRequired },
@@ -163,10 +207,10 @@ export function AddItemDialog({ onAdd }: AddItemDialogProps) {
       ],
       menuTags: [],
       checkDate: null,
-      orderStatus: "none",
+      orderStatus: "normal",
       orderedQuantity: null,
       orderedAt: null,
-      deliveredAt: null,
+      supplierId: data.supplierId,
     };
 
     onAdd(item);
@@ -189,6 +233,30 @@ export function AddItemDialog({ onAdd }: AddItemDialogProps) {
     createSubCategoryMutation.mutate(trimmedInput);
   };
 
+  const handleAddNewSupplier = () => {
+    const trimmedInput = newSupplierInput.trim();
+    if (!trimmedInput) return;
+    
+    const exists = suppliers.some(s => s.name === trimmedInput);
+    if (exists) {
+      const existing = suppliers.find(s => s.name === trimmedInput);
+      if (existing) {
+        form.setValue("supplierId", existing.id);
+      }
+      setSupplierOpen(false);
+      setNewSupplierInput("");
+      return;
+    }
+    
+    createSupplierMutation.mutate(trimmedInput);
+  };
+
+  const getSupplierName = (supplierId: string | null): string => {
+    if (!supplierId) return "";
+    const supplier = suppliers.find(s => s.id === supplierId);
+    return supplier?.name || "";
+  };
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
@@ -197,17 +265,17 @@ export function AddItemDialog({ onAdd }: AddItemDialogProps) {
           새 항목 추가
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-lg">
+      <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>새 식재료 추가</DialogTitle>
           <DialogDescription>
-            새로운 재고 항목을 등록합니다. 시즌별 필요재고를 설정할 수 있습니다.
+            새로운 재고 항목을 등록합니다.
           </DialogDescription>
         </DialogHeader>
         
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-3">
               <FormField
                 control={form.control}
                 name="name"
@@ -253,7 +321,7 @@ export function AddItemDialog({ onAdd }: AddItemDialogProps) {
                   name="storageType"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>중분류 (보관)</FormLabel>
+                      <FormLabel>보관방법</FormLabel>
                       <Select 
                         onValueChange={field.onChange} 
                         value={field.value || undefined}
@@ -281,7 +349,7 @@ export function AddItemDialog({ onAdd }: AddItemDialogProps) {
                 control={form.control}
                 name="subCategory"
                 render={({ field }) => (
-                  <FormItem className={watchMainCategory === "food" ? "col-span-2" : "col-span-2"}>
+                  <FormItem className="col-span-2">
                     <FormLabel>소분류</FormLabel>
                     <Popover open={subCategoryOpen} onOpenChange={setSubCategoryOpen}>
                       <PopoverTrigger asChild>
@@ -320,7 +388,7 @@ export function AddItemDialog({ onAdd }: AddItemDialogProps) {
                               )}
                               {!newSubCategoryInput.trim() && (
                                 <span className="text-muted-foreground text-sm p-2">
-                                  소분류가 없습니다. 새로 입력해주세요.
+                                  소분류가 없습니다.
                                 </span>
                               )}
                             </CommandEmpty>
@@ -402,6 +470,155 @@ export function AddItemDialog({ onAdd }: AddItemDialogProps) {
                   </FormItem>
                 )}
               />
+
+              <FormField
+                control={form.control}
+                name="dailyUsage"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>하루사용량</FormLabel>
+                    <FormControl>
+                      <Input 
+                        type="number" 
+                        min={0}
+                        step={0.1}
+                        {...field}
+                        onChange={(e) => field.onChange(Number(e.target.value))}
+                        data-testid="input-add-daily"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="leadTime"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>리드타임 (일)</FormLabel>
+                    <FormControl>
+                      <Input 
+                        type="number" 
+                        min={0}
+                        {...field}
+                        onChange={(e) => field.onChange(Number(e.target.value))}
+                        data-testid="input-add-lead"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="safetyStock"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>안전재고</FormLabel>
+                    <FormControl>
+                      <Input 
+                        type="number" 
+                        min={0}
+                        {...field}
+                        onChange={(e) => field.onChange(Number(e.target.value))}
+                        data-testid="input-add-safety"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="supplierId"
+                render={({ field }) => (
+                  <FormItem className="col-span-2">
+                    <FormLabel>발주처</FormLabel>
+                    <Popover open={supplierOpen} onOpenChange={setSupplierOpen}>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant="outline"
+                            role="combobox"
+                            aria-expanded={supplierOpen}
+                            className="w-full justify-between font-normal"
+                            data-testid="select-add-supplier"
+                          >
+                            {getSupplierName(field.value) || "발주처 선택..."}
+                            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-full p-0" align="start">
+                        <Command>
+                          <CommandInput 
+                            placeholder="발주처 검색 또는 새로 입력..." 
+                            value={newSupplierInput}
+                            onValueChange={setNewSupplierInput}
+                          />
+                          <CommandList>
+                            <CommandEmpty>
+                              {newSupplierInput.trim() && (
+                                <Button
+                                  variant="ghost"
+                                  className="w-full justify-start gap-2"
+                                  onClick={handleAddNewSupplier}
+                                  disabled={createSupplierMutation.isPending}
+                                >
+                                  <Plus className="h-4 w-4" />
+                                  "{newSupplierInput}" 새로 추가
+                                </Button>
+                              )}
+                              {!newSupplierInput.trim() && (
+                                <span className="text-muted-foreground text-sm p-2">
+                                  발주처가 없습니다.
+                                </span>
+                              )}
+                            </CommandEmpty>
+                            <CommandGroup>
+                              {suppliers.map((s) => (
+                                <CommandItem
+                                  key={s.id}
+                                  value={s.name}
+                                  onSelect={() => {
+                                    form.setValue("supplierId", s.id);
+                                    setSupplierOpen(false);
+                                    setNewSupplierInput("");
+                                  }}
+                                >
+                                  <Check
+                                    className={cn(
+                                      "mr-2 h-4 w-4",
+                                      field.value === s.id ? "opacity-100" : "opacity-0"
+                                    )}
+                                  />
+                                  {s.name}
+                                </CommandItem>
+                              ))}
+                            </CommandGroup>
+                            {newSupplierInput.trim() && !suppliers.some(s => s.name.toLowerCase() === newSupplierInput.toLowerCase()) && suppliers.length > 0 && (
+                              <CommandGroup>
+                                <CommandItem
+                                  onSelect={handleAddNewSupplier}
+                                  className="text-primary"
+                                >
+                                  <Plus className="mr-2 h-4 w-4" />
+                                  "{newSupplierInput}" 새로 추가
+                                </CommandItem>
+                              </CommandGroup>
+                            )}
+                          </CommandList>
+                        </Command>
+                      </PopoverContent>
+                    </Popover>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </div>
 
             <div className="space-y-2">
@@ -414,9 +631,7 @@ export function AddItemDialog({ onAdd }: AddItemDialogProps) {
                     <FormItem>
                       <FormControl>
                         <div className="space-y-1">
-                          <label className="text-xs text-muted-foreground flex items-center gap-1">
-                            겨울
-                          </label>
+                          <label className="text-xs text-muted-foreground">겨울</label>
                           <Input 
                             type="number" 
                             min={0}
@@ -437,9 +652,7 @@ export function AddItemDialog({ onAdd }: AddItemDialogProps) {
                     <FormItem>
                       <FormControl>
                         <div className="space-y-1">
-                          <label className="text-xs text-muted-foreground flex items-center gap-1">
-                            봄
-                          </label>
+                          <label className="text-xs text-muted-foreground">봄</label>
                           <Input 
                             type="number" 
                             min={0}
@@ -460,9 +673,7 @@ export function AddItemDialog({ onAdd }: AddItemDialogProps) {
                     <FormItem>
                       <FormControl>
                         <div className="space-y-1">
-                          <label className="text-xs text-muted-foreground flex items-center gap-1">
-                            여름
-                          </label>
+                          <label className="text-xs text-muted-foreground">여름</label>
                           <Input 
                             type="number" 
                             min={0}
@@ -483,9 +694,7 @@ export function AddItemDialog({ onAdd }: AddItemDialogProps) {
                     <FormItem>
                       <FormControl>
                         <div className="space-y-1">
-                          <label className="text-xs text-muted-foreground flex items-center gap-1">
-                            가을
-                          </label>
+                          <label className="text-xs text-muted-foreground">가을</label>
                           <Input 
                             type="number" 
                             min={0}

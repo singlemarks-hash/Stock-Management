@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
 import { 
@@ -8,7 +8,8 @@ import {
   Calendar as CalendarIcon,
   ChevronDown,
   ChevronRight,
-  Trash2
+  Trash2,
+  ExternalLink
 } from "lucide-react";
 import {
   Table,
@@ -19,7 +20,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -36,13 +36,13 @@ import {
 import { MenuTagInput } from "@/components/menu-tag-input";
 import { useInventory } from "@/lib/inventory-context";
 import { 
-  needsOrder, 
   getRequiredStock, 
   getOrderQuantity,
   storageTypeLabels 
 } from "@shared/schema";
-import type { InventoryItem, StorageType } from "@shared/schema";
+import type { InventoryItem, StorageType, Supplier } from "@shared/schema";
 import { cn } from "@/lib/utils";
+import { useQuery } from "@tanstack/react-query";
 
 interface InventoryTableProps {
   storageTypeFilter: StorageType | "all";
@@ -63,6 +63,18 @@ function groupBySubCategory(items: InventoryItem[]): GroupedItems {
   }, {} as GroupedItems);
 }
 
+const orderStatusLabels = {
+  "normal": "정상재고",
+  "need-order": "발주필요",
+  "ordered": "발주완료",
+} as const;
+
+const orderStatusColors = {
+  "normal": "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300",
+  "need-order": "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300",
+  "ordered": "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300",
+} as const;
+
 export function InventoryTable({ 
   storageTypeFilter, 
   onDeleteItem, 
@@ -81,6 +93,14 @@ export function InventoryTable({
   } = useInventory();
   
   const [selectAllDate, setSelectAllDate] = useState<Date | undefined>();
+
+  const { data: suppliers = [] } = useQuery<Supplier[]>({
+    queryKey: ['/api/suppliers', selectedTeam],
+    queryFn: async () => {
+      const res = await fetch(`/api/suppliers?team=${selectedTeam}`);
+      return res.json();
+    },
+  });
 
   const filteredItems = items.filter(item => {
     if (item.team !== selectedTeam) return false;
@@ -128,20 +148,19 @@ export function InventoryTable({
     updateEditedItem(item.id, { [field]: value });
   };
 
-  const handleOrderCheck = (item: InventoryItem, checked: boolean) => {
-    const orderQty = getOrderQuantity(item, selectedSeason);
-    if (checked) {
-      onUpdateItem(item.id, {
-        orderStatus: "ordered",
-        orderedQuantity: orderQty,
-        orderedAt: new Date().toISOString(),
-      });
-    } else {
-      onUpdateItem(item.id, {
-        orderStatus: "none",
-        orderedQuantity: null,
-        orderedAt: null,
-      });
+  const getSupplierById = (supplierId: string | null): Supplier | undefined => {
+    if (!supplierId) return undefined;
+    return suppliers.find(s => s.id === supplierId);
+  };
+
+  const getStatusIcon = (item: InventoryItem) => {
+    switch (item.orderStatus) {
+      case "need-order":
+        return <AlertTriangle className="h-4 w-4 text-destructive" />;
+      case "ordered":
+        return <Clock className="h-4 w-4 text-amber-500" />;
+      case "normal":
+        return <Check className="h-4 w-4 text-primary" />;
     }
   };
 
@@ -187,22 +206,26 @@ export function InventoryTable({
         className="rounded-md border overflow-x-auto" 
         style={{ WebkitOverflowScrolling: 'touch', touchAction: 'pan-x pan-y' }}
       >
-        <Table className="min-w-[800px]">
+        <Table className="min-w-[1000px]">
           <TableHeader>
             <TableRow className="bg-muted/50">
-              <TableHead className="w-10"></TableHead>
-              <TableHead className="min-w-[140px]">재료명</TableHead>
+              <TableHead className="w-8"></TableHead>
+              <TableHead className="w-[100px]">항목</TableHead>
               {selectedMainCategory === "food" && storageTypeFilter === "all" && (
-                <TableHead className="w-20">보관</TableHead>
+                <TableHead className="w-14">보관</TableHead>
               )}
-              <TableHead className="w-16 text-center">단위</TableHead>
-              <TableHead className="w-20 text-right">현재고</TableHead>
-              <TableHead className="w-20 text-right">필요재고</TableHead>
-              <TableHead className="w-20 text-right">발주수량</TableHead>
-              <TableHead className="min-w-[120px]">사용메뉴</TableHead>
-              <TableHead className="w-28">체크날짜</TableHead>
-              <TableHead className="w-32">발주상태</TableHead>
-              {isEditMode && <TableHead className="w-12"></TableHead>}
+              <TableHead className="min-w-[100px]">사용메뉴</TableHead>
+              <TableHead className="w-14 text-center">단위</TableHead>
+              <TableHead className="w-16 text-right">현재고</TableHead>
+              <TableHead className="w-16 text-right">일사용</TableHead>
+              <TableHead className="w-14 text-right">리드</TableHead>
+              <TableHead className="w-16 text-right">안전</TableHead>
+              <TableHead className="w-16 text-right">필요</TableHead>
+              <TableHead className="w-16 text-right">발주량</TableHead>
+              <TableHead className="w-24">체크일</TableHead>
+              <TableHead className="w-20">상태</TableHead>
+              <TableHead className="w-20">발주처</TableHead>
+              {isEditMode && <TableHead className="w-10"></TableHead>}
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -217,7 +240,7 @@ export function InventoryTable({
                       <TableRow 
                         className="bg-muted/30 hover:bg-muted/50 cursor-pointer"
                       >
-                        <TableCell colSpan={isEditMode ? 11 : 10} className="py-2">
+                        <TableCell colSpan={isEditMode ? 15 : 14} className="py-2">
                           <div className="flex items-center gap-2">
                             {isExpanded ? (
                               <ChevronDown className="h-4 w-4" />
@@ -237,7 +260,6 @@ export function InventoryTable({
                         {categoryItems.map(item => {
                           const required = getRequiredStock(item, selectedSeason);
                           const orderQty = getOrderQuantity(item, selectedSeason);
-                          const needsOrderFlag = needsOrder(item, selectedSeason);
                           const currentStock = isEditMode 
                             ? getEditedValue(item, "currentStock") 
                             : item.currentStock;
@@ -247,26 +269,29 @@ export function InventoryTable({
                           const menuTags = isEditMode 
                             ? getEditedValue(item, "menuTags") 
                             : item.menuTags;
+                          const dailyUsage = isEditMode
+                            ? getEditedValue(item, "dailyUsage")
+                            : item.dailyUsage;
+                          const leadTime = isEditMode
+                            ? getEditedValue(item, "leadTime")
+                            : item.leadTime;
+                          const safetyStock = isEditMode
+                            ? getEditedValue(item, "safetyStock")
+                            : item.safetyStock;
+                          
+                          const supplier = getSupplierById(item.supplierId);
                           
                           return (
                             <TableRow 
                               key={item.id}
                               className={cn(
-                                needsOrderFlag && item.orderStatus === "none" && "bg-destructive/5",
-                                item.orderStatus === "ordered" && "bg-chart-4/5"
+                                item.orderStatus === "need-order" && "bg-destructive/5",
+                                item.orderStatus === "ordered" && "bg-amber-50 dark:bg-amber-900/10"
                               )}
                               data-testid={`row-item-${item.id}`}
                             >
-                              <TableCell className="w-10">
-                                {needsOrderFlag && item.orderStatus === "none" && (
-                                  <AlertTriangle className="h-4 w-4 text-destructive" />
-                                )}
-                                {item.orderStatus === "ordered" && (
-                                  <Clock className="h-4 w-4 text-chart-4" />
-                                )}
-                                {!needsOrderFlag && item.orderStatus === "none" && (
-                                  <Check className="h-4 w-4 text-primary" />
-                                )}
+                              <TableCell className="w-8">
+                                {getStatusIcon(item)}
                               </TableCell>
                               
                               <TableCell className="font-medium">
@@ -274,28 +299,36 @@ export function InventoryTable({
                                   <Input
                                     value={getEditedValue(item, "name")}
                                     onChange={(e) => handleFieldChange(item, "name", e.target.value)}
-                                    className="h-8 text-sm"
+                                    className="h-7 text-sm w-24"
                                     data-testid={`input-name-${item.id}`}
                                   />
                                 ) : (
-                                  item.name
+                                  <span className="text-sm">{item.name}</span>
                                 )}
                               </TableCell>
                               
                               {selectedMainCategory === "food" && storageTypeFilter === "all" && (
                                 <TableCell>
-                                  <Badge variant="secondary" className="text-[10px]">
+                                  <Badge variant="secondary" className="text-[10px] px-1">
                                     {item.storageType ? storageTypeLabels[item.storageType] : "-"}
                                   </Badge>
                                 </TableCell>
                               )}
+                              
+                              <TableCell>
+                                <MenuTagInput
+                                  selectedTagIds={menuTags}
+                                  onChange={(tags) => handleFieldChange(item, "menuTags", tags)}
+                                  disabled={!isEditMode}
+                                />
+                              </TableCell>
                               
                               <TableCell className="text-center text-sm text-muted-foreground">
                                 {isEditMode ? (
                                   <Input
                                     value={getEditedValue(item, "unit")}
                                     onChange={(e) => handleFieldChange(item, "unit", e.target.value)}
-                                    className="h-8 text-sm text-center w-16"
+                                    className="h-7 text-sm text-center w-12"
                                     data-testid={`input-unit-${item.id}`}
                                   />
                                 ) : (
@@ -309,17 +342,63 @@ export function InventoryTable({
                                     type="number"
                                     value={currentStock}
                                     onChange={(e) => handleFieldChange(item, "currentStock", Number(e.target.value))}
-                                    className="h-8 text-sm text-right w-20"
+                                    className="h-7 text-sm text-right w-14"
                                     min={0}
                                     data-testid={`input-stock-${item.id}`}
                                   />
                                 ) : (
-                                  <span className="tabular-nums font-medium">{item.currentStock}</span>
+                                  <span className="tabular-nums font-medium text-sm">{item.currentStock}</span>
                                 )}
                               </TableCell>
                               
                               <TableCell className="text-right">
-                                <span className="tabular-nums text-muted-foreground">{required}</span>
+                                {isEditMode ? (
+                                  <Input
+                                    type="number"
+                                    value={dailyUsage}
+                                    onChange={(e) => handleFieldChange(item, "dailyUsage", Number(e.target.value))}
+                                    className="h-7 text-sm text-right w-14"
+                                    min={0}
+                                    step={0.1}
+                                    data-testid={`input-daily-${item.id}`}
+                                  />
+                                ) : (
+                                  <span className="tabular-nums text-sm text-muted-foreground">{item.dailyUsage}</span>
+                                )}
+                              </TableCell>
+                              
+                              <TableCell className="text-right">
+                                {isEditMode ? (
+                                  <Input
+                                    type="number"
+                                    value={leadTime}
+                                    onChange={(e) => handleFieldChange(item, "leadTime", Number(e.target.value))}
+                                    className="h-7 text-sm text-right w-12"
+                                    min={0}
+                                    data-testid={`input-lead-${item.id}`}
+                                  />
+                                ) : (
+                                  <span className="tabular-nums text-sm text-muted-foreground">{item.leadTime}일</span>
+                                )}
+                              </TableCell>
+                              
+                              <TableCell className="text-right">
+                                {isEditMode ? (
+                                  <Input
+                                    type="number"
+                                    value={safetyStock}
+                                    onChange={(e) => handleFieldChange(item, "safetyStock", Number(e.target.value))}
+                                    className="h-7 text-sm text-right w-14"
+                                    min={0}
+                                    data-testid={`input-safety-${item.id}`}
+                                  />
+                                ) : (
+                                  <span className="tabular-nums text-sm text-muted-foreground">{item.safetyStock}</span>
+                                )}
+                              </TableCell>
+                              
+                              <TableCell className="text-right">
+                                <span className="tabular-nums text-sm text-muted-foreground">{required}</span>
                               </TableCell>
                               
                               <TableCell className="text-right">
@@ -328,16 +407,8 @@ export function InventoryTable({
                                     {orderQty}
                                   </Badge>
                                 ) : (
-                                  <span className="text-muted-foreground">-</span>
+                                  <span className="text-muted-foreground text-sm">-</span>
                                 )}
-                              </TableCell>
-                              
-                              <TableCell>
-                                <MenuTagInput
-                                  selectedTagIds={menuTags}
-                                  onChange={(tags) => handleFieldChange(item, "menuTags", tags)}
-                                  disabled={!isEditMode}
-                                />
                               </TableCell>
                               
                               <TableCell>
@@ -347,10 +418,10 @@ export function InventoryTable({
                                       <Button 
                                         variant="outline" 
                                         size="sm" 
-                                        className="h-8 w-full text-xs gap-1"
+                                        className="h-7 w-full text-xs gap-1"
                                       >
                                         <CalendarIcon className="h-3 w-3" />
-                                        {checkDate || "선택"}
+                                        {checkDate ? format(new Date(checkDate), "MM/dd") : "-"}
                                       </Button>
                                     </PopoverTrigger>
                                     <PopoverContent className="w-auto p-0" align="start">
@@ -370,27 +441,38 @@ export function InventoryTable({
                                   </Popover>
                                 ) : (
                                   <span className="text-xs text-muted-foreground">
-                                    {item.checkDate || "-"}
+                                    {item.checkDate ? format(new Date(item.checkDate), "MM/dd") : "-"}
                                   </span>
                                 )}
                               </TableCell>
                               
                               <TableCell>
-                                <div className="flex items-center gap-2">
-                                  <Checkbox
-                                    checked={item.orderStatus === "ordered"}
-                                    onCheckedChange={(checked) => 
-                                      handleOrderCheck(item, checked as boolean)
-                                    }
-                                    disabled={isEditMode || (!needsOrderFlag && item.orderStatus === "none")}
-                                    data-testid={`checkbox-order-${item.id}`}
-                                  />
-                                  {item.orderStatus === "ordered" && item.orderedAt && (
-                                    <div className="text-[10px] text-muted-foreground leading-tight">
-                                      <div>{format(new Date(item.orderedAt), "MM/dd HH:mm")}</div>
-                                    </div>
-                                  )}
-                                </div>
+                                <Badge 
+                                  variant="secondary" 
+                                  className={cn("text-[10px] px-1.5", orderStatusColors[item.orderStatus])}
+                                >
+                                  {orderStatusLabels[item.orderStatus]}
+                                </Badge>
+                              </TableCell>
+                              
+                              <TableCell>
+                                {supplier ? (
+                                  supplier.url ? (
+                                    <a 
+                                      href={supplier.url} 
+                                      target="_blank" 
+                                      rel="noopener noreferrer"
+                                      className="flex items-center gap-1 text-xs text-primary hover:underline"
+                                    >
+                                      {supplier.name}
+                                      <ExternalLink className="h-3 w-3" />
+                                    </a>
+                                  ) : (
+                                    <span className="text-xs text-muted-foreground">{supplier.name}</span>
+                                  )
+                                ) : (
+                                  <span className="text-xs text-muted-foreground">-</span>
+                                )}
                               </TableCell>
                               
                               {isEditMode && (
@@ -398,7 +480,7 @@ export function InventoryTable({
                                   <Button
                                     variant="ghost"
                                     size="icon"
-                                    className="h-8 w-8 text-destructive hover:text-destructive"
+                                    className="h-7 w-7 text-destructive hover:text-destructive"
                                     onClick={() => onDeleteItem(item.id)}
                                     data-testid={`button-delete-${item.id}`}
                                   >
