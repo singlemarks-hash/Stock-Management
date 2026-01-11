@@ -423,7 +423,7 @@ export function InventoryTable({
                           const getSeasonalValue = <K extends keyof SeasonalRequirement>(field: K): SeasonalRequirement[K] => {
                             const editedReqs = getEditedValue(item, "seasonalRequirements") as SeasonalRequirement[];
                             const req = editedReqs?.find(r => r.season === selectedSeason);
-                            if (req) return req[field];
+                            if (req && req[field] !== undefined) return req[field];
                             if (field === "dailyUsage") return getDailyUsage(item, selectedSeason) as SeasonalRequirement[K];
                             if (field === "leadTime") return getLeadTime(item, selectedSeason) as SeasonalRequirement[K];
                             if (field === "safetyStock") return getSafetyStock(item, selectedSeason) as SeasonalRequirement[K];
@@ -445,11 +445,17 @@ export function InventoryTable({
                           
                           const handleSeasonalFieldChange = (field: keyof SeasonalRequirement, newValue: number) => {
                             const currentReqs = getEditedValue(item, "seasonalRequirements") as SeasonalRequirement[];
-                            const updatedReqs = currentReqs.map(r => 
-                              r.season === selectedSeason 
-                                ? { ...r, [field]: newValue }
-                                : r
-                            );
+                            const updatedReqs = currentReqs.map(r => {
+                              if (r.season !== selectedSeason) return r;
+                              return {
+                                season: r.season,
+                                dailyUsage: r.dailyUsage ?? getDailyUsage(item, r.season),
+                                leadTime: r.leadTime ?? getLeadTime(item, r.season),
+                                safetyStock: r.safetyStock ?? getSafetyStock(item, r.season),
+                                requiredStock: r.requiredStock ?? getRequiredStock(item, r.season),
+                                [field]: newValue,
+                              };
+                            });
                             handleFieldChange(item, "seasonalRequirements", updatedReqs);
                           };
                           
