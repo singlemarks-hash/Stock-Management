@@ -50,6 +50,13 @@ export interface MenuTag {
   color: string;
 }
 
+export interface SubCategory {
+  id: string;
+  team: Team;
+  mainCategory: MainCategory;
+  name: string;
+}
+
 export interface SeasonalRequirement {
   season: Season;
   requiredStock: number;
@@ -107,6 +114,14 @@ export const insertMenuTagSchema = z.object({
 });
 
 export type InsertMenuTag = z.infer<typeof insertMenuTagSchema>;
+
+export const insertSubCategorySchema = z.object({
+  team: z.enum(["cafe", "kitchen"]),
+  mainCategory: z.enum(["food", "non-food"]),
+  name: z.string().min(1, "소분류 이름을 입력해주세요"),
+});
+
+export type InsertSubCategory = z.infer<typeof insertSubCategorySchema>;
 
 export function getCurrentSeason(): Season {
   const month = new Date().getMonth() + 1;

@@ -4,8 +4,11 @@ import type {
   InsertInventoryItem, 
   MenuTag, 
   InsertMenuTag,
+  SubCategory,
+  InsertSubCategory,
   Team,
-  Season
+  Season,
+  MainCategory
 } from "@shared/schema";
 
 export interface IStorage {
@@ -19,15 +22,20 @@ export interface IStorage {
   getTags(team?: Team): Promise<MenuTag[]>;
   createTag(tag: InsertMenuTag): Promise<MenuTag>;
   deleteTag(id: string): Promise<boolean>;
+  
+  getSubCategories(team: Team, mainCategory?: MainCategory): Promise<SubCategory[]>;
+  createSubCategory(subCategory: InsertSubCategory): Promise<SubCategory>;
 }
 
 export class MemStorage implements IStorage {
   private items: Map<string, InventoryItem>;
   private tags: Map<string, MenuTag>;
+  private subCategories: Map<string, SubCategory>;
 
   constructor() {
     this.items = new Map();
     this.tags = new Map();
+    this.subCategories = new Map();
     this.seedData();
   }
 
@@ -50,6 +58,25 @@ export class MemStorage implements IStorage {
     ];
 
     [...kitchenTags, ...cafeTags].forEach(tag => this.tags.set(tag.id, tag));
+
+    const kitchenSubCategories: SubCategory[] = [
+      { id: "subcat-k1", team: "kitchen", mainCategory: "food", name: "유제품·치즈" },
+      { id: "subcat-k2", team: "kitchen", mainCategory: "food", name: "잎채소&허브류" },
+      { id: "subcat-k3", team: "kitchen", mainCategory: "food", name: "해산물" },
+      { id: "subcat-k4", team: "kitchen", mainCategory: "food", name: "육류" },
+      { id: "subcat-k5", team: "kitchen", mainCategory: "food", name: "오일·소스" },
+      { id: "subcat-k6", team: "kitchen", mainCategory: "food", name: "면류·곡류" },
+      { id: "subcat-k7", team: "kitchen", mainCategory: "non-food", name: "위생용품" },
+      { id: "subcat-k8", team: "kitchen", mainCategory: "non-food", name: "청소용품" },
+    ];
+
+    const cafeSubCategories: SubCategory[] = [
+      { id: "subcat-c1", team: "cafe", mainCategory: "food", name: "원두·커피" },
+      { id: "subcat-c2", team: "cafe", mainCategory: "food", name: "시럽·소스" },
+      { id: "subcat-c3", team: "cafe", mainCategory: "non-food", name: "포장용품" },
+    ];
+
+    [...kitchenSubCategories, ...cafeSubCategories].forEach(sc => this.subCategories.set(sc.id, sc));
 
     const kitchenItems: InventoryItem[] = [
       {
@@ -432,6 +459,22 @@ export class MemStorage implements IStorage {
 
   async deleteTag(id: string): Promise<boolean> {
     return this.tags.delete(id);
+  }
+
+  async getSubCategories(team: Team, mainCategory?: MainCategory): Promise<SubCategory[]> {
+    const allSubCategories = Array.from(this.subCategories.values());
+    return allSubCategories.filter(sc => {
+      if (sc.team !== team) return false;
+      if (mainCategory && sc.mainCategory !== mainCategory) return false;
+      return true;
+    });
+  }
+
+  async createSubCategory(insertSubCategory: InsertSubCategory): Promise<SubCategory> {
+    const id = randomUUID();
+    const subCategory: SubCategory = { ...insertSubCategory, id };
+    this.subCategories.set(id, subCategory);
+    return subCategory;
   }
 }
 

@@ -4,7 +4,9 @@ import { storage } from "./storage";
 import { 
   insertInventoryItemSchema, 
   insertMenuTagSchema,
-  type Team 
+  insertSubCategorySchema,
+  type Team,
+  type MainCategory
 } from "@shared/schema";
 import { z } from "zod";
 
@@ -204,6 +206,41 @@ export async function registerRoutes(
       res.status(204).send();
     } catch (error) {
       res.status(500).json({ error: "Failed to delete tag" });
+    }
+  });
+
+  app.get("/api/subcategories", async (req, res) => {
+    try {
+      const team = req.query.team as Team;
+      const mainCategory = req.query.mainCategory as MainCategory | undefined;
+      
+      if (!team || (team !== "kitchen" && team !== "cafe")) {
+        return res.status(400).json({ error: "Invalid team parameter" });
+      }
+      if (mainCategory && mainCategory !== "food" && mainCategory !== "non-food") {
+        return res.status(400).json({ error: "Invalid mainCategory parameter" });
+      }
+      
+      const subCategories = await storage.getSubCategories(team, mainCategory);
+      res.json(subCategories);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch subcategories" });
+    }
+  });
+
+  app.post("/api/subcategories", async (req, res) => {
+    try {
+      const parsed = insertSubCategorySchema.safeParse(req.body);
+      if (!parsed.success) {
+        return res.status(400).json({ 
+          error: "Invalid request body", 
+          details: parsed.error.flatten() 
+        });
+      }
+      const subCategory = await storage.createSubCategory(parsed.data);
+      res.status(201).json(subCategory);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to create subcategory" });
     }
   });
 

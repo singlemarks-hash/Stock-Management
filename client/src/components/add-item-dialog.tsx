@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Plus } from "lucide-react";
+import { Plus, Check, ChevronsUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -29,20 +29,37 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
 import { useInventory } from "@/lib/inventory-context";
 import { 
   mainCategoryLabels, 
   storageTypeLabels,
   type MainCategory,
   type StorageType,
-  type Season
+  type Season,
+  type SubCategory
 } from "@shared/schema";
+import { useQuery, useMutation } from "@tanstack/react-query";
+import { apiRequest, queryClient } from "@/lib/queryClient";
+import { cn } from "@/lib/utils";
 
 const formSchema = z.object({
   name: z.string().min(1, "재료명을 입력해주세요"),
   mainCategory: z.enum(["food", "non-food"]),
   storageType: z.enum(["refrigerated", "frozen", "room-temp"]).nullable(),
-  subCategory: z.string().min(1, "소분류를 입력해주세요"),
+  subCategory: z.string().min(1, "소분류를 선택해주세요"),
   unit: z.string().min(1, "단위를 입력해주세요"),
   currentStock: z.number().min(0, "0 이상의 숫자를 입력해주세요"),
   winterRequired: z.number().min(0),
@@ -59,6 +76,8 @@ interface AddItemDialogProps {
 
 export function AddItemDialog({ onAdd }: AddItemDialogProps) {
   const [open, setOpen] = useState(false);
+  const [subCategoryOpen, setSubCategoryOpen] = useState(false);
+  const [newSubCategoryInput, setNewSubCategoryInput] = useState("");
   const { selectedTeam, selectedMainCategory } = useInventory();
 
   const form = useForm<FormData>({
@@ -78,6 +97,53 @@ export function AddItemDialog({ onAdd }: AddItemDialogProps) {
   });
 
   const watchMainCategory = form.watch("mainCategory");
+
+  const { data: subCategories = [], refetch: refetchSubCategories } = useQuery<SubCategory[]>({
+    queryKey: ['/api/subcategories', selectedTeam, watchMainCategory],
+    queryFn: async () => {
+      const res = await fetch(`/api/subcategories?team=${selectedTeam}&mainCategory=${watchMainCategory}`);
+      return res.json();
+    },
+    enabled: open,
+  });
+
+  const createSubCategoryMutation = useMutation({
+    mutationFn: async (name: string) => {
+      const res = await apiRequest('POST', '/api/subcategories', {
+        team: selectedTeam,
+        mainCategory: watchMainCategory,
+        name,
+      });
+      return res.json() as Promise<SubCategory>;
+    },
+    onSuccess: async (newSubCategory: SubCategory) => {
+      await queryClient.invalidateQueries({ queryKey: ['/api/subcategories'] });
+      form.setValue("subCategory", newSubCategory.name);
+      setSubCategoryOpen(false);
+      setNewSubCategoryInput("");
+    },
+  });
+
+  useEffect(() => {
+    if (open) {
+      form.reset({
+        name: "",
+        mainCategory: selectedMainCategory,
+        storageType: selectedMainCategory === "food" ? "refrigerated" : null,
+        subCategory: "",
+        unit: "개",
+        currentStock: 0,
+        winterRequired: 0,
+        springRequired: 0,
+        summerRequired: 0,
+        fallRequired: 0,
+      });
+    }
+  }, [open, selectedMainCategory, form]);
+
+  useEffect(() => {
+    form.setValue("subCategory", "");
+  }, [watchMainCategory, form]);
 
   const onSubmit = (data: FormData) => {
     const item = {
@@ -106,6 +172,21 @@ export function AddItemDialog({ onAdd }: AddItemDialogProps) {
     onAdd(item);
     form.reset();
     setOpen(false);
+  };
+
+  const handleAddNewSubCategory = () => {
+    const trimmedInput = newSubCategoryInput.trim();
+    if (!trimmedInput) return;
+    
+    const exists = subCategories.some(sc => sc.name === trimmedInput);
+    if (exists) {
+      form.setValue("subCategory", trimmedInput);
+      setSubCategoryOpen(false);
+      setNewSubCategoryInput("");
+      return;
+    }
+    
+    createSubCategoryMutation.mutate(trimmedInput);
   };
 
   return (
@@ -147,7 +228,7 @@ export function AddItemDialog({ onAdd }: AddItemDialogProps) {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>대분류</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <Select onValueChange={field.onChange} value={field.value}>
                       <FormControl>
                         <SelectTrigger data-testid="select-add-category">
                           <SelectValue placeholder="선택" />
@@ -175,7 +256,7 @@ export function AddItemDialog({ onAdd }: AddItemDialogProps) {
                       <FormLabel>중분류 (보관)</FormLabel>
                       <Select 
                         onValueChange={field.onChange} 
-                        defaultValue={field.value || undefined}
+                        value={field.value || undefined}
                       >
                         <FormControl>
                           <SelectTrigger data-testid="select-add-storage">
@@ -200,15 +281,85 @@ export function AddItemDialog({ onAdd }: AddItemDialogProps) {
                 control={form.control}
                 name="subCategory"
                 render={({ field }) => (
-                  <FormItem className={watchMainCategory === "food" ? "" : "col-span-2"}>
+                  <FormItem className={watchMainCategory === "food" ? "col-span-2" : "col-span-2"}>
                     <FormLabel>소분류</FormLabel>
-                    <FormControl>
-                      <Input 
-                        placeholder="예: 유제품·치즈" 
-                        {...field} 
-                        data-testid="input-add-subcategory"
-                      />
-                    </FormControl>
+                    <Popover open={subCategoryOpen} onOpenChange={setSubCategoryOpen}>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant="outline"
+                            role="combobox"
+                            aria-expanded={subCategoryOpen}
+                            className="w-full justify-between font-normal"
+                            data-testid="select-add-subcategory"
+                          >
+                            {field.value || "소분류 선택..."}
+                            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-full p-0" align="start">
+                        <Command>
+                          <CommandInput 
+                            placeholder="소분류 검색 또는 새로 입력..." 
+                            value={newSubCategoryInput}
+                            onValueChange={setNewSubCategoryInput}
+                          />
+                          <CommandList>
+                            <CommandEmpty>
+                              {newSubCategoryInput.trim() && (
+                                <Button
+                                  variant="ghost"
+                                  className="w-full justify-start gap-2"
+                                  onClick={handleAddNewSubCategory}
+                                  disabled={createSubCategoryMutation.isPending}
+                                >
+                                  <Plus className="h-4 w-4" />
+                                  "{newSubCategoryInput}" 새로 추가
+                                </Button>
+                              )}
+                              {!newSubCategoryInput.trim() && (
+                                <span className="text-muted-foreground text-sm p-2">
+                                  소분류가 없습니다. 새로 입력해주세요.
+                                </span>
+                              )}
+                            </CommandEmpty>
+                            <CommandGroup>
+                              {subCategories.map((sc) => (
+                                <CommandItem
+                                  key={sc.id}
+                                  value={sc.name}
+                                  onSelect={(value) => {
+                                    form.setValue("subCategory", value);
+                                    setSubCategoryOpen(false);
+                                    setNewSubCategoryInput("");
+                                  }}
+                                >
+                                  <Check
+                                    className={cn(
+                                      "mr-2 h-4 w-4",
+                                      field.value === sc.name ? "opacity-100" : "opacity-0"
+                                    )}
+                                  />
+                                  {sc.name}
+                                </CommandItem>
+                              ))}
+                            </CommandGroup>
+                            {newSubCategoryInput.trim() && !subCategories.some(sc => sc.name.toLowerCase() === newSubCategoryInput.toLowerCase()) && subCategories.length > 0 && (
+                              <CommandGroup>
+                                <CommandItem
+                                  onSelect={handleAddNewSubCategory}
+                                  className="text-primary"
+                                >
+                                  <Plus className="mr-2 h-4 w-4" />
+                                  "{newSubCategoryInput}" 새로 추가
+                                </CommandItem>
+                              </CommandGroup>
+                            )}
+                          </CommandList>
+                        </Command>
+                      </PopoverContent>
+                    </Popover>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -264,7 +415,7 @@ export function AddItemDialog({ onAdd }: AddItemDialogProps) {
                       <FormControl>
                         <div className="space-y-1">
                           <label className="text-xs text-muted-foreground flex items-center gap-1">
-                            <span>❄️</span> 겨울
+                            겨울
                           </label>
                           <Input 
                             type="number" 
@@ -287,7 +438,7 @@ export function AddItemDialog({ onAdd }: AddItemDialogProps) {
                       <FormControl>
                         <div className="space-y-1">
                           <label className="text-xs text-muted-foreground flex items-center gap-1">
-                            <span>🌸</span> 봄
+                            봄
                           </label>
                           <Input 
                             type="number" 
@@ -310,7 +461,7 @@ export function AddItemDialog({ onAdd }: AddItemDialogProps) {
                       <FormControl>
                         <div className="space-y-1">
                           <label className="text-xs text-muted-foreground flex items-center gap-1">
-                            <span>☀️</span> 여름
+                            여름
                           </label>
                           <Input 
                             type="number" 
@@ -333,7 +484,7 @@ export function AddItemDialog({ onAdd }: AddItemDialogProps) {
                       <FormControl>
                         <div className="space-y-1">
                           <label className="text-xs text-muted-foreground flex items-center gap-1">
-                            <span>🍂</span> 가을
+                            가을
                           </label>
                           <Input 
                             type="number" 
