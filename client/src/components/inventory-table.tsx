@@ -564,7 +564,7 @@ export function InventoryTable({
                                     type="number"
                                     value={currentStock}
                                     onChange={(e) => handleFieldChange(item, "currentStock", Number(e.target.value))}
-                                    className="h-7 text-sm text-right w-full"
+                                    className="h-7 text-sm text-right w-full border-2 border-blue-500 focus:border-blue-600 focus:ring-blue-500"
                                     min={0}
                                     data-testid={`input-stock-${item.id}`}
                                   />
