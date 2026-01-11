@@ -61,6 +61,11 @@ app.use((req, res, next) => {
 
 import { storage } from "./storage";
 
+// Health check endpoint - must respond quickly for deployment
+app.get("/api/health", (_req, res) => {
+  res.status(200).json({ status: "ok" });
+});
+
 (async () => {
   // Seed database with initial data if empty
   await storage.seedDataIfEmpty();
