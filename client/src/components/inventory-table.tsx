@@ -370,10 +370,10 @@ export function InventoryTable({
                   <TableHead className="whitespace-nowrap px-2 min-w-[100px]">메뉴</TableHead>
                   <TableHead className="whitespace-nowrap text-center px-1 w-10">단위</TableHead>
                   <TableHead className="whitespace-nowrap text-right px-1 w-12">재고</TableHead>
-                  <TableHead className="whitespace-nowrap text-right px-1 w-10">일용</TableHead>
-                  <TableHead className="whitespace-nowrap text-right px-1 w-8">리드</TableHead>
-                  <TableHead className="whitespace-nowrap text-right px-1 w-10">안전</TableHead>
-                  <TableHead className="whitespace-nowrap text-right px-1 w-12">필요</TableHead>
+                  <TableHead className="whitespace-nowrap text-right px-1 w-12">일용</TableHead>
+                  <TableHead className="whitespace-nowrap text-right px-1 w-10">리드</TableHead>
+                  <TableHead className="whitespace-nowrap text-right px-1 w-12">안전</TableHead>
+                  <TableHead className="whitespace-nowrap text-right px-1 w-14">필요</TableHead>
                   <TableHead className="whitespace-nowrap px-1 w-16">체크</TableHead>
                   <TableHead className="whitespace-nowrap px-1 w-16">상태</TableHead>
                   <TableHead className="whitespace-nowrap px-1">발주처</TableHead>
@@ -543,9 +543,9 @@ export function InventoryTable({
                                 {isEditMode ? (
                                   <Input
                                     type="number"
-                                    value={dailyUsage}
+                                    value={dailyUsage ?? 0}
                                     onChange={(e) => handleFieldChange(item, "dailyUsage", Number(e.target.value))}
-                                    className="h-6 text-xs text-right w-10"
+                                    className="h-6 text-xs text-right w-12"
                                     min={0}
                                     step={0.1}
                                     data-testid={`input-daily-${item.id}`}
@@ -559,9 +559,9 @@ export function InventoryTable({
                                 {isEditMode ? (
                                   <Input
                                     type="number"
-                                    value={leadTime}
+                                    value={leadTime ?? 0}
                                     onChange={(e) => handleFieldChange(item, "leadTime", Number(e.target.value))}
-                                    className="h-6 text-xs text-right w-8"
+                                    className="h-6 text-xs text-right w-10"
                                     min={0}
                                     data-testid={`input-lead-${item.id}`}
                                   />
@@ -574,9 +574,9 @@ export function InventoryTable({
                                 {isEditMode ? (
                                   <Input
                                     type="number"
-                                    value={safetyStock}
+                                    value={safetyStock ?? 0}
                                     onChange={(e) => handleFieldChange(item, "safetyStock", Number(e.target.value))}
-                                    className="h-6 text-xs text-right w-10"
+                                    className="h-6 text-xs text-right w-12"
                                     min={0}
                                     data-testid={`input-safety-${item.id}`}
                                   />
@@ -595,9 +595,9 @@ export function InventoryTable({
                                   {isEditMode ? (
                                     <Input
                                       type="number"
-                                      value={requiredStockValue}
+                                      value={requiredStockValue ?? 0}
                                       onChange={(e) => handleRequiredStockChange(Number(e.target.value))}
-                                      className="h-6 text-xs text-right w-10"
+                                      className="h-6 text-xs text-right w-12"
                                       min={0}
                                       data-testid={`input-required-${item.id}`}
                                     />
