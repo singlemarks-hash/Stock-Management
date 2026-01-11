@@ -53,7 +53,7 @@ export function CategoryTabs({ selectedStorageType, onStorageTypeChange, actionB
         </Tabs>
         
         {actionButtons && (
-          <div className="flex items-center gap-2 w-full sm:w-auto">
+          <div className="flex items-center gap-2 w-full sm:w-auto sm:mr-8">
             {actionButtons}
           </div>
         )}
