@@ -422,6 +422,30 @@ export function InventoryTable({
                             ? getEditedValue(item, "safetyStock")
                             : item.safetyStock;
                           
+                          const getRequiredStockValue = () => {
+                            if (isEditMode) {
+                              const editedReqs = getEditedValue(item, "seasonalRequirements");
+                              const req = editedReqs.find(r => r.season === selectedSeason);
+                              return req?.requiredStock ?? 0;
+                            }
+                            return required;
+                          };
+                          const requiredStockValue = getRequiredStockValue();
+                          
+                          const handleRequiredStockChange = (newValue: number) => {
+                            const currentReqs = getEditedValue(item, "seasonalRequirements");
+                            const updatedReqs = currentReqs.map(r => 
+                              r.season === selectedSeason 
+                                ? { ...r, requiredStock: newValue }
+                                : r
+                            );
+                            handleFieldChange(item, "seasonalRequirements", updatedReqs);
+                          };
+                          
+                          const editedOrderQty = isEditMode 
+                            ? Math.max(0, requiredStockValue - (currentStock as number))
+                            : orderQty;
+                          
                           const supplier = getSupplierById(item.supplierId);
                           
                           return (
@@ -541,13 +565,24 @@ export function InventoryTable({
                               </TableCell>
                               
                               <TableCell className="text-right">
-                                <span className="tabular-nums text-sm text-muted-foreground">{required}</span>
+                                {isEditMode ? (
+                                  <Input
+                                    type="number"
+                                    value={requiredStockValue}
+                                    onChange={(e) => handleRequiredStockChange(Number(e.target.value))}
+                                    className="h-7 text-sm text-right w-14"
+                                    min={0}
+                                    data-testid={`input-required-${item.id}`}
+                                  />
+                                ) : (
+                                  <span className="tabular-nums text-sm text-muted-foreground">{required}</span>
+                                )}
                               </TableCell>
                               
                               <TableCell className="text-right">
-                                {orderQty > 0 ? (
+                                {editedOrderQty > 0 ? (
                                   <Badge variant="destructive" className="tabular-nums text-xs">
-                                    {orderQty}
+                                    {editedOrderQty}
                                   </Badge>
                                 ) : (
                                   <span className="text-muted-foreground text-sm">-</span>
