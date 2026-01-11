@@ -68,7 +68,11 @@ app.get("/api/health", (_req, res) => {
 
 (async () => {
   // Seed database with initial data if empty
-  await storage.seedDataIfEmpty();
+  try {
+    await storage.seedDataIfEmpty();
+  } catch (error) {
+    console.error("Warning: Could not seed database:", error);
+  }
   
   await registerRoutes(httpServer, app);
 
