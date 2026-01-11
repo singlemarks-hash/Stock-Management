@@ -393,18 +393,6 @@ export function AddItemDialog({ onAdd }: AddItemDialogProps) {
                           />
                           <CommandList>
                             <CommandEmpty>
-                              {newSubCategoryInput.trim() && (
-                                <div
-                                  role="button"
-                                  tabIndex={0}
-                                  className="w-full flex items-center justify-start gap-2 px-2 py-1.5 text-sm cursor-pointer hover:bg-accent rounded-sm"
-                                  onClick={handleAddNewSubCategory}
-                                  onKeyDown={(e) => e.key === 'Enter' && handleAddNewSubCategory()}
-                                >
-                                  <Plus className="h-4 w-4" />
-                                  "{newSubCategoryInput}" 새로 추가
-                                </div>
-                              )}
                               {!newSubCategoryInput.trim() && (
                                 <span className="text-muted-foreground text-sm p-2">
                                   소분류가 없습니다.
@@ -431,18 +419,18 @@ export function AddItemDialog({ onAdd }: AddItemDialogProps) {
                                   {sc.name}
                                 </CommandItem>
                               ))}
-                            </CommandGroup>
-                            {newSubCategoryInput.trim() && !subCategories.some(sc => sc.name.toLowerCase() === newSubCategoryInput.toLowerCase()) && subCategories.length > 0 && (
-                              <CommandGroup>
+                              {newSubCategoryInput.trim() && !subCategories.some(sc => sc.name.toLowerCase() === newSubCategoryInput.toLowerCase()) && (
                                 <CommandItem
-                                  onSelect={handleAddNewSubCategory}
+                                  value={`__create__${newSubCategoryInput}`}
+                                  onSelect={() => handleAddNewSubCategory()}
                                   className="text-primary"
+                                  forceMount
                                 >
                                   <Plus className="mr-2 h-4 w-4" />
                                   "{newSubCategoryInput}" 새로 추가
                                 </CommandItem>
-                              </CommandGroup>
-                            )}
+                              )}
+                            </CommandGroup>
                           </CommandList>
                         </Command>
                       </PopoverContent>
@@ -581,18 +569,6 @@ export function AddItemDialog({ onAdd }: AddItemDialogProps) {
                           />
                           <CommandList>
                             <CommandEmpty>
-                              {newSupplierInput.trim() && (
-                                <div
-                                  role="button"
-                                  tabIndex={0}
-                                  className="w-full flex items-center justify-start gap-2 px-2 py-1.5 text-sm cursor-pointer hover:bg-accent rounded-sm"
-                                  onClick={handleAddNewSupplier}
-                                  onKeyDown={(e) => e.key === 'Enter' && handleAddNewSupplier()}
-                                >
-                                  <Plus className="h-4 w-4" />
-                                  "{newSupplierInput}" 새로 추가
-                                </div>
-                              )}
                               {!newSupplierInput.trim() && (
                                 <span className="text-muted-foreground text-sm p-2">
                                   발주처가 없습니다.
@@ -619,18 +595,18 @@ export function AddItemDialog({ onAdd }: AddItemDialogProps) {
                                   {s.name}
                                 </CommandItem>
                               ))}
-                            </CommandGroup>
-                            {newSupplierInput.trim() && !suppliers.some(s => s.name.toLowerCase() === newSupplierInput.toLowerCase()) && suppliers.length > 0 && (
-                              <CommandGroup>
+                              {newSupplierInput.trim() && !suppliers.some(s => s.name.toLowerCase() === newSupplierInput.toLowerCase()) && (
                                 <CommandItem
-                                  onSelect={handleAddNewSupplier}
+                                  value={`__create__${newSupplierInput}`}
+                                  onSelect={() => handleAddNewSupplier()}
                                   className="text-primary"
+                                  forceMount
                                 >
                                   <Plus className="mr-2 h-4 w-4" />
                                   "{newSupplierInput}" 새로 추가
                                 </CommandItem>
-                              </CommandGroup>
-                            )}
+                              )}
+                            </CommandGroup>
                           </CommandList>
                         </Command>
                       </PopoverContent>
