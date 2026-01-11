@@ -1,4 +1,4 @@
-import { AlertTriangle, Package, Clock, CheckCircle2, ChevronDown, ChevronUp } from "lucide-react";
+import { AlertTriangle, Package, Clock, CheckCircle2, ChevronDown, ChevronUp, ExternalLink } from "lucide-react";
 import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -11,11 +11,11 @@ import {
 } from "@/components/ui/collapsible";
 import { useInventory } from "@/lib/inventory-context";
 import { needsOrder, mainCategoryLabels, storageTypeLabels, getOrderQuantity, getRequiredStock } from "@shared/schema";
-import type { InventoryItem, StorageType, Season } from "@shared/schema";
+import type { InventoryItem, StorageType, Season, Supplier, MenuTag } from "@shared/schema";
 import { cn } from "@/lib/utils";
 import { apiRequest } from "@/lib/queryClient";
 import { queryClient } from "@/lib/queryClient";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 interface OrderItem {
   id: string;
@@ -27,6 +27,8 @@ interface OrderItem {
   currentStock: number;
   requiredStock: number;
   orderQuantity: number;
+  menuTags: string[];
+  supplierId: string | null;
 }
 
 interface AlertStats {
@@ -70,6 +72,8 @@ function calculateAlertStats(items: InventoryItem[], season: Season, team: strin
         currentStock: item.currentStock,
         requiredStock: req?.requiredStock ?? 0,
         orderQuantity: orderQty,
+        menuTags: item.menuTags,
+        supplierId: item.supplierId,
       };
       
       stats.total++;
@@ -114,6 +118,31 @@ export function OrderAlertBanner() {
   const [isOrderedExpanded, setIsOrderedExpanded] = useState(true);
   const [editingQuantities, setEditingQuantities] = useState<Record<string, number>>({});
 
+  const { data: tags = [] } = useQuery<MenuTag[]>({
+    queryKey: ['/api/tags', selectedTeam],
+    queryFn: async () => {
+      const res = await fetch(`/api/tags?team=${selectedTeam}`);
+      return res.json();
+    },
+  });
+
+  const { data: suppliers = [] } = useQuery<Supplier[]>({
+    queryKey: ['/api/suppliers', selectedTeam],
+    queryFn: async () => {
+      const res = await fetch(`/api/suppliers?team=${selectedTeam}`);
+      return res.json();
+    },
+  });
+
+  const getTagById = (tagId: string): MenuTag | undefined => {
+    return tags.find(t => t.id === tagId);
+  };
+
+  const getSupplierById = (supplierId: string | null): Supplier | undefined => {
+    if (!supplierId) return undefined;
+    return suppliers.find(s => s.id === supplierId);
+  };
+
   const markOrderedMutation = useMutation({
     mutationFn: async ({ id, orderQuantity }: { id: string; orderQuantity: number }) => {
       return apiRequest("PATCH", `/api/inventory/${id}`, {
@@ -130,8 +159,7 @@ export function OrderAlertBanner() {
   const markDeliveredMutation = useMutation({
     mutationFn: async (id: string) => {
       return apiRequest("PATCH", `/api/inventory/${id}`, {
-        orderStatus: "delivered",
-        deliveredAt: new Date().toISOString(),
+        orderStatus: "normal",
       });
     },
     onSuccess: () => {
@@ -166,8 +194,7 @@ export function OrderAlertBanner() {
   const clearAllOrderedMutation = useMutation({
     mutationFn: async (ids: string[]) => {
       await Promise.all(ids.map(id => apiRequest("PATCH", `/api/inventory/${id}`, {
-        orderStatus: "delivered",
-        deliveredAt: new Date().toISOString(),
+        orderStatus: "normal",
       })));
     },
     onSuccess: () => {
@@ -195,6 +222,56 @@ export function OrderAlertBanner() {
     if (newQuantity !== undefined && newQuantity !== originalQuantity) {
       updateOrderQuantityMutation.mutate({ id, quantity: newQuantity });
     }
+  };
+
+  const renderMenuTags = (menuTags: string[], mainCategory: "food" | "non-food") => {
+    if (mainCategory === "non-food") {
+      return <span className="text-muted-foreground text-xs">-</span>;
+    }
+    if (menuTags.length === 0) {
+      return <span className="text-muted-foreground text-xs">-</span>;
+    }
+    return (
+      <div className="flex flex-wrap gap-0.5">
+        {menuTags.slice(0, 2).map(tagId => {
+          const tag = getTagById(tagId);
+          if (!tag) return null;
+          return (
+            <Badge 
+              key={tagId} 
+              variant="secondary" 
+              className={cn("text-[9px] px-1 py-0", tag.color)}
+            >
+              {tag.name}
+            </Badge>
+          );
+        })}
+        {menuTags.length > 2 && (
+          <span className="text-[9px] text-muted-foreground">+{menuTags.length - 2}</span>
+        )}
+      </div>
+    );
+  };
+
+  const renderSupplierLink = (supplierId: string | null) => {
+    const supplier = getSupplierById(supplierId);
+    if (!supplier) {
+      return <span className="text-muted-foreground text-xs">-</span>;
+    }
+    if (supplier.url) {
+      return (
+        <a 
+          href={supplier.url} 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="flex items-center gap-1 text-xs text-primary hover:underline"
+        >
+          {supplier.name}
+          <ExternalLink className="h-3 w-3" />
+        </a>
+      );
+    }
+    return <span className="text-xs text-muted-foreground">{supplier.name}</span>;
   };
 
   if (stats.total === 0 && stats.ordered === 0) {
@@ -244,15 +321,17 @@ export function OrderAlertBanner() {
                   className="rounded-md border bg-background overflow-x-auto" 
                   style={{ WebkitOverflowScrolling: 'touch', touchAction: 'pan-x pan-y' }}
                 >
-                  <table className="w-full text-sm min-w-[600px]">
+                  <table className="w-full text-sm min-w-[700px]">
                     <thead>
                       <tr className="border-b bg-muted/50">
-                        <th className="text-left p-3 font-medium">재료명</th>
-                        <th className="text-left p-3 font-medium w-24">분류</th>
-                        <th className="text-right p-3 font-medium w-20">현재고</th>
-                        <th className="text-right p-3 font-medium w-20">필요</th>
-                        <th className="text-right p-3 font-medium w-24">발주수량</th>
-                        <th className="text-center p-3 font-medium w-24">발주완료</th>
+                        <th className="text-left p-2 font-medium w-28">재료명</th>
+                        <th className="text-left p-2 font-medium w-16">분류</th>
+                        <th className="text-left p-2 font-medium w-20">사용메뉴</th>
+                        <th className="text-right p-2 font-medium w-16">현재고</th>
+                        <th className="text-right p-2 font-medium w-16">필요</th>
+                        <th className="text-right p-2 font-medium w-20">발주수량</th>
+                        <th className="text-center p-2 font-medium w-16">발주완료</th>
+                        <th className="text-left p-2 font-medium w-20">발주처</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -265,40 +344,46 @@ export function OrderAlertBanner() {
                           )}
                           data-testid={`row-order-item-${item.id}`}
                         >
-                          <td className="p-3">
-                            <div className="font-medium">{item.name}</div>
-                            <div className="text-xs text-muted-foreground">{item.subCategory}</div>
+                          <td className="p-2">
+                            <div className="font-medium text-sm truncate max-w-[100px]">{item.name}</div>
+                            <div className="text-[10px] text-muted-foreground truncate max-w-[100px]">{item.subCategory}</div>
                           </td>
-                          <td className="p-3">
+                          <td className="p-2">
                             <div className="flex flex-col gap-0.5">
-                              <Badge variant="secondary" className="text-[10px] w-fit">
+                              <Badge variant="secondary" className="text-[9px] px-1 w-fit">
                                 {mainCategoryLabels[item.mainCategory]}
                               </Badge>
                               {item.storageType && (
-                                <Badge variant="outline" className="text-[10px] w-fit">
+                                <Badge variant="outline" className="text-[9px] px-1 w-fit">
                                   {storageTypeLabels[item.storageType]}
                                 </Badge>
                               )}
                             </div>
                           </td>
-                          <td className="p-3 text-right tabular-nums">
+                          <td className="p-2">
+                            {renderMenuTags(item.menuTags, item.mainCategory)}
+                          </td>
+                          <td className="p-2 text-right tabular-nums text-xs">
                             {item.currentStock} {item.unit}
                           </td>
-                          <td className="p-3 text-right tabular-nums text-muted-foreground">
+                          <td className="p-2 text-right tabular-nums text-muted-foreground text-xs">
                             {item.requiredStock} {item.unit}
                           </td>
-                          <td className="p-3 text-right">
-                            <Badge variant="destructive" className="tabular-nums">
+                          <td className="p-2 text-right">
+                            <Badge variant="destructive" className="tabular-nums text-xs">
                               +{item.orderQuantity} {item.unit}
                             </Badge>
                           </td>
-                          <td className="p-3 text-center">
+                          <td className="p-2 text-center">
                             <Checkbox
                               checked={false}
                               onCheckedChange={() => handleMarkOrdered(item.id, item.orderQuantity)}
                               disabled={markOrderedMutation.isPending}
                               data-testid={`checkbox-mark-ordered-${item.id}`}
                             />
+                          </td>
+                          <td className="p-2">
+                            {renderSupplierLink(item.supplierId)}
                           </td>
                         </tr>
                       ))}
@@ -378,16 +463,18 @@ export function OrderAlertBanner() {
                   className="rounded-md border bg-background overflow-x-auto" 
                   style={{ WebkitOverflowScrolling: 'touch', touchAction: 'pan-x pan-y' }}
                 >
-                  <table className="w-full text-sm min-w-[700px]">
+                  <table className="w-full text-sm min-w-[800px]">
                     <thead>
                       <tr className="border-b bg-muted/50">
-                        <th className="text-left p-3 font-medium">재료명</th>
-                        <th className="text-left p-3 font-medium w-24">분류</th>
-                        <th className="text-right p-3 font-medium w-20">현재고</th>
-                        <th className="text-right p-3 font-medium w-20">필요</th>
-                        <th className="text-right p-3 font-medium w-28">발주수량</th>
-                        <th className="text-center p-3 font-medium w-32">발주시간</th>
-                        <th className="text-center p-3 font-medium w-24">입고완료</th>
+                        <th className="text-left p-2 font-medium w-28">재료명</th>
+                        <th className="text-left p-2 font-medium w-16">분류</th>
+                        <th className="text-left p-2 font-medium w-20">사용메뉴</th>
+                        <th className="text-right p-2 font-medium w-16">현재고</th>
+                        <th className="text-right p-2 font-medium w-16">필요</th>
+                        <th className="text-right p-2 font-medium w-24">발주수량</th>
+                        <th className="text-center p-2 font-medium w-24">발주시간</th>
+                        <th className="text-center p-2 font-medium w-16">입고완료</th>
+                        <th className="text-left p-2 font-medium w-20">발주처</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -403,55 +490,61 @@ export function OrderAlertBanner() {
                             )}
                             data-testid={`row-ordered-item-${item.id}`}
                           >
-                            <td className="p-3">
-                              <div className="font-medium">{item.name}</div>
-                              <div className="text-xs text-muted-foreground">{item.subCategory}</div>
+                            <td className="p-2">
+                              <div className="font-medium text-sm truncate max-w-[100px]">{item.name}</div>
+                              <div className="text-[10px] text-muted-foreground truncate max-w-[100px]">{item.subCategory}</div>
                             </td>
-                            <td className="p-3">
+                            <td className="p-2">
                               <div className="flex flex-col gap-0.5">
-                                <Badge variant="secondary" className="text-[10px] w-fit">
+                                <Badge variant="secondary" className="text-[9px] px-1 w-fit">
                                   {mainCategoryLabels[item.mainCategory]}
                                 </Badge>
                                 {item.storageType && (
-                                  <Badge variant="outline" className="text-[10px] w-fit">
+                                  <Badge variant="outline" className="text-[9px] px-1 w-fit">
                                     {storageTypeLabels[item.storageType]}
                                   </Badge>
                                 )}
                               </div>
                             </td>
-                            <td className="p-3 text-right tabular-nums">
+                            <td className="p-2">
+                              {renderMenuTags(item.menuTags, item.mainCategory)}
+                            </td>
+                            <td className="p-2 text-right tabular-nums text-xs">
                               {item.currentStock} {item.unit}
                             </td>
-                            <td className="p-3 text-right tabular-nums text-muted-foreground">
+                            <td className="p-2 text-right tabular-nums text-muted-foreground text-xs">
                               {requiredStock} {item.unit}
                             </td>
-                            <td className="p-3 text-right">
+                            <td className="p-2 text-right">
                               <div className="flex items-center justify-end gap-1">
-                                <span className="text-muted-foreground">+</span>
+                                <span className="text-muted-foreground text-xs">+</span>
                                 <Input
                                   type="number"
                                   min={0}
                                   value={displayQuantity}
                                   onChange={(e) => handleQuantityChange(item.id, e.target.value)}
                                   onBlur={() => handleQuantityBlur(item.id, item.orderedQuantity)}
-                                  className="w-16 h-7 text-right tabular-nums text-sm"
+                                  className="w-12 h-6 text-right tabular-nums text-xs"
                                   data-testid={`input-order-quantity-${item.id}`}
                                 />
-                                <span className="text-xs text-muted-foreground">{item.unit}</span>
+                                <span className="text-[10px] text-muted-foreground">{item.unit}</span>
                               </div>
                             </td>
-                            <td className="p-3 text-center">
-                              <span className="text-xs text-muted-foreground">
+                            <td className="p-2 text-center">
+                              <span className="text-[10px] text-muted-foreground">
                                 {formatDateTime(item.orderedAt)}
                               </span>
                             </td>
-                            <td className="p-3 text-center">
+                            <td className="p-2 text-center">
                               <Checkbox
                                 checked={false}
                                 onCheckedChange={() => handleMarkDelivered(item.id)}
                                 disabled={markDeliveredMutation.isPending}
                                 data-testid={`checkbox-mark-delivered-${item.id}`}
                               />
+                            </td>
+                            <td className="p-2">
+                              {renderSupplierLink(item.supplierId)}
                             </td>
                           </tr>
                         );

@@ -267,9 +267,13 @@ export function AddItemDialog({ onAdd }: AddItemDialogProps) {
       </DialogTrigger>
       <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>새 식재료 추가</DialogTitle>
+          <DialogTitle>
+            {watchMainCategory === "food" ? "새 식재료 추가" : "새 비품 추가"}
+          </DialogTitle>
           <DialogDescription>
-            새로운 재고 항목을 등록합니다.
+            {watchMainCategory === "food" 
+              ? "새로운 재고 항목을 등록합니다." 
+              : "새로운 비품을 등록합니다."}
           </DialogDescription>
         </DialogHeader>
         

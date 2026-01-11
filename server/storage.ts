@@ -73,14 +73,13 @@ export class MemStorage implements IStorage {
       { id: "subcat-k4", team: "kitchen", mainCategory: "food", name: "육류" },
       { id: "subcat-k5", team: "kitchen", mainCategory: "food", name: "오일·소스" },
       { id: "subcat-k6", team: "kitchen", mainCategory: "food", name: "면류·곡류" },
-      { id: "subcat-k7", team: "kitchen", mainCategory: "non-food", name: "위생용품" },
-      { id: "subcat-k8", team: "kitchen", mainCategory: "non-food", name: "청소용품" },
+      { id: "subcat-k7", team: "kitchen", mainCategory: "non-food", name: "소모품" },
     ];
 
     const cafeSubCategories: SubCategory[] = [
       { id: "subcat-c1", team: "cafe", mainCategory: "food", name: "원두·커피" },
       { id: "subcat-c2", team: "cafe", mainCategory: "food", name: "시럽·소스" },
-      { id: "subcat-c3", team: "cafe", mainCategory: "non-food", name: "포장용품" },
+      { id: "subcat-c3", team: "cafe", mainCategory: "non-food", name: "소모품" },
     ];
 
     [...kitchenSubCategories, ...cafeSubCategories].forEach(sc => this.subCategories.set(sc.id, sc));
@@ -335,7 +334,7 @@ export class MemStorage implements IStorage {
         name: "일회용 장갑",
         mainCategory: "non-food",
         storageType: null,
-        subCategory: "위생용품",
+        subCategory: "소모품",
         unit: "박스",
         currentStock: 2,
         dailyUsage: 0.1,
@@ -438,7 +437,7 @@ export class MemStorage implements IStorage {
         name: "컵 (16oz)",
         mainCategory: "non-food",
         storageType: null,
-        subCategory: "포장용품",
+        subCategory: "소모품",
         unit: "박스",
         currentStock: 5,
         dailyUsage: 0.3,
