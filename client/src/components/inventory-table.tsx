@@ -373,7 +373,6 @@ export function InventoryTable({
                   <TableHead className="whitespace-nowrap text-right">리드</TableHead>
                   <TableHead className="whitespace-nowrap text-right">안전</TableHead>
                   <TableHead className="whitespace-nowrap text-right">필요</TableHead>
-                  <TableHead className="whitespace-nowrap text-right">발주량</TableHead>
                   <TableHead className="whitespace-nowrap">체크일</TableHead>
                   <TableHead className="whitespace-nowrap">상태</TableHead>
                   <TableHead className="whitespace-nowrap">발주처</TableHead>
@@ -384,7 +383,7 @@ export function InventoryTable({
                 {sortedSubCategories.map(subCategory => {
                   const categoryItems = groupedItems[subCategory];
                   const isExpanded = isGroupExpanded(subCategory);
-                  const colSpan = isEditMode ? 15 : 14;
+                  const colSpan = isEditMode ? 14 : 13;
                   
                   return (
                     <Collapsible key={subCategory} open={isExpanded} asChild>
@@ -565,28 +564,25 @@ export function InventoryTable({
                               </TableCell>
                               
                               <TableCell className="text-right">
-                                {isEditMode ? (
-                                  <Input
-                                    type="number"
-                                    value={requiredStockValue}
-                                    onChange={(e) => handleRequiredStockChange(Number(e.target.value))}
-                                    className="h-7 text-sm text-right w-14"
-                                    min={0}
-                                    data-testid={`input-required-${item.id}`}
-                                  />
-                                ) : (
-                                  <span className="tabular-nums text-sm text-muted-foreground">{required}</span>
-                                )}
-                              </TableCell>
-                              
-                              <TableCell className="text-right">
-                                {editedOrderQty > 0 ? (
-                                  <Badge variant="destructive" className="tabular-nums text-xs">
-                                    {editedOrderQty}
-                                  </Badge>
-                                ) : (
-                                  <span className="text-muted-foreground text-sm">-</span>
-                                )}
+                                <div className="flex items-center justify-end gap-1">
+                                  {editedOrderQty > 0 && (
+                                    <Badge variant="destructive" className="tabular-nums text-xs px-1.5" data-testid={`badge-shortage-${item.id}`}>
+                                      +{editedOrderQty}
+                                    </Badge>
+                                  )}
+                                  {isEditMode ? (
+                                    <Input
+                                      type="number"
+                                      value={requiredStockValue}
+                                      onChange={(e) => handleRequiredStockChange(Number(e.target.value))}
+                                      className="h-7 text-sm text-right w-14"
+                                      min={0}
+                                      data-testid={`input-required-${item.id}`}
+                                    />
+                                  ) : (
+                                    <span className="tabular-nums text-sm text-muted-foreground">{required}</span>
+                                  )}
+                                </div>
                               </TableCell>
                               
                               <TableCell>
