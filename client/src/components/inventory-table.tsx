@@ -75,10 +75,11 @@ export function InventoryTable({
     isEditMode,
     editedItems,
     updateEditedItem,
-    selectedTeam
+    selectedTeam,
+    collapsedGroups,
+    toggleGroupCollapse
   } = useInventory();
   
-  const [expandedGroups, setExpandedGroups] = useState<Set<string>>(new Set());
   const [selectAllDate, setSelectAllDate] = useState<Date | undefined>();
 
   const filteredItems = items.filter(item => {
@@ -93,20 +94,10 @@ export function InventoryTable({
   const groupedItems = groupBySubCategory(filteredItems);
   const subCategories = Object.keys(groupedItems).sort();
 
-  useEffect(() => {
-    setExpandedGroups(new Set(subCategories));
-  }, [selectedMainCategory, storageTypeFilter, subCategories.join(",")]);
+  const isGroupExpanded = (category: string) => !collapsedGroups.has(category);
 
   const toggleGroup = (category: string) => {
-    setExpandedGroups(prev => {
-      const newSet = new Set(prev);
-      if (newSet.has(category)) {
-        newSet.delete(category);
-      } else {
-        newSet.add(category);
-      }
-      return newSet;
-    });
+    toggleGroupCollapse(category);
   };
 
   const handleSelectAllDate = (date: Date | undefined) => {
@@ -217,7 +208,7 @@ export function InventoryTable({
           <TableBody>
             {subCategories.map(subCategory => {
               const categoryItems = groupedItems[subCategory];
-              const isExpanded = expandedGroups.has(subCategory);
+              const isExpanded = isGroupExpanded(subCategory);
               
               return (
                 <Collapsible key={subCategory} open={isExpanded} asChild>

@@ -27,6 +27,8 @@ interface InventoryContextType {
   setTags: (tags: MenuTag[]) => void;
   addTag: (tag: MenuTag) => void;
   isLoading: boolean;
+  collapsedGroups: Set<string>;
+  toggleGroupCollapse: (subCategory: string) => void;
 }
 
 const InventoryContext = createContext<InventoryContextType | undefined>(undefined);
@@ -47,6 +49,10 @@ export function InventoryProvider({ children }: { children: React.ReactNode }) {
   const [items, setItems] = useState<InventoryItem[]>([]);
   const [editedItems, setEditedItems] = useState<Map<string, Partial<InventoryItem>>>(new Map());
   const [tags, setTags] = useState<MenuTag[]>([]);
+  const [collapsedGroups, setCollapsedGroups] = useState<Set<string>>(() => {
+    const saved = localStorage.getItem("inventory-collapsed-groups");
+    return saved ? new Set(JSON.parse(saved)) : new Set();
+  });
 
   const { data, isLoading } = useQuery<{ items: InventoryItem[]; tags: MenuTag[] }>({
     queryKey: ["/api/inventory", selectedTeam],
@@ -94,6 +100,19 @@ export function InventoryProvider({ children }: { children: React.ReactNode }) {
     setTags(prev => [...prev, tag]);
   }, []);
 
+  const toggleGroupCollapse = useCallback((subCategory: string) => {
+    setCollapsedGroups(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(subCategory)) {
+        newSet.delete(subCategory);
+      } else {
+        newSet.add(subCategory);
+      }
+      localStorage.setItem("inventory-collapsed-groups", JSON.stringify(Array.from(newSet)));
+      return newSet;
+    });
+  }, []);
+
   return (
     <InventoryContext.Provider value={{
       selectedTeam,
@@ -113,6 +132,8 @@ export function InventoryProvider({ children }: { children: React.ReactNode }) {
       setTags,
       addTag,
       isLoading,
+      collapsedGroups,
+      toggleGroupCollapse,
     }}>
       {children}
     </InventoryContext.Provider>
