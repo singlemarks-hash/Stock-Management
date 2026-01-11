@@ -238,9 +238,12 @@ export function OrderAlertBanner() {
               </button>
             </CollapsibleTrigger>
             
-            <CollapsibleContent className="!overflow-visible" style={{ overflow: 'visible' }}>
+            <CollapsibleContent forceMount className="data-[state=open]:block data-[state=closed]:hidden">
               <div className="px-4 sm:px-6 pb-4 space-y-3">
-                <div className="rounded-md border bg-background overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-0" style={{ WebkitOverflowScrolling: 'touch' }}>
+                <div 
+                  className="rounded-md border bg-background overflow-x-auto" 
+                  style={{ WebkitOverflowScrolling: 'touch', touchAction: 'pan-x pan-y' }}
+                >
                   <table className="w-full text-sm min-w-[600px]">
                     <thead>
                       <tr className="border-b bg-muted/50">
@@ -369,9 +372,12 @@ export function OrderAlertBanner() {
               </button>
             </CollapsibleTrigger>
             
-            <CollapsibleContent className="!overflow-visible" style={{ overflow: 'visible' }}>
+            <CollapsibleContent forceMount className="data-[state=open]:block data-[state=closed]:hidden">
               <div className="px-4 sm:px-6 pb-4 space-y-3">
-                <div className="rounded-md border bg-background overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-0" style={{ WebkitOverflowScrolling: 'touch' }}>
+                <div 
+                  className="rounded-md border bg-background overflow-x-auto" 
+                  style={{ WebkitOverflowScrolling: 'touch', touchAction: 'pan-x pan-y' }}
+                >
                   <table className="w-full text-sm min-w-[700px]">
                     <thead>
                       <tr className="border-b bg-muted/50">

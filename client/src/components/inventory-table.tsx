@@ -192,7 +192,10 @@ export function InventoryTable({
         </div>
       )}
 
-      <div className="rounded-md border overflow-hidden overflow-x-auto">
+      <div 
+        className="rounded-md border overflow-x-auto" 
+        style={{ WebkitOverflowScrolling: 'touch', touchAction: 'pan-x pan-y' }}
+      >
         <Table className="min-w-[800px]">
           <TableHeader>
             <TableRow className="bg-muted/50">
