@@ -33,9 +33,11 @@ export interface IStorage {
   
   getSubCategories(team: Team, mainCategory?: MainCategory): Promise<SubCategory[]>;
   createSubCategory(subCategory: InsertSubCategory): Promise<SubCategory>;
+  deleteSubCategory(id: string): Promise<boolean>;
   
   getSuppliers(team: Team): Promise<Supplier[]>;
   createSupplier(supplier: InsertSupplier): Promise<Supplier>;
+  deleteSupplier(id: string): Promise<boolean>;
   
   seedDataIfEmpty(): Promise<void>;
   forceReseed(): Promise<void>;
@@ -139,6 +141,16 @@ export class DatabaseStorage implements IStorage {
     const id = randomUUID();
     const [supplier] = await db.insert(suppliers).values({ ...insertSupplier, id }).returning();
     return supplier;
+  }
+
+  async deleteSubCategory(id: string): Promise<boolean> {
+    const result = await db.delete(subCategories).where(eq(subCategories.id, id)).returning();
+    return result.length > 0;
+  }
+
+  async deleteSupplier(id: string): Promise<boolean> {
+    const result = await db.delete(suppliers).where(eq(suppliers.id, id)).returning();
+    return result.length > 0;
   }
 
   async seedDataIfEmpty(): Promise<void> {

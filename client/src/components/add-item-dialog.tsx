@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Plus, Check, ChevronsUpDown } from "lucide-react";
+import { Plus, Check, ChevronsUpDown, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -172,6 +172,24 @@ export function AddItemDialog({ onAdd }: AddItemDialogProps) {
       form.setValue("supplierId", newSupplier.id);
       setSupplierOpen(false);
       setNewSupplierInput("");
+    },
+  });
+
+  const deleteSubCategoryMutation = useMutation({
+    mutationFn: async (id: string) => {
+      await apiRequest('DELETE', `/api/subcategories/${id}`);
+    },
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['/api/subcategories'] });
+    },
+  });
+
+  const deleteSupplierMutation = useMutation({
+    mutationFn: async (id: string) => {
+      await apiRequest('DELETE', `/api/suppliers/${id}`);
+    },
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['/api/suppliers'] });
     },
   });
 
@@ -409,14 +427,31 @@ export function AddItemDialog({ onAdd }: AddItemDialogProps) {
                                     setSubCategoryOpen(false);
                                     setNewSubCategoryInput("");
                                   }}
+                                  className="flex items-center justify-between"
                                 >
-                                  <Check
-                                    className={cn(
-                                      "mr-2 h-4 w-4",
-                                      field.value === sc.name ? "opacity-100" : "opacity-0"
-                                    )}
-                                  />
-                                  {sc.name}
+                                  <div className="flex items-center">
+                                    <Check
+                                      className={cn(
+                                        "mr-2 h-4 w-4",
+                                        field.value === sc.name ? "opacity-100" : "opacity-0"
+                                      )}
+                                    />
+                                    {sc.name}
+                                  </div>
+                                  <button
+                                    type="button"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      if (field.value === sc.name) {
+                                        form.setValue("subCategory", "");
+                                      }
+                                      deleteSubCategoryMutation.mutate(sc.id);
+                                    }}
+                                    className="ml-2 p-1 rounded hover:bg-destructive/10 text-muted-foreground hover:text-destructive transition-colors"
+                                    data-testid={`button-delete-subcategory-${sc.id}`}
+                                  >
+                                    <X className="h-3 w-3" />
+                                  </button>
                                 </CommandItem>
                               ))}
                               {newSubCategoryInput.trim() && !subCategories.some(sc => sc.name.toLowerCase() === newSubCategoryInput.toLowerCase()) && (
@@ -585,14 +620,31 @@ export function AddItemDialog({ onAdd }: AddItemDialogProps) {
                                     setSupplierOpen(false);
                                     setNewSupplierInput("");
                                   }}
+                                  className="flex items-center justify-between"
                                 >
-                                  <Check
-                                    className={cn(
-                                      "mr-2 h-4 w-4",
-                                      field.value === s.id ? "opacity-100" : "opacity-0"
-                                    )}
-                                  />
-                                  {s.name}
+                                  <div className="flex items-center">
+                                    <Check
+                                      className={cn(
+                                        "mr-2 h-4 w-4",
+                                        field.value === s.id ? "opacity-100" : "opacity-0"
+                                      )}
+                                    />
+                                    {s.name}
+                                  </div>
+                                  <button
+                                    type="button"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      if (field.value === s.id) {
+                                        form.setValue("supplierId", null);
+                                      }
+                                      deleteSupplierMutation.mutate(s.id);
+                                    }}
+                                    className="ml-2 p-1 rounded hover:bg-destructive/10 text-muted-foreground hover:text-destructive transition-colors"
+                                    data-testid={`button-delete-supplier-${s.id}`}
+                                  >
+                                    <X className="h-3 w-3" />
+                                  </button>
                                 </CommandItem>
                               ))}
                               {newSupplierInput.trim() && !suppliers.some(s => s.name.toLowerCase() === newSupplierInput.toLowerCase()) && (

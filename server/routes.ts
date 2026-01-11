@@ -253,6 +253,19 @@ export async function registerRoutes(
     }
   });
 
+  app.delete("/api/subcategories/:id", async (req, res) => {
+    try {
+      const deleted = await storage.deleteSubCategory(req.params.id);
+      if (deleted) {
+        res.json({ success: true });
+      } else {
+        res.status(404).json({ error: "Subcategory not found" });
+      }
+    } catch (error) {
+      res.status(500).json({ error: "Failed to delete subcategory" });
+    }
+  });
+
   app.get("/api/suppliers", async (req, res) => {
     try {
       const team = req.query.team as Team;
@@ -282,6 +295,19 @@ export async function registerRoutes(
       res.status(201).json(supplier);
     } catch (error) {
       res.status(500).json({ error: "Failed to create supplier" });
+    }
+  });
+
+  app.delete("/api/suppliers/:id", async (req, res) => {
+    try {
+      const deleted = await storage.deleteSupplier(req.params.id);
+      if (deleted) {
+        res.json({ success: true });
+      } else {
+        res.status(404).json({ error: "Supplier not found" });
+      }
+    } catch (error) {
+      res.status(500).json({ error: "Failed to delete supplier" });
     }
   });
 
