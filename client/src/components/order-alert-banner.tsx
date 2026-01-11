@@ -315,7 +315,7 @@ export function OrderAlertBanner() {
                     <p className="text-sm font-medium">
                       발주 필요 항목: <span className="text-destructive font-bold">{stats.total}개</span>
                     </p>
-                    <p className="text-xs text-muted-foreground">안전재고 미달 품목을 확인해주세요</p>
+                    <p className="text-xs text-muted-foreground">필요재고 미달 품목을 확인해주세요</p>
                   </div>
                 </div>
                 {isExpanded ? (
@@ -340,7 +340,7 @@ export function OrderAlertBanner() {
                         <th className="text-left p-2 font-medium w-20">사용메뉴</th>
                         <th className="text-right p-2 font-medium w-16">현재고</th>
                         <th className="text-right p-2 font-medium w-16">필요</th>
-                        <th className="text-right p-2 font-medium w-20">발주수량</th>
+                        <th className="text-right p-2 font-medium w-20">입고예정 수량</th>
                         <th className="text-center p-2 font-medium w-16">발주완료</th>
                         <th className="text-left p-2 font-medium w-20">발주처</th>
                       </tr>
@@ -482,7 +482,7 @@ export function OrderAlertBanner() {
                         <th className="text-left p-2 font-medium w-20">사용메뉴</th>
                         <th className="text-right p-2 font-medium w-16">현재고</th>
                         <th className="text-right p-2 font-medium w-16">필요</th>
-                        <th className="text-right p-2 font-medium w-24">발주수량</th>
+                        <th className="text-right p-2 font-medium w-24">입고예정 수량</th>
                         <th className="text-center p-2 font-medium w-24">발주시간</th>
                         <th className="text-center p-2 font-medium w-16">입고완료</th>
                         <th className="text-left p-2 font-medium w-20">발주처</th>
