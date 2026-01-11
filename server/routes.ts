@@ -10,8 +10,11 @@ import {
   type MainCategory
 } from "@shared/schema";
 import { z } from "zod";
+import { randomUUID } from "crypto";
 
 const updateInventoryItemSchema = insertInventoryItemSchema.partial();
+
+const createMenuTagSchema = insertMenuTagSchema.omit({ id: true });
 
 const bulkUpdateSchema = z.object({
   items: z.array(z.object({
@@ -184,14 +187,18 @@ export async function registerRoutes(
 
   app.post("/api/tags", async (req, res) => {
     try {
-      const parsed = insertMenuTagSchema.safeParse(req.body);
+      const parsed = createMenuTagSchema.safeParse(req.body);
       if (!parsed.success) {
         return res.status(400).json({ 
           error: "Invalid request body", 
           details: parsed.error.flatten() 
         });
       }
-      const tag = await storage.createTag(parsed.data);
+      const tagWithId = {
+        ...parsed.data,
+        id: `tag-${randomUUID().split('-')[0]}`,
+      };
+      const tag = await storage.createTag(tagWithId);
       res.status(201).json(tag);
     } catch (error) {
       res.status(500).json({ error: "Failed to create tag" });
