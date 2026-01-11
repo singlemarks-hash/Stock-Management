@@ -285,5 +285,25 @@ export async function registerRoutes(
     }
   });
 
+  app.post("/api/admin/reseed", async (req, res) => {
+    try {
+      const adminKey = req.headers["x-admin-key"];
+      const expectedKey = process.env.ADMIN_RESEED_KEY || "reseed-2026";
+      
+      if (adminKey !== expectedKey) {
+        return res.status(403).json({ error: "Unauthorized" });
+      }
+      
+      console.log("Starting force reseed...");
+      await storage.forceReseed();
+      console.log("Force reseed completed successfully");
+      
+      res.json({ success: true, message: "Database reseeded successfully" });
+    } catch (error) {
+      console.error("Force reseed failed:", error);
+      res.status(500).json({ error: "Failed to reseed database" });
+    }
+  });
+
   return httpServer;
 }
