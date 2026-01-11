@@ -95,30 +95,29 @@ export function AppSidebar() {
           <SidebarGroupLabel className="text-xs font-medium text-muted-foreground px-4">
             시즌 선택
           </SidebarGroupLabel>
-          <SidebarGroupContent className="px-2">
-            <div className="grid grid-cols-2 gap-2">
+          <SidebarGroupContent>
+            <SidebarMenu>
               {seasons.map((season) => {
                 const Icon = seasonIcons[season];
                 const isSelected = selectedSeason === season;
                 return (
-                  <button
-                    key={season}
-                    onClick={() => setSelectedSeason(season)}
-                    className={cn(
-                      "flex flex-col items-center justify-center rounded-md border p-3 transition-all hover-elevate",
-                      isSelected 
-                        ? `${seasonBgColors[season]} border-2 border-current ${seasonColors[season]}` 
-                        : "border-sidebar-border bg-sidebar"
-                    )}
-                    data-testid={`button-season-${season}`}
-                  >
-                    <Icon className={cn("h-6 w-6 mb-1", seasonColors[season])} />
-                    <span className="text-xs font-medium">{seasonLabels[season].replace(" 시즌", "")}</span>
-                    <span className="text-[10px] text-muted-foreground">{seasonMonths[season]}</span>
-                  </button>
+                  <SidebarMenuItem key={season}>
+                    <SidebarMenuButton
+                      onClick={() => setSelectedSeason(season)}
+                      className={cn(
+                        "w-full justify-start gap-3",
+                        isSelected && seasonBgColors[season]
+                      )}
+                      data-testid={`button-season-${season}`}
+                    >
+                      <Icon className={cn("h-4 w-4", seasonColors[season])} />
+                      <span>{seasonLabels[season].replace(" 시즌", "")}</span>
+                      <span className="text-xs text-muted-foreground ml-auto">{seasonMonths[season]}</span>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
                 );
               })}
-            </div>
+            </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
 
