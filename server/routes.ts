@@ -325,9 +325,13 @@ export async function registerRoutes(
       console.log("Force reseed completed successfully");
       
       res.json({ success: true, message: "Database reseeded successfully" });
-    } catch (error) {
+    } catch (error: any) {
       console.error("Force reseed failed:", error);
-      res.status(500).json({ error: "Failed to reseed database" });
+      res.status(500).json({ 
+        error: "Failed to reseed database", 
+        details: error?.message || String(error),
+        stack: error?.stack
+      });
     }
   });
 
