@@ -47,11 +47,6 @@ import {
 } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
-import {
   Select,
   SelectContent,
   SelectItem,
@@ -399,20 +394,18 @@ export function InventoryTable({
                   const colSpan = isEditMode ? 14 : 13;
                   
                   return (
-                    <Collapsible key={subCategory} open={isExpanded} asChild>
-                      <>
-                        <SortableHeaderRow
-                          id={subCategory}
-                          subCategory={subCategory}
-                          itemCount={categoryItems.length}
-                          isExpanded={isExpanded}
-                          onToggle={() => toggleGroup(subCategory)}
-                          isEditMode={isEditMode}
-                          colSpan={colSpan}
-                        />
-                        <CollapsibleContent asChild>
-                          <>
-                            {categoryItems.map(item => {
+                    <>
+                      <SortableHeaderRow
+                        key={`header-${subCategory}`}
+                        id={subCategory}
+                        subCategory={subCategory}
+                        itemCount={categoryItems.length}
+                        isExpanded={isExpanded}
+                        onToggle={() => toggleGroup(subCategory)}
+                        isEditMode={isEditMode}
+                        colSpan={colSpan}
+                      />
+                      {isExpanded && categoryItems.map(item => {
                           const required = getRequiredStock(item, selectedSeason);
                           const orderQty = getOrderQuantity(item, selectedSeason);
                           const currentStock = isEditMode 
@@ -728,12 +721,9 @@ export function InventoryTable({
                             </TableRow>
                           );
                         })}
-                      </>
-                    </CollapsibleContent>
-                  </>
-                </Collapsible>
-              );
-            })}
+                    </>
+                  );
+                })}
               </TableBody>
             </Table>
           </div>
