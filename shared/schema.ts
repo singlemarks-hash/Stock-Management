@@ -90,7 +90,7 @@ export const inventoryItems = pgTable("inventory_items", {
   menuTags: jsonb("menu_tags").$type<string[]>().notNull().default([]),
   checkDate: varchar("check_date", { length: 20 }),
   orderStatus: varchar("order_status", { length: 20 }).notNull().default("normal"),
-  orderedQuantity: integer("ordered_quantity"),
+  orderedQuantity: real("ordered_quantity"),
   orderedAt: varchar("ordered_at", { length: 30 }),
   supplierId: varchar("supplier_id", { length: 36 }),
 });
