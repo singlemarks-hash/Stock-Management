@@ -109,9 +109,9 @@ export type InventoryItem = typeof inventoryItems.$inferSelect;
 export type InsertInventoryItem = typeof inventoryItems.$inferInsert;
 
 // Zod schemas for validation
-export const insertSupplierSchema = createInsertSchema(suppliers);
-export const insertMenuTagSchema = createInsertSchema(menuTags);
-export const insertSubCategorySchema = createInsertSchema(subCategories);
+export const insertSupplierSchema = createInsertSchema(suppliers).omit({ id: true });
+export const insertMenuTagSchema = createInsertSchema(menuTags).omit({ id: true });
+export const insertSubCategorySchema = createInsertSchema(subCategories).omit({ id: true });
 export const insertInventoryItemSchema = createInsertSchema(inventoryItems, {
   seasonalRequirements: z.array(z.object({
     season: z.enum(["winter", "spring", "summer", "fall"]),
