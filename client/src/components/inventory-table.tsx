@@ -211,12 +211,11 @@ export function InventoryTable({
               const isExpanded = isGroupExpanded(subCategory);
               
               return (
-                <Collapsible key={subCategory} open={isExpanded} asChild>
+                <Collapsible key={subCategory} open={isExpanded} onOpenChange={() => toggleGroup(subCategory)} asChild>
                   <>
                     <CollapsibleTrigger asChild>
                       <TableRow 
                         className="bg-muted/30 hover:bg-muted/50 cursor-pointer"
-                        onClick={() => toggleGroup(subCategory)}
                       >
                         <TableCell colSpan={isEditMode ? 11 : 10} className="py-2">
                           <div className="flex items-center gap-2">
