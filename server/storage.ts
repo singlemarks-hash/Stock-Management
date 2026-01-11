@@ -48,11 +48,23 @@ export class MemStorage implements IStorage {
 
   private seedData() {
     const kitchenTags: MenuTag[] = [
-      { id: "tag-k1", team: "kitchen", name: "스테이크", color: "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300" },
-      { id: "tag-k2", team: "kitchen", name: "파스타", color: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300" },
-      { id: "tag-k3", team: "kitchen", name: "샐러드", color: "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300" },
-      { id: "tag-k4", team: "kitchen", name: "수프", color: "bg-violet-100 text-violet-700 dark:bg-violet-900/30 dark:text-violet-300" },
-      { id: "tag-k5", team: "kitchen", name: "리조또", color: "bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300" },
+      { id: "tag-k1", team: "kitchen", name: "코티지파이", color: "bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-300" },
+      { id: "tag-k2", team: "kitchen", name: "까망베르치즈구이", color: "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300" },
+      { id: "tag-k3", team: "kitchen", name: "올리브파스타", color: "bg-lime-100 text-lime-700 dark:bg-lime-900/30 dark:text-lime-300" },
+      { id: "tag-k4", team: "kitchen", name: "잠봉파스타", color: "bg-slate-100 text-slate-700 dark:bg-slate-900/30 dark:text-slate-300" },
+      { id: "tag-k5", team: "kitchen", name: "프렌치토스트", color: "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-300" },
+      { id: "tag-k6", team: "kitchen", name: "토마토스프", color: "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300" },
+      { id: "tag-k7", team: "kitchen", name: "꿀대구", color: "bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300" },
+      { id: "tag-k8", team: "kitchen", name: "뇨끼", color: "bg-stone-100 text-stone-700 dark:bg-stone-900/30 dark:text-stone-300" },
+      { id: "tag-k9", team: "kitchen", name: "치즈팔레트", color: "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-300" },
+      { id: "tag-k10", team: "kitchen", name: "티라미슈", color: "bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300" },
+      { id: "tag-k11", team: "kitchen", name: "샐러드", color: "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300" },
+      { id: "tag-k12", team: "kitchen", name: "브루기뇽", color: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300" },
+      { id: "tag-k13", team: "kitchen", name: "감바스", color: "bg-teal-100 text-teal-700 dark:bg-teal-900/30 dark:text-teal-300" },
+      { id: "tag-k14", team: "kitchen", name: "어니언스프", color: "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300" },
+      { id: "tag-k15", team: "kitchen", name: "트러플추가", color: "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300" },
+      { id: "tag-k16", team: "kitchen", name: "오이스터", color: "bg-gray-100 text-gray-700 dark:bg-gray-900/30 dark:text-gray-300" },
+      { id: "tag-k17", team: "kitchen", name: "수제바게트", color: "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-300" },
     ];
     
     const cafeTags: MenuTag[] = [

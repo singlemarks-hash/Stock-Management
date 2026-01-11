@@ -210,21 +210,21 @@ export function InventoryTable({
           <TableHeader>
             <TableRow className="bg-muted/50">
               <TableHead className="w-8"></TableHead>
-              <TableHead className="w-[100px]">항목</TableHead>
+              <TableHead className="whitespace-nowrap">항목</TableHead>
               {selectedMainCategory === "food" && storageTypeFilter === "all" && (
-                <TableHead className="w-14">보관</TableHead>
+                <TableHead className="whitespace-nowrap">보관</TableHead>
               )}
-              <TableHead className="min-w-[100px]">사용메뉴</TableHead>
-              <TableHead className="w-14 text-center">단위</TableHead>
-              <TableHead className="w-16 text-right">현재고</TableHead>
-              <TableHead className="w-16 text-right">일사용</TableHead>
-              <TableHead className="w-14 text-right">리드</TableHead>
-              <TableHead className="w-16 text-right">안전</TableHead>
-              <TableHead className="w-16 text-right">필요</TableHead>
-              <TableHead className="w-16 text-right">발주량</TableHead>
-              <TableHead className="w-24">체크일</TableHead>
-              <TableHead className="w-20">상태</TableHead>
-              <TableHead className="w-20">발주처</TableHead>
+              <TableHead className="whitespace-nowrap min-w-[120px]">사용메뉴</TableHead>
+              <TableHead className="whitespace-nowrap text-center">단위</TableHead>
+              <TableHead className="whitespace-nowrap text-right">현재고</TableHead>
+              <TableHead className="whitespace-nowrap text-right">일사용</TableHead>
+              <TableHead className="whitespace-nowrap text-right">리드</TableHead>
+              <TableHead className="whitespace-nowrap text-right">안전</TableHead>
+              <TableHead className="whitespace-nowrap text-right">필요</TableHead>
+              <TableHead className="whitespace-nowrap text-right">발주량</TableHead>
+              <TableHead className="whitespace-nowrap">체크일</TableHead>
+              <TableHead className="whitespace-nowrap">상태</TableHead>
+              <TableHead className="whitespace-nowrap">발주처</TableHead>
               {isEditMode && <TableHead className="w-10"></TableHead>}
             </TableRow>
           </TableHeader>
