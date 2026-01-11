@@ -551,7 +551,11 @@ export class MemStorage implements IStorage {
 
   async createSupplier(insertSupplier: InsertSupplier): Promise<Supplier> {
     const id = randomUUID();
-    const supplier: Supplier = { ...insertSupplier, id };
+    const supplier: Supplier = { 
+      ...insertSupplier, 
+      id,
+      url: insertSupplier.url ?? null,
+    };
     this.suppliers.set(id, supplier);
     return supplier;
   }
