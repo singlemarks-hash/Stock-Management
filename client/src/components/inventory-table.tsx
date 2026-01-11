@@ -358,25 +358,25 @@ export function InventoryTable({
             className="rounded-md border overflow-x-auto" 
             style={{ WebkitOverflowScrolling: 'touch', touchAction: 'pan-x pan-y' }}
           >
-            <Table className="min-w-[850px]">
+            <Table className="min-w-[1100px]">
               <TableHeader>
                 <TableRow className="bg-muted/50 text-xs">
                   <TableHead className="w-6 px-1"></TableHead>
                   {isEditMode && <TableHead className="w-6 px-1"></TableHead>}
-                  <TableHead className="whitespace-nowrap px-2 w-24">항목</TableHead>
+                  <TableHead className="whitespace-nowrap px-2 w-20">항목</TableHead>
                   {selectedMainCategory === "food" && storageTypeFilter === "all" && (
-                    <TableHead className="whitespace-nowrap px-1 w-12">보관</TableHead>
+                    <TableHead className="whitespace-nowrap px-1 w-10">보관</TableHead>
                   )}
-                  <TableHead className="whitespace-nowrap px-1">메뉴</TableHead>
-                  <TableHead className="whitespace-nowrap text-center px-1 w-8">단위</TableHead>
-                  <TableHead className="whitespace-nowrap text-right px-1 w-12">재고</TableHead>
-                  <TableHead className="whitespace-nowrap text-right px-1 w-12">일용</TableHead>
-                  <TableHead className="whitespace-nowrap text-right px-1 w-10">리드</TableHead>
-                  <TableHead className="whitespace-nowrap text-right px-1 w-12">안전</TableHead>
-                  <TableHead className="whitespace-nowrap text-right px-1 w-14">필요</TableHead>
-                  <TableHead className="whitespace-nowrap px-1 w-16">체크</TableHead>
+                  <TableHead className="whitespace-nowrap px-1 w-40 max-w-40">메뉴</TableHead>
+                  <TableHead className="whitespace-nowrap text-center px-1 w-12">단위</TableHead>
+                  <TableHead className="whitespace-nowrap text-right px-2 w-16">현재고</TableHead>
+                  <TableHead className="whitespace-nowrap text-right px-2 w-20">하루사용량</TableHead>
+                  <TableHead className="whitespace-nowrap text-right px-2 w-20">리드타임</TableHead>
+                  <TableHead className="whitespace-nowrap text-right px-2 w-16">안전재고</TableHead>
+                  <TableHead className="whitespace-nowrap text-right px-2 w-16">필요재고</TableHead>
+                  <TableHead className="whitespace-nowrap px-1 w-20">체크날짜</TableHead>
                   <TableHead className="whitespace-nowrap px-1 w-16">상태</TableHead>
-                  <TableHead className="whitespace-nowrap px-1">발주처</TableHead>
+                  <TableHead className="whitespace-nowrap px-1 w-20">발주처</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -482,12 +482,12 @@ export function InventoryTable({
                                 </TableCell>
                               )}
                               
-                              <TableCell className="font-medium px-2 w-24">
+                              <TableCell className="font-medium px-2 w-20">
                                 {isEditMode ? (
                                   <Input
                                     value={getEditedValue(item, "name")}
                                     onChange={(e) => handleFieldChange(item, "name", e.target.value)}
-                                    className="h-6 text-sm w-full"
+                                    className="h-7 text-sm w-full"
                                     data-testid={`input-name-${item.id}`}
                                   />
                                 ) : (
@@ -496,27 +496,29 @@ export function InventoryTable({
                               </TableCell>
                               
                               {selectedMainCategory === "food" && storageTypeFilter === "all" && (
-                                <TableCell className="px-1 w-12">
+                                <TableCell className="px-1 w-10">
                                   <Badge variant="secondary" className="text-[10px] px-1">
                                     {item.storageType ? storageTypeLabels[item.storageType as StorageType] : "-"}
                                   </Badge>
                                 </TableCell>
                               )}
                               
-                              <TableCell className="px-1">
-                                <MenuTagInput
-                                  selectedTagIds={menuTags}
-                                  onChange={(tags) => handleFieldChange(item, "menuTags", tags)}
-                                  disabled={!isEditMode}
-                                />
+                              <TableCell className="px-1 w-40 max-w-40">
+                                <div className="max-w-40 overflow-hidden">
+                                  <MenuTagInput
+                                    selectedTagIds={menuTags}
+                                    onChange={(tags) => handleFieldChange(item, "menuTags", tags)}
+                                    disabled={!isEditMode}
+                                  />
+                                </div>
                               </TableCell>
                               
-                              <TableCell className="text-center text-muted-foreground text-xs px-1 w-8">
+                              <TableCell className="text-center text-muted-foreground text-xs px-1 w-12">
                                 {isEditMode ? (
                                   <Input
                                     value={getEditedValue(item, "unit")}
                                     onChange={(e) => handleFieldChange(item, "unit", e.target.value)}
-                                    className="h-6 text-xs text-center w-8"
+                                    className="h-7 text-xs text-center w-full"
                                     data-testid={`input-unit-${item.id}`}
                                   />
                                 ) : (
@@ -524,28 +526,28 @@ export function InventoryTable({
                                 )}
                               </TableCell>
                               
-                              <TableCell className="text-right text-xs px-1">
+                              <TableCell className="text-right text-xs px-2 w-16">
                                 {isEditMode ? (
                                   <Input
                                     type="number"
                                     value={currentStock}
                                     onChange={(e) => handleFieldChange(item, "currentStock", Number(e.target.value))}
-                                    className="h-6 text-xs text-right w-12"
+                                    className="h-7 text-sm text-right w-full"
                                     min={0}
                                     data-testid={`input-stock-${item.id}`}
                                   />
                                 ) : (
-                                  <span className="tabular-nums font-medium">{item.currentStock}</span>
+                                  <span className="tabular-nums font-medium text-sm">{item.currentStock}</span>
                                 )}
                               </TableCell>
                               
-                              <TableCell className="text-right text-xs px-1">
+                              <TableCell className="text-right text-xs px-2 w-20">
                                 {isEditMode ? (
                                   <Input
                                     type="number"
                                     value={dailyUsage ?? 0}
                                     onChange={(e) => handleFieldChange(item, "dailyUsage", Number(e.target.value))}
-                                    className="h-6 text-xs text-right w-12"
+                                    className="h-7 text-sm text-right w-full"
                                     min={0}
                                     step={0.1}
                                     data-testid={`input-daily-${item.id}`}
@@ -555,28 +557,28 @@ export function InventoryTable({
                                 )}
                               </TableCell>
                               
-                              <TableCell className="text-right text-xs px-1">
+                              <TableCell className="text-right text-xs px-2 w-20">
                                 {isEditMode ? (
                                   <Input
                                     type="number"
                                     value={leadTime ?? 0}
                                     onChange={(e) => handleFieldChange(item, "leadTime", Number(e.target.value))}
-                                    className="h-6 text-xs text-right w-10"
+                                    className="h-7 text-sm text-right w-full"
                                     min={0}
                                     data-testid={`input-lead-${item.id}`}
                                   />
                                 ) : (
-                                  <span className="tabular-nums text-muted-foreground">{item.leadTime}</span>
+                                  <span className="tabular-nums text-muted-foreground">{item.leadTime}일</span>
                                 )}
                               </TableCell>
                               
-                              <TableCell className="text-right text-xs px-1">
+                              <TableCell className="text-right text-xs px-2 w-16">
                                 {isEditMode ? (
                                   <Input
                                     type="number"
                                     value={safetyStock ?? 0}
                                     onChange={(e) => handleFieldChange(item, "safetyStock", Number(e.target.value))}
-                                    className="h-6 text-xs text-right w-12"
+                                    className="h-7 text-sm text-right w-full"
                                     min={0}
                                     data-testid={`input-safety-${item.id}`}
                                   />
@@ -585,8 +587,8 @@ export function InventoryTable({
                                 )}
                               </TableCell>
                               
-                              <TableCell className="text-right text-xs px-1">
-                                <div className="flex items-center justify-end gap-0.5">
+                              <TableCell className="text-right text-xs px-2 w-16">
+                                <div className="flex items-center justify-end gap-1">
                                   {editedOrderQty > 0 && (
                                     <Badge variant="destructive" className="tabular-nums text-[10px] px-1" data-testid={`badge-shortage-${item.id}`}>
                                       +{editedOrderQty}
@@ -597,7 +599,7 @@ export function InventoryTable({
                                       type="number"
                                       value={requiredStockValue ?? 0}
                                       onChange={(e) => handleRequiredStockChange(Number(e.target.value))}
-                                      className="h-6 text-xs text-right w-12"
+                                      className="h-7 text-sm text-right w-full"
                                       min={0}
                                       data-testid={`input-required-${item.id}`}
                                     />
@@ -607,14 +609,14 @@ export function InventoryTable({
                                 </div>
                               </TableCell>
                               
-                              <TableCell className="text-xs px-1">
+                              <TableCell className="text-xs px-1 w-20">
                                 {isEditMode ? (
                                   <Popover>
                                     <PopoverTrigger asChild>
                                       <Button 
                                         variant="outline" 
                                         size="sm" 
-                                        className="h-6 w-14 text-[10px] gap-0.5 px-1"
+                                        className="h-7 w-full text-xs gap-1"
                                       >
                                         <CalendarIcon className="h-3 w-3" />
                                         {checkDate ? format(new Date(checkDate), "MM/dd") : "-"}
@@ -642,16 +644,16 @@ export function InventoryTable({
                                 )}
                               </TableCell>
                               
-                              <TableCell className="text-xs px-1">
+                              <TableCell className="text-xs px-1 w-16">
                                 <Badge 
                                   variant="secondary" 
-                                  className={cn("text-[10px] px-1", orderStatusColors[computedStatus])}
+                                  className={cn("text-xs px-1.5", orderStatusColors[computedStatus])}
                                 >
                                   {orderStatusLabels[computedStatus]}
                                 </Badge>
                               </TableCell>
                               
-                              <TableCell className="text-xs px-1">
+                              <TableCell className="text-xs px-1 w-20">
                                 {isEditMode ? (
                                   <Select
                                     value={getEditedValue(item, "supplierId") || "none"}
@@ -659,7 +661,7 @@ export function InventoryTable({
                                       handleFieldChange(item, "supplierId", value === "none" ? null : value)
                                     }
                                   >
-                                    <SelectTrigger className="h-6 w-16 text-[10px]" data-testid={`select-supplier-${item.id}`}>
+                                    <SelectTrigger className="h-7 w-full text-xs" data-testid={`select-supplier-${item.id}`}>
                                       <SelectValue placeholder="-" />
                                     </SelectTrigger>
                                     <SelectContent>
