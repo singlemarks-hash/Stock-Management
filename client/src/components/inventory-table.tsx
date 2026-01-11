@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
 import { 
@@ -397,9 +397,8 @@ export function InventoryTable({
                   const colSpan = isEditMode ? 14 : 13;
                   
                   return (
-                    <>
+                    <React.Fragment key={subCategory}>
                       <SortableHeaderRow
-                        key={`header-${subCategory}`}
                         id={subCategory}
                         subCategory={subCategory}
                         itemCount={categoryItems.length}
@@ -728,7 +727,7 @@ export function InventoryTable({
                             </TableRow>
                           );
                         })}
-                    </>
+                    </React.Fragment>
                   );
                 })}
               </TableBody>
