@@ -10,6 +10,12 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
 } from "@/components/ui/sidebar";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
+import { ChevronDown } from "lucide-react";
 import { useInventory } from "@/lib/inventory-context";
 import type { Team, Season } from "@shared/schema";
 import { teamLabels, seasonLabels, seasonMonths } from "@shared/schema";
@@ -92,33 +98,40 @@ export function AppSidebar() {
         </SidebarGroup>
 
         <SidebarGroup>
-          <SidebarGroupLabel className="text-xs font-medium text-muted-foreground px-4">
-            시즌 선택
-          </SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {seasons.map((season) => {
-                const Icon = seasonIcons[season];
-                const isSelected = selectedSeason === season;
-                return (
-                  <SidebarMenuItem key={season}>
-                    <SidebarMenuButton
-                      onClick={() => setSelectedSeason(season)}
-                      className={cn(
-                        "w-full justify-start gap-3",
-                        isSelected && seasonBgColors[season]
-                      )}
-                      data-testid={`button-season-${season}`}
-                    >
-                      <Icon className={cn("h-4 w-4", seasonColors[season])} />
-                      <span>{seasonLabels[season].replace(" 시즌", "")}</span>
-                      <span className="text-xs text-muted-foreground ml-auto">{seasonMonths[season]}</span>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                );
-              })}
-            </SidebarMenu>
-          </SidebarGroupContent>
+          <Collapsible defaultOpen className="group/collapsible">
+            <SidebarGroupLabel asChild className="text-xs font-medium text-muted-foreground px-4">
+              <CollapsibleTrigger className="flex w-full items-center justify-between" data-testid="button-season-toggle">
+                <span>시즌 선택</span>
+                <ChevronDown className="h-4 w-4 transition-transform group-data-[state=open]/collapsible:rotate-180" />
+              </CollapsibleTrigger>
+            </SidebarGroupLabel>
+            <CollapsibleContent>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  {seasons.map((season) => {
+                    const Icon = seasonIcons[season];
+                    const isSelected = selectedSeason === season;
+                    return (
+                      <SidebarMenuItem key={season}>
+                        <SidebarMenuButton
+                          onClick={() => setSelectedSeason(season)}
+                          className={cn(
+                            "w-full justify-start gap-3",
+                            isSelected && seasonBgColors[season]
+                          )}
+                          data-testid={`button-season-${season}`}
+                        >
+                          <Icon className={cn("h-4 w-4", seasonColors[season])} />
+                          <span>{seasonLabels[season].replace(" 시즌", "")}</span>
+                          <span className="text-xs text-muted-foreground ml-auto">{seasonMonths[season]}</span>
+                        </SidebarMenuButton>
+                      </SidebarMenuItem>
+                    );
+                  })}
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </CollapsibleContent>
+          </Collapsible>
         </SidebarGroup>
 
         <SidebarGroup className="mt-auto">
