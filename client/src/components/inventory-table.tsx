@@ -484,7 +484,7 @@ export function InventoryTable({
                               {selectedMainCategory === "food" && storageTypeFilter === "all" && (
                                 <TableCell>
                                   <Badge variant="secondary" className="text-[10px] px-1">
-                                    {item.storageType ? storageTypeLabels[item.storageType] : "-"}
+                                    {item.storageType ? storageTypeLabels[item.storageType as StorageType] : "-"}
                                   </Badge>
                                 </TableCell>
                               )}
