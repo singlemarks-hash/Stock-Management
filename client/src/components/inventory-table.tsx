@@ -58,6 +58,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { MenuTagInput } from "@/components/menu-tag-input";
 import { useInventory } from "@/lib/inventory-context";
 import { 
@@ -192,6 +202,8 @@ export function InventoryTable({
   } = useInventory();
   
   const [selectAllDate, setSelectAllDate] = useState<Date | undefined>();
+  const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
+  const [deleteConfirmName, setDeleteConfirmName] = useState<string>("");
 
   const { data: suppliers = [] } = useQuery<Supplier[]>({
     queryKey: ['/api/suppliers', selectedTeam],
@@ -322,6 +334,7 @@ export function InventoryTable({
   }
 
   return (
+    <>
     <div className="space-y-4">
       {isEditMode && (
         <div className="flex items-center gap-4 p-3 bg-muted/50 rounded-md">
@@ -363,17 +376,17 @@ export function InventoryTable({
                 <TableRow className="bg-muted/50 text-xs">
                   <TableHead className="w-6 px-1"></TableHead>
                   {isEditMode && <TableHead className="w-6 px-1"></TableHead>}
-                  <TableHead className="whitespace-nowrap px-2 w-20">항목</TableHead>
+                  <TableHead className="whitespace-nowrap px-2 w-32">항목</TableHead>
                   {selectedMainCategory === "food" && storageTypeFilter === "all" && (
-                    <TableHead className="whitespace-nowrap px-1 w-10">보관</TableHead>
+                    <TableHead className="whitespace-nowrap px-1 w-14">보관</TableHead>
                   )}
                   <TableHead className="whitespace-nowrap px-1 w-40 max-w-40">메뉴</TableHead>
                   <TableHead className="whitespace-nowrap text-center px-1 w-12">단위</TableHead>
                   <TableHead className="whitespace-nowrap text-right px-2 w-16">현재고</TableHead>
-                  <TableHead className="whitespace-nowrap text-right px-2 w-20">하루사용량</TableHead>
-                  <TableHead className="whitespace-nowrap text-right px-2 w-20">리드타임</TableHead>
+                  <TableHead className="whitespace-nowrap text-right px-1 w-14">하루사용량</TableHead>
+                  <TableHead className="whitespace-nowrap text-right px-1 w-14">리드타임</TableHead>
                   <TableHead className="whitespace-nowrap text-right px-2 w-16">안전재고</TableHead>
-                  <TableHead className="whitespace-nowrap text-right px-2 w-20">필요재고</TableHead>
+                  <TableHead className="whitespace-nowrap text-right px-1 w-14">필요재고</TableHead>
                   <TableHead className="whitespace-nowrap text-center px-2 w-20">체크날짜</TableHead>
                   <TableHead className="whitespace-nowrap px-1 w-16">상태</TableHead>
                   <TableHead className="whitespace-nowrap px-1 w-20">발주처</TableHead>
@@ -474,7 +487,10 @@ export function InventoryTable({
                                     variant="ghost"
                                     size="icon"
                                     className="h-6 w-6 text-destructive hover:text-destructive"
-                                    onClick={() => onDeleteItem(item.id)}
+                                    onClick={() => {
+                                      setDeleteConfirmId(item.id);
+                                      setDeleteConfirmName(item.name);
+                                    }}
                                     data-testid={`button-delete-${item.id}`}
                                   >
                                     <Trash2 className="h-3 w-3" />
@@ -482,7 +498,7 @@ export function InventoryTable({
                                 </TableCell>
                               )}
                               
-                              <TableCell className="font-medium px-2 w-20">
+                              <TableCell className="font-medium px-2 w-32">
                                 {isEditMode ? (
                                   <Input
                                     value={getEditedValue(item, "name")}
@@ -496,10 +512,26 @@ export function InventoryTable({
                               </TableCell>
                               
                               {selectedMainCategory === "food" && storageTypeFilter === "all" && (
-                                <TableCell className="px-1 w-10">
-                                  <Badge variant="secondary" className="text-[10px] px-1">
-                                    {item.storageType ? storageTypeLabels[item.storageType as StorageType] : "-"}
-                                  </Badge>
+                                <TableCell className="px-1 w-14">
+                                  {isEditMode ? (
+                                    <Select
+                                      value={getEditedValue(item, "storageType") || "refrigerated"}
+                                      onValueChange={(value) => handleFieldChange(item, "storageType", value)}
+                                    >
+                                      <SelectTrigger className="h-7 w-full text-[10px]" data-testid={`select-storage-${item.id}`}>
+                                        <SelectValue />
+                                      </SelectTrigger>
+                                      <SelectContent>
+                                        <SelectItem value="refrigerated">냉장</SelectItem>
+                                        <SelectItem value="frozen">냉동</SelectItem>
+                                        <SelectItem value="room-temp">상온</SelectItem>
+                                      </SelectContent>
+                                    </Select>
+                                  ) : (
+                                    <Badge variant="secondary" className="text-[10px] px-1">
+                                      {item.storageType ? storageTypeLabels[item.storageType as StorageType] : "-"}
+                                    </Badge>
+                                  )}
                                 </TableCell>
                               )}
                               
@@ -541,7 +573,7 @@ export function InventoryTable({
                                 )}
                               </TableCell>
                               
-                              <TableCell className="text-right text-xs px-2 w-20">
+                              <TableCell className="text-right text-xs px-1 w-14">
                                 {isEditMode ? (
                                   <Input
                                     type="number"
@@ -557,7 +589,7 @@ export function InventoryTable({
                                 )}
                               </TableCell>
                               
-                              <TableCell className="text-right text-xs px-2 w-20">
+                              <TableCell className="text-right text-xs px-1 w-14">
                                 {isEditMode ? (
                                   <Input
                                     type="number"
@@ -587,7 +619,7 @@ export function InventoryTable({
                                 )}
                               </TableCell>
                               
-                              <TableCell className="text-right text-xs px-2 w-20">
+                              <TableCell className="text-right text-xs px-1 w-14">
                                 {isEditMode ? (
                                   <Input
                                     type="number"
@@ -708,5 +740,32 @@ export function InventoryTable({
         </SortableContext>
       </DndContext>
     </div>
+    
+    <AlertDialog open={deleteConfirmId !== null} onOpenChange={(open) => !open && setDeleteConfirmId(null)}>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>항목 삭제</AlertDialogTitle>
+          <AlertDialogDescription>
+            "{deleteConfirmName}" 항목을 정말 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel data-testid="button-cancel-delete">취소</AlertDialogCancel>
+          <AlertDialogAction
+            onClick={() => {
+              if (deleteConfirmId) {
+                onDeleteItem(deleteConfirmId);
+                setDeleteConfirmId(null);
+              }
+            }}
+            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            data-testid="button-confirm-delete"
+          >
+            삭제
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  </>
   );
 }
