@@ -447,10 +447,10 @@ export function AddItemDialog({ onAdd }: AddItemDialogProps) {
                                       }
                                       deleteSubCategoryMutation.mutate(sc.id);
                                     }}
-                                    className="ml-2 p-1 rounded hover:bg-destructive/10 text-muted-foreground hover:text-destructive transition-colors"
+                                    className="ml-1 p-0.5 rounded opacity-30 hover:opacity-100 hover:bg-destructive/10 text-muted-foreground hover:text-destructive transition-all"
                                     data-testid={`button-delete-subcategory-${sc.id}`}
                                   >
-                                    <X className="h-3 w-3" />
+                                    <X className="h-2.5 w-2.5" />
                                   </button>
                                 </CommandItem>
                               ))}
@@ -640,10 +640,10 @@ export function AddItemDialog({ onAdd }: AddItemDialogProps) {
                                       }
                                       deleteSupplierMutation.mutate(s.id);
                                     }}
-                                    className="ml-2 p-1 rounded hover:bg-destructive/10 text-muted-foreground hover:text-destructive transition-colors"
+                                    className="ml-1 p-0.5 rounded opacity-30 hover:opacity-100 hover:bg-destructive/10 text-muted-foreground hover:text-destructive transition-all"
                                     data-testid={`button-delete-supplier-${s.id}`}
                                   >
-                                    <X className="h-3 w-3" />
+                                    <X className="h-2.5 w-2.5" />
                                   </button>
                                 </CommandItem>
                               ))}
