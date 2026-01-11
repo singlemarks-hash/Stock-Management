@@ -157,9 +157,12 @@ export function OrderAlertBanner() {
   });
 
   const markDeliveredMutation = useMutation({
-    mutationFn: async (id: string) => {
+    mutationFn: async ({ id, currentStock, orderedQuantity }: { id: string; currentStock: number; orderedQuantity: number }) => {
       return apiRequest("PATCH", `/api/inventory/${id}`, {
         orderStatus: "normal",
+        currentStock: currentStock + orderedQuantity,
+        orderedQuantity: null,
+        orderedAt: null,
       });
     },
     onSuccess: () => {
@@ -192,10 +195,16 @@ export function OrderAlertBanner() {
   });
 
   const clearAllOrderedMutation = useMutation({
-    mutationFn: async (ids: string[]) => {
-      await Promise.all(ids.map(id => apiRequest("PATCH", `/api/inventory/${id}`, {
-        orderStatus: "normal",
-      })));
+    mutationFn: async (items: InventoryItem[]) => {
+      await Promise.all(items.map(item => {
+        const finalQuantity = editingQuantities[item.id] ?? item.orderedQuantity ?? 0;
+        return apiRequest("PATCH", `/api/inventory/${item.id}`, {
+          orderStatus: "normal",
+          currentStock: item.currentStock + finalQuantity,
+          orderedQuantity: null,
+          orderedAt: null,
+        });
+      }));
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/inventory"] });
@@ -206,8 +215,13 @@ export function OrderAlertBanner() {
     markOrderedMutation.mutate({ id, orderQuantity });
   };
 
-  const handleMarkDelivered = (id: string) => {
-    markDeliveredMutation.mutate(id);
+  const handleMarkDelivered = (item: InventoryItem) => {
+    const finalQuantity = editingQuantities[item.id] ?? item.orderedQuantity ?? 0;
+    markDeliveredMutation.mutate({ 
+      id: item.id, 
+      currentStock: item.currentStock, 
+      orderedQuantity: finalQuantity 
+    });
   };
 
   const handleQuantityChange = (id: string, value: string) => {
@@ -538,7 +552,7 @@ export function OrderAlertBanner() {
                             <td className="p-2 text-center">
                               <Checkbox
                                 checked={false}
-                                onCheckedChange={() => handleMarkDelivered(item.id)}
+                                onCheckedChange={() => handleMarkDelivered(item)}
                                 disabled={markDeliveredMutation.isPending}
                                 data-testid={`checkbox-mark-delivered-${item.id}`}
                               />
@@ -557,7 +571,7 @@ export function OrderAlertBanner() {
                   <Button
                     variant="outline"
                     size="sm"
-                    onClick={() => clearAllOrderedMutation.mutate(stats.orderedItems.map(i => i.id))}
+                    onClick={() => clearAllOrderedMutation.mutate(stats.orderedItems)}
                     disabled={clearAllOrderedMutation.isPending}
                     data-testid="button-mark-all-delivered"
                   >
