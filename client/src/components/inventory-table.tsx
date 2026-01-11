@@ -87,13 +87,28 @@ interface GroupedItems {
   [subCategory: string]: InventoryItem[];
 }
 
+function koreanSort(a: string, b: string): number {
+  const startsWithNumber = (s: string) => /^[0-9]/.test(s);
+  const aNum = startsWithNumber(a);
+  const bNum = startsWithNumber(b);
+  if (aNum && !bNum) return -1;
+  if (!aNum && bNum) return 1;
+  return a.localeCompare(b, 'ko');
+}
+
 function groupBySubCategory(items: InventoryItem[]): GroupedItems {
-  return items.reduce((acc, item) => {
+  const grouped = items.reduce((acc, item) => {
     const key = item.subCategory || "기타";
     if (!acc[key]) acc[key] = [];
     acc[key].push(item);
     return acc;
   }, {} as GroupedItems);
+  
+  for (const key of Object.keys(grouped)) {
+    grouped[key].sort((a, b) => koreanSort(a.name, b.name));
+  }
+  
+  return grouped;
 }
 
 const orderStatusLabels = {
