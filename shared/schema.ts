@@ -71,6 +71,9 @@ export const subCategories = pgTable("sub_categories", {
 
 export interface SeasonalRequirement {
   season: Season;
+  dailyUsage: number;
+  leadTime: number;
+  safetyStock: number;
   requiredStock: number;
 }
 
@@ -115,6 +118,9 @@ export const insertSubCategorySchema = createInsertSchema(subCategories).omit({ 
 export const insertInventoryItemSchema = createInsertSchema(inventoryItems, {
   seasonalRequirements: z.array(z.object({
     season: z.enum(["winter", "spring", "summer", "fall"]),
+    dailyUsage: z.number().min(0),
+    leadTime: z.number().min(0),
+    safetyStock: z.number().min(0),
     requiredStock: z.number().min(0),
   })),
   menuTags: z.array(z.string()),
@@ -129,10 +135,29 @@ export function getCurrentSeason(): Season {
   return "fall";
 }
 
-export function getRequiredStock(item: InventoryItem, season: Season): number {
+export function getSeasonalData(item: InventoryItem, season: Season): SeasonalRequirement | undefined {
   const reqs = item.seasonalRequirements as SeasonalRequirement[];
-  const req = reqs?.find(r => r.season === season);
+  return reqs?.find(r => r.season === season);
+}
+
+export function getRequiredStock(item: InventoryItem, season: Season): number {
+  const req = getSeasonalData(item, season);
   return req?.requiredStock ?? 0;
+}
+
+export function getDailyUsage(item: InventoryItem, season: Season): number {
+  const req = getSeasonalData(item, season);
+  return req?.dailyUsage ?? item.dailyUsage ?? 0;
+}
+
+export function getLeadTime(item: InventoryItem, season: Season): number {
+  const req = getSeasonalData(item, season);
+  return req?.leadTime ?? item.leadTime ?? 1;
+}
+
+export function getSafetyStock(item: InventoryItem, season: Season): number {
+  const req = getSeasonalData(item, season);
+  return req?.safetyStock ?? item.safetyStock ?? 0;
 }
 
 export function needsOrder(item: InventoryItem, season: Season): boolean {
