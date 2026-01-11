@@ -446,15 +446,17 @@ export function InventoryTable({
                           const handleSeasonalFieldChange = (field: keyof SeasonalRequirement, newValue: number) => {
                             const currentReqs = getEditedValue(item, "seasonalRequirements") as SeasonalRequirement[];
                             const updatedReqs = currentReqs.map(r => {
-                              if (r.season !== selectedSeason) return r;
-                              return {
+                              const baseReq = {
                                 season: r.season,
                                 dailyUsage: r.dailyUsage ?? getDailyUsage(item, r.season),
                                 leadTime: r.leadTime ?? getLeadTime(item, r.season),
                                 safetyStock: r.safetyStock ?? getSafetyStock(item, r.season),
                                 requiredStock: r.requiredStock ?? getRequiredStock(item, r.season),
-                                [field]: newValue,
                               };
+                              if (r.season === selectedSeason) {
+                                return { ...baseReq, [field]: newValue };
+                              }
+                              return baseReq;
                             });
                             handleFieldChange(item, "seasonalRequirements", updatedReqs);
                           };
