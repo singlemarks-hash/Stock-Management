@@ -239,9 +239,9 @@ export function OrderAlertBanner() {
             </CollapsibleTrigger>
             
             <CollapsibleContent>
-              <div className="px-6 pb-4 space-y-3">
-                <div className="rounded-md border bg-background overflow-hidden">
-                  <table className="w-full text-sm">
+              <div className="px-4 sm:px-6 pb-4 space-y-3">
+                <div className="rounded-md border bg-background overflow-hidden overflow-x-auto">
+                  <table className="w-full text-sm min-w-[600px]">
                     <thead>
                       <tr className="border-b bg-muted/50">
                         <th className="text-left p-3 font-medium">재료명</th>
@@ -370,9 +370,9 @@ export function OrderAlertBanner() {
             </CollapsibleTrigger>
             
             <CollapsibleContent>
-              <div className="px-6 pb-4 space-y-3">
-                <div className="rounded-md border bg-background overflow-hidden">
-                  <table className="w-full text-sm">
+              <div className="px-4 sm:px-6 pb-4 space-y-3">
+                <div className="rounded-md border bg-background overflow-hidden overflow-x-auto">
+                  <table className="w-full text-sm min-w-[700px]">
                     <thead>
                       <tr className="border-b bg-muted/50">
                         <th className="text-left p-3 font-medium">재료명</th>

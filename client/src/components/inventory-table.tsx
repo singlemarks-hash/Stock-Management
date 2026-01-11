@@ -192,8 +192,8 @@ export function InventoryTable({
         </div>
       )}
 
-      <div className="rounded-md border overflow-hidden">
-        <Table>
+      <div className="rounded-md border overflow-hidden overflow-x-auto">
+        <Table className="min-w-[800px]">
           <TableHeader>
             <TableRow className="bg-muted/50">
               <TableHead className="w-10"></TableHead>

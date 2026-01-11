@@ -28,12 +28,13 @@ export function CategoryTabs({ selectedStorageType, onStorageTypeChange, actionB
 
   return (
     <div className="space-y-3 mb-6">
-      <div className="flex items-center justify-between gap-4 flex-wrap">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <Tabs 
           value={selectedMainCategory} 
           onValueChange={(v) => setSelectedMainCategory(v as MainCategory)}
+          className="w-full sm:w-auto"
         >
-          <TabsList className="grid w-full max-w-md grid-cols-2">
+          <TabsList className="grid w-full sm:w-auto sm:max-w-md grid-cols-2">
             {(["food", "non-food"] as MainCategory[]).map((category) => {
               const Icon = mainCategoryIcons[category];
               return (
@@ -52,7 +53,7 @@ export function CategoryTabs({ selectedStorageType, onStorageTypeChange, actionB
         </Tabs>
         
         {actionButtons && (
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 w-full sm:w-auto">
             {actionButtons}
           </div>
         )}

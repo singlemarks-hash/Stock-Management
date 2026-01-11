@@ -119,12 +119,12 @@ export default function InventoryPage() {
 
   return (
     <ScrollArea className="h-full">
-      <div className="p-6 max-w-7xl mx-auto">
-        <div className="mb-6">
-          <h1 className="text-2xl font-semibold">
+      <div className="p-4 sm:p-6 max-w-7xl mx-auto">
+        <div className="mb-4 sm:mb-6">
+          <h1 className="text-xl sm:text-2xl font-semibold">
             {teamLabels[selectedTeam]} 재고 관리
           </h1>
-          <p className="text-sm text-muted-foreground mt-1">
+          <p className="text-xs sm:text-sm text-muted-foreground mt-1">
             현재 시즌: {seasonEmojis[selectedSeason]} {seasonLabels[selectedSeason]}
           </p>
         </div>
