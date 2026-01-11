@@ -358,17 +358,17 @@ export function InventoryTable({
             className="rounded-md border overflow-x-auto" 
             style={{ WebkitOverflowScrolling: 'touch', touchAction: 'pan-x pan-y' }}
           >
-            <Table className="min-w-[900px] text-xs">
+            <Table className="min-w-[850px]">
               <TableHeader>
-                <TableRow className="bg-muted/50">
+                <TableRow className="bg-muted/50 text-xs">
                   <TableHead className="w-6 px-1"></TableHead>
                   {isEditMode && <TableHead className="w-6 px-1"></TableHead>}
-                  <TableHead className="whitespace-nowrap px-2">항목</TableHead>
+                  <TableHead className="whitespace-nowrap px-2 w-24">항목</TableHead>
                   {selectedMainCategory === "food" && storageTypeFilter === "all" && (
-                    <TableHead className="whitespace-nowrap px-1">보관</TableHead>
+                    <TableHead className="whitespace-nowrap px-1 w-12">보관</TableHead>
                   )}
-                  <TableHead className="whitespace-nowrap px-2 min-w-[100px]">메뉴</TableHead>
-                  <TableHead className="whitespace-nowrap text-center px-1 w-10">단위</TableHead>
+                  <TableHead className="whitespace-nowrap px-1">메뉴</TableHead>
+                  <TableHead className="whitespace-nowrap text-center px-1 w-8">단위</TableHead>
                   <TableHead className="whitespace-nowrap text-right px-1 w-12">재고</TableHead>
                   <TableHead className="whitespace-nowrap text-right px-1 w-12">일용</TableHead>
                   <TableHead className="whitespace-nowrap text-right px-1 w-10">리드</TableHead>
@@ -482,28 +482,28 @@ export function InventoryTable({
                                 </TableCell>
                               )}
                               
-                              <TableCell className="font-medium px-2">
+                              <TableCell className="font-medium px-2 w-24">
                                 {isEditMode ? (
                                   <Input
                                     value={getEditedValue(item, "name")}
                                     onChange={(e) => handleFieldChange(item, "name", e.target.value)}
-                                    className="h-6 text-xs w-20"
+                                    className="h-6 text-sm w-full"
                                     data-testid={`input-name-${item.id}`}
                                   />
                                 ) : (
-                                  <span>{item.name}</span>
+                                  <span className="text-sm">{item.name}</span>
                                 )}
                               </TableCell>
                               
                               {selectedMainCategory === "food" && storageTypeFilter === "all" && (
-                                <TableCell className="px-1">
+                                <TableCell className="px-1 w-12">
                                   <Badge variant="secondary" className="text-[10px] px-1">
                                     {item.storageType ? storageTypeLabels[item.storageType as StorageType] : "-"}
                                   </Badge>
                                 </TableCell>
                               )}
                               
-                              <TableCell className="px-2">
+                              <TableCell className="px-1">
                                 <MenuTagInput
                                   selectedTagIds={menuTags}
                                   onChange={(tags) => handleFieldChange(item, "menuTags", tags)}
@@ -511,12 +511,12 @@ export function InventoryTable({
                                 />
                               </TableCell>
                               
-                              <TableCell className="text-center text-muted-foreground px-1">
+                              <TableCell className="text-center text-muted-foreground text-xs px-1 w-8">
                                 {isEditMode ? (
                                   <Input
                                     value={getEditedValue(item, "unit")}
                                     onChange={(e) => handleFieldChange(item, "unit", e.target.value)}
-                                    className="h-6 text-xs text-center w-10"
+                                    className="h-6 text-xs text-center w-8"
                                     data-testid={`input-unit-${item.id}`}
                                   />
                                 ) : (
@@ -524,7 +524,7 @@ export function InventoryTable({
                                 )}
                               </TableCell>
                               
-                              <TableCell className="text-right px-1">
+                              <TableCell className="text-right text-xs px-1">
                                 {isEditMode ? (
                                   <Input
                                     type="number"
@@ -539,7 +539,7 @@ export function InventoryTable({
                                 )}
                               </TableCell>
                               
-                              <TableCell className="text-right px-1">
+                              <TableCell className="text-right text-xs px-1">
                                 {isEditMode ? (
                                   <Input
                                     type="number"
@@ -555,7 +555,7 @@ export function InventoryTable({
                                 )}
                               </TableCell>
                               
-                              <TableCell className="text-right px-1">
+                              <TableCell className="text-right text-xs px-1">
                                 {isEditMode ? (
                                   <Input
                                     type="number"
@@ -570,7 +570,7 @@ export function InventoryTable({
                                 )}
                               </TableCell>
                               
-                              <TableCell className="text-right px-1">
+                              <TableCell className="text-right text-xs px-1">
                                 {isEditMode ? (
                                   <Input
                                     type="number"
@@ -585,7 +585,7 @@ export function InventoryTable({
                                 )}
                               </TableCell>
                               
-                              <TableCell className="text-right px-1">
+                              <TableCell className="text-right text-xs px-1">
                                 <div className="flex items-center justify-end gap-0.5">
                                   {editedOrderQty > 0 && (
                                     <Badge variant="destructive" className="tabular-nums text-[10px] px-1" data-testid={`badge-shortage-${item.id}`}>
@@ -607,7 +607,7 @@ export function InventoryTable({
                                 </div>
                               </TableCell>
                               
-                              <TableCell className="px-1">
+                              <TableCell className="text-xs px-1">
                                 {isEditMode ? (
                                   <Popover>
                                     <PopoverTrigger asChild>
@@ -642,7 +642,7 @@ export function InventoryTable({
                                 )}
                               </TableCell>
                               
-                              <TableCell className="px-1">
+                              <TableCell className="text-xs px-1">
                                 <Badge 
                                   variant="secondary" 
                                   className={cn("text-[10px] px-1", orderStatusColors[computedStatus])}
@@ -651,7 +651,7 @@ export function InventoryTable({
                                 </Badge>
                               </TableCell>
                               
-                              <TableCell className="px-1">
+                              <TableCell className="text-xs px-1">
                                 {isEditMode ? (
                                   <Select
                                     value={getEditedValue(item, "supplierId") || "none"}
