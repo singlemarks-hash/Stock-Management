@@ -44,6 +44,7 @@ export const storageTypeLabels: Record<StorageType, string> = {
 
 export interface MenuTag {
   id: string;
+  team: Team;
   name: string;
   color: string;
 }
@@ -97,6 +98,7 @@ export const insertInventoryItemSchema = z.object({
 export type InsertInventoryItem = z.infer<typeof insertInventoryItemSchema>;
 
 export const insertMenuTagSchema = z.object({
+  team: z.enum(["cafe", "kitchen"]),
   name: z.string().min(1, "태그 이름을 입력해주세요"),
   color: z.string(),
 });

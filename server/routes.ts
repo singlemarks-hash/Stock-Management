@@ -28,7 +28,7 @@ export async function registerRoutes(
         return res.status(400).json({ error: "Invalid team parameter" });
       }
       const items = await storage.getItems(team);
-      const tags = await storage.getTags();
+      const tags = await storage.getTags(team);
       res.json({ items, tags });
     } catch (error) {
       res.status(500).json({ error: "Failed to fetch inventory" });
@@ -56,6 +56,18 @@ export async function registerRoutes(
           details: parsed.error.flatten() 
         });
       }
+      
+      if (parsed.data.menuTags && parsed.data.menuTags.length > 0) {
+        const teamTags = await storage.getTags(parsed.data.team);
+        const teamTagIds = new Set(teamTags.map(t => t.id));
+        const invalidTags = parsed.data.menuTags.filter(id => !teamTagIds.has(id));
+        if (invalidTags.length > 0) {
+          return res.status(400).json({ 
+            error: "Invalid tag IDs: tags must belong to the same team as the item" 
+          });
+        }
+      }
+      
       const item = await storage.createItem(parsed.data);
       res.status(201).json(item);
     } catch (error) {
@@ -72,10 +84,24 @@ export async function registerRoutes(
           details: parsed.error.flatten() 
         });
       }
-      const item = await storage.updateItem(req.params.id, parsed.data);
-      if (!item) {
+      
+      const existingItem = await storage.getItem(req.params.id);
+      if (!existingItem) {
         return res.status(404).json({ error: "Item not found" });
       }
+      
+      if (parsed.data.menuTags && parsed.data.menuTags.length > 0) {
+        const teamTags = await storage.getTags(existingItem.team);
+        const teamTagIds = new Set(teamTags.map(t => t.id));
+        const invalidTags = parsed.data.menuTags.filter(id => !teamTagIds.has(id));
+        if (invalidTags.length > 0) {
+          return res.status(400).json({ 
+            error: "Invalid tag IDs: tags must belong to the same team as the item" 
+          });
+        }
+      }
+      
+      const item = await storage.updateItem(req.params.id, parsed.data);
       res.json(item);
     } catch (error) {
       res.status(500).json({ error: "Failed to update item" });
@@ -106,14 +132,31 @@ export async function registerRoutes(
       
       const { items } = parsed.data;
       if (items && Array.isArray(items)) {
-        const validatedUpdates = items.map(item => {
+        const validatedUpdates: { id: string; [key: string]: any }[] = [];
+        
+        for (const item of items) {
           const { id, ...updates } = item;
           const partialParsed = updateInventoryItemSchema.safeParse(updates);
+          
           if (partialParsed.success) {
-            return { id, ...partialParsed.data };
+            if (partialParsed.data.menuTags && partialParsed.data.menuTags.length > 0) {
+              const existingItem = await storage.getItem(id);
+              if (existingItem) {
+                const teamTags = await storage.getTags(existingItem.team);
+                const teamTagIds = new Set(teamTags.map(t => t.id));
+                const invalidTags = partialParsed.data.menuTags.filter(tagId => !teamTagIds.has(tagId));
+                if (invalidTags.length > 0) {
+                  return res.status(400).json({ 
+                    error: `Invalid tag IDs for item ${id}: tags must belong to the same team as the item` 
+                  });
+                }
+                validatedUpdates.push({ id, ...partialParsed.data });
+              }
+            } else {
+              validatedUpdates.push({ id, ...partialParsed.data });
+            }
           }
-          return { id };
-        }).filter(item => Object.keys(item).length > 1);
+        }
         
         await storage.bulkUpdateItems(validatedUpdates);
       }
@@ -125,7 +168,11 @@ export async function registerRoutes(
 
   app.get("/api/tags", async (req, res) => {
     try {
-      const tags = await storage.getTags();
+      const team = req.query.team as Team | undefined;
+      if (team && team !== "kitchen" && team !== "cafe") {
+        return res.status(400).json({ error: "Invalid team parameter" });
+      }
+      const tags = await storage.getTags(team);
       res.json(tags);
     } catch (error) {
       res.status(500).json({ error: "Failed to fetch tags" });

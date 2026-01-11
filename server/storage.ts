@@ -16,7 +16,7 @@ export interface IStorage {
   deleteItem(id: string): Promise<boolean>;
   bulkUpdateItems(updates: { id: string; [key: string]: any }[]): Promise<void>;
   
-  getTags(): Promise<MenuTag[]>;
+  getTags(team?: Team): Promise<MenuTag[]>;
   createTag(tag: InsertMenuTag): Promise<MenuTag>;
   deleteTag(id: string): Promise<boolean>;
 }
@@ -32,20 +32,24 @@ export class MemStorage implements IStorage {
   }
 
   private seedData() {
-    const defaultTags: MenuTag[] = [
-      { id: "tag-1", name: "아메리카노", color: "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300" },
-      { id: "tag-2", name: "카페라떼", color: "bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300" },
-      { id: "tag-3", name: "바닐라라떼", color: "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-300" },
-      { id: "tag-4", name: "카푸치노", color: "bg-lime-100 text-lime-700 dark:bg-lime-900/30 dark:text-lime-300" },
-      { id: "tag-5", name: "에스프레소", color: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300" },
-      { id: "tag-6", name: "모카", color: "bg-teal-100 text-teal-700 dark:bg-teal-900/30 dark:text-teal-300" },
-      { id: "tag-7", name: "스테이크", color: "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300" },
-      { id: "tag-8", name: "파스타", color: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300" },
-      { id: "tag-9", name: "샐러드", color: "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300" },
-      { id: "tag-10", name: "수프", color: "bg-violet-100 text-violet-700 dark:bg-violet-900/30 dark:text-violet-300" },
+    const kitchenTags: MenuTag[] = [
+      { id: "tag-k1", team: "kitchen", name: "스테이크", color: "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300" },
+      { id: "tag-k2", team: "kitchen", name: "파스타", color: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300" },
+      { id: "tag-k3", team: "kitchen", name: "샐러드", color: "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300" },
+      { id: "tag-k4", team: "kitchen", name: "수프", color: "bg-violet-100 text-violet-700 dark:bg-violet-900/30 dark:text-violet-300" },
+      { id: "tag-k5", team: "kitchen", name: "리조또", color: "bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300" },
+    ];
+    
+    const cafeTags: MenuTag[] = [
+      { id: "tag-c1", team: "cafe", name: "아메리카노", color: "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300" },
+      { id: "tag-c2", team: "cafe", name: "카페라떼", color: "bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300" },
+      { id: "tag-c3", team: "cafe", name: "바닐라라떼", color: "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-300" },
+      { id: "tag-c4", team: "cafe", name: "카푸치노", color: "bg-lime-100 text-lime-700 dark:bg-lime-900/30 dark:text-lime-300" },
+      { id: "tag-c5", team: "cafe", name: "에스프레소", color: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300" },
+      { id: "tag-c6", team: "cafe", name: "모카", color: "bg-teal-100 text-teal-700 dark:bg-teal-900/30 dark:text-teal-300" },
     ];
 
-    defaultTags.forEach(tag => this.tags.set(tag.id, tag));
+    [...kitchenTags, ...cafeTags].forEach(tag => this.tags.set(tag.id, tag));
 
     const kitchenItems: InventoryItem[] = [
       {
@@ -63,7 +67,7 @@ export class MemStorage implements IStorage {
           { season: "summer", requiredStock: 15 },
           { season: "fall", requiredStock: 10 },
         ],
-        menuTags: ["tag-2", "tag-3", "tag-4"],
+        menuTags: ["tag-k2", "tag-k3"],
         checkDate: "2026-01-10",
         orderPlaced: false,
         orderPlacedAt: null,
@@ -84,7 +88,7 @@ export class MemStorage implements IStorage {
           { season: "summer", requiredStock: 5 },
           { season: "fall", requiredStock: 4 },
         ],
-        menuTags: ["tag-3", "tag-6"],
+        menuTags: ["tag-k5"],
         checkDate: "2026-01-10",
         orderPlaced: false,
         orderPlacedAt: null,
@@ -105,7 +109,7 @@ export class MemStorage implements IStorage {
           { season: "summer", requiredStock: 2 },
           { season: "fall", requiredStock: 2 },
         ],
-        menuTags: ["tag-8", "tag-9"],
+        menuTags: ["tag-k2", "tag-k3"],
         checkDate: "2026-01-09",
         orderPlaced: true,
         orderPlacedAt: "2026-01-10T09:30:00.000Z",
@@ -126,7 +130,7 @@ export class MemStorage implements IStorage {
           { season: "summer", requiredStock: 5 },
           { season: "fall", requiredStock: 3 },
         ],
-        menuTags: ["tag-8", "tag-9"],
+        menuTags: ["tag-k2", "tag-k3"],
         checkDate: "2026-01-10",
         orderPlaced: false,
         orderPlacedAt: null,
@@ -147,7 +151,7 @@ export class MemStorage implements IStorage {
           { season: "summer", requiredStock: 6 },
           { season: "fall", requiredStock: 4 },
         ],
-        menuTags: ["tag-9"],
+        menuTags: ["tag-k3"],
         checkDate: "2026-01-10",
         orderPlaced: false,
         orderPlacedAt: null,
@@ -168,7 +172,7 @@ export class MemStorage implements IStorage {
           { season: "summer", requiredStock: 6 },
           { season: "fall", requiredStock: 5 },
         ],
-        menuTags: ["tag-8"],
+        menuTags: ["tag-k2"],
         checkDate: "2026-01-08",
         orderPlaced: false,
         orderPlacedAt: null,
@@ -189,7 +193,7 @@ export class MemStorage implements IStorage {
           { season: "summer", requiredStock: 5 },
           { season: "fall", requiredStock: 6 },
         ],
-        menuTags: ["tag-7"],
+        menuTags: ["tag-k1"],
         checkDate: "2026-01-10",
         orderPlaced: false,
         orderPlacedAt: null,
@@ -210,7 +214,7 @@ export class MemStorage implements IStorage {
           { season: "summer", requiredStock: 3 },
           { season: "fall", requiredStock: 3 },
         ],
-        menuTags: ["tag-7", "tag-8", "tag-9"],
+        menuTags: ["tag-k1", "tag-k2", "tag-k3"],
         checkDate: "2026-01-10",
         orderPlaced: false,
         orderPlacedAt: null,
@@ -231,7 +235,7 @@ export class MemStorage implements IStorage {
           { season: "summer", requiredStock: 8 },
           { season: "fall", requiredStock: 10 },
         ],
-        menuTags: ["tag-8"],
+        menuTags: ["tag-k2"],
         checkDate: "2026-01-10",
         orderPlaced: false,
         orderPlacedAt: null,
@@ -297,7 +301,7 @@ export class MemStorage implements IStorage {
           { season: "summer", requiredStock: 6 },
           { season: "fall", requiredStock: 8 },
         ],
-        menuTags: ["tag-1", "tag-5"],
+        menuTags: ["tag-c1", "tag-c5"],
         checkDate: "2026-01-10",
         orderPlaced: false,
         orderPlacedAt: null,
@@ -318,7 +322,7 @@ export class MemStorage implements IStorage {
           { season: "summer", requiredStock: 6 },
           { season: "fall", requiredStock: 5 },
         ],
-        menuTags: ["tag-3"],
+        menuTags: ["tag-c3"],
         checkDate: "2026-01-10",
         orderPlaced: false,
         orderPlacedAt: null,
@@ -396,8 +400,12 @@ export class MemStorage implements IStorage {
     }
   }
 
-  async getTags(): Promise<MenuTag[]> {
-    return Array.from(this.tags.values());
+  async getTags(team?: Team): Promise<MenuTag[]> {
+    const allTags = Array.from(this.tags.values());
+    if (team) {
+      return allTags.filter(tag => tag.team === team);
+    }
+    return allTags;
   }
 
   async createTag(insertTag: InsertMenuTag): Promise<MenuTag> {

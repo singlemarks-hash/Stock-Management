@@ -40,13 +40,13 @@ interface MenuTagInputProps {
 }
 
 export function MenuTagInput({ selectedTagIds, onChange, disabled }: MenuTagInputProps) {
-  const { tags, addTag } = useInventory();
+  const { tags, addTag, selectedTeam } = useInventory();
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
 
   const createTagMutation = useMutation({
-    mutationFn: async (newTag: { name: string; color: string }) => {
+    mutationFn: async (newTag: { team: string; name: string; color: string }) => {
       const res = await apiRequest("POST", "/api/tags", newTag);
       return res.json();
     },
@@ -54,7 +54,7 @@ export function MenuTagInput({ selectedTagIds, onChange, disabled }: MenuTagInpu
       addTag(createdTag);
       onChange([...selectedTagIds, createdTag.id]);
       setSearch("");
-      queryClient.invalidateQueries({ queryKey: ["/api/inventory"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/inventory", selectedTeam] });
     },
   });
 
@@ -77,6 +77,7 @@ export function MenuTagInput({ selectedTagIds, onChange, disabled }: MenuTagInpu
     if (!search.trim()) return;
     
     const newTag = {
+      team: selectedTeam,
       name: search.trim(),
       color: tagColors[Math.floor(Math.random() * tagColors.length)],
     };
