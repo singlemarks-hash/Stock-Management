@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { Pencil, Save, X, Loader2 } from "lucide-react";
+import { Pencil, Save, X, Loader2, Snowflake, Flower2, Sun, Leaf } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useToast } from "@/hooks/use-toast";
@@ -10,8 +10,22 @@ import { InventoryTable } from "@/components/inventory-table";
 import { AddItemDialog } from "@/components/add-item-dialog";
 import { useInventory } from "@/lib/inventory-context";
 import { queryClient, apiRequest } from "@/lib/queryClient";
-import type { InventoryItem, StorageType } from "@shared/schema";
-import { teamLabels, seasonLabels, seasonEmojis } from "@shared/schema";
+import type { InventoryItem, StorageType, Season } from "@shared/schema";
+import { teamLabels, seasonLabels } from "@shared/schema";
+
+const seasonIcons: Record<Season, typeof Snowflake> = {
+  winter: Snowflake,
+  spring: Flower2,
+  summer: Sun,
+  fall: Leaf,
+};
+
+const seasonColors: Record<Season, string> = {
+  winter: "text-blue-500",
+  spring: "text-pink-500",
+  summer: "text-amber-500",
+  fall: "text-orange-500",
+};
 
 export default function InventoryPage() {
   const { toast } = useToast();
@@ -124,8 +138,13 @@ export default function InventoryPage() {
           <h1 className="text-xl sm:text-2xl font-semibold">
             {teamLabels[selectedTeam]} 재고 관리
           </h1>
-          <p className="text-xs sm:text-sm text-muted-foreground mt-1">
-            현재 시즌: {seasonEmojis[selectedSeason]} {seasonLabels[selectedSeason]}
+          <p className="text-xs sm:text-sm text-muted-foreground mt-1 flex items-center gap-1">
+            현재 시즌: 
+            {(() => {
+              const SeasonIcon = seasonIcons[selectedSeason];
+              return <SeasonIcon className={`h-4 w-4 ${seasonColors[selectedSeason]}`} />;
+            })()}
+            <span className={seasonColors[selectedSeason]}>{seasonLabels[selectedSeason]}</span>
           </p>
         </div>
 
