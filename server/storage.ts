@@ -141,16 +141,9 @@ export class DatabaseStorage implements IStorage {
   }
 
   async seedDataIfEmpty(): Promise<void> {
-    // Check if inventory items exist - this is the primary data we want to seed
-    const existingItems = await db.select().from(inventoryItems).limit(1);
-    if (existingItems.length > 0) {
-      console.log("Database already has inventory items, skipping seed");
-      return;
-    }
+    console.log("Checking database for reference data...");
     
-    console.log("Database is empty, starting seed process...");
-    
-    // Check each reference table independently
+    // Always check reference tables first - they're needed for the app to work
     const existingTags = await db.select().from(menuTags).limit(1);
     const existingSubCategories = await db.select().from(subCategories).limit(1);
     const existingSuppliers = await db.select().from(suppliers).limit(1);
@@ -158,6 +151,17 @@ export class DatabaseStorage implements IStorage {
     const needsTags = existingTags.length === 0;
     const needsSubCategories = existingSubCategories.length === 0;
     const needsSuppliers = existingSuppliers.length === 0;
+    
+    // Check if inventory items exist
+    const existingItems = await db.select().from(inventoryItems).limit(1);
+    const needsInventory = existingItems.length === 0;
+    
+    if (!needsTags && !needsSubCategories && !needsSuppliers && !needsInventory) {
+      console.log("Database already has all data, skipping seed");
+      return;
+    }
+    
+    console.log(`Seeding: tags=${needsTags}, subcategories=${needsSubCategories}, suppliers=${needsSuppliers}, inventory=${needsInventory}`);
 
     // Seed Menu Tags
     const kitchenTags = [
