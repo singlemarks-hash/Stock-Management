@@ -13,27 +13,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "유제품&치즈",
     "unit": "개",
     "currentStock": 29,
-    "dailyUsage": 3,
-    "leadTime": 1,
-    "safetyStock": 10,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 13
-      },
-      {
-        "season": "spring",
-        "requiredStock": 13
-      },
-      {
-        "season": "summer",
-        "requiredStock": 13
-      },
-      {
-        "season": "fall",
-        "requiredStock": 13
-      }
-    ],
     "menuTags": [
       "tag-k4",
       "tag-k5",
@@ -43,7 +22,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": null
+    "supplierId": null,
+    "dailyUsage": 3,
+    "leadTime": 1,
+    "safetyStock": 10,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 3,
+        "leadTime": 1,
+        "safetyStock": 10,
+        "requiredStock": 13
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 3,
+        "leadTime": 1,
+        "safetyStock": 10,
+        "requiredStock": 13
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 3,
+        "leadTime": 1,
+        "safetyStock": 10,
+        "requiredStock": 13
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 3,
+        "leadTime": 1,
+        "safetyStock": 10,
+        "requiredStock": 13
+      }
+    ]
   },
   {
     "id": "item-008",
@@ -54,27 +66,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "유제품&치즈",
     "unit": "개",
     "currentStock": 1,
-    "dailyUsage": 0,
-    "leadTime": 1,
-    "safetyStock": 1,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 1
-      },
-      {
-        "season": "spring",
-        "requiredStock": 1
-      },
-      {
-        "season": "summer",
-        "requiredStock": 1
-      },
-      {
-        "season": "fall",
-        "requiredStock": 1
-      }
-    ],
     "menuTags": [
       "tag-k6"
     ],
@@ -82,7 +73,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": "sup-k2"
+    "supplierId": "sup-k2",
+    "dailyUsage": 0,
+    "leadTime": 1,
+    "safetyStock": 1,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      }
+    ]
   },
   {
     "id": "item-009",
@@ -93,27 +117,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "유제품&치즈",
     "unit": "개",
     "currentStock": 2,
-    "dailyUsage": 0,
-    "leadTime": 1,
-    "safetyStock": 1,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 1
-      },
-      {
-        "season": "spring",
-        "requiredStock": 1
-      },
-      {
-        "season": "summer",
-        "requiredStock": 1
-      },
-      {
-        "season": "fall",
-        "requiredStock": 1
-      }
-    ],
     "menuTags": [
       "tag-k6"
     ],
@@ -121,7 +124,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": null
+    "supplierId": null,
+    "dailyUsage": 0,
+    "leadTime": 1,
+    "safetyStock": 1,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      }
+    ]
   },
   {
     "id": "item-010",
@@ -132,27 +168,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "유제품&치즈",
     "unit": "개",
     "currentStock": 21,
-    "dailyUsage": 2,
-    "leadTime": 1,
-    "safetyStock": 6,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 8
-      },
-      {
-        "season": "spring",
-        "requiredStock": 8
-      },
-      {
-        "season": "summer",
-        "requiredStock": 8
-      },
-      {
-        "season": "fall",
-        "requiredStock": 8
-      }
-    ],
     "menuTags": [
       "tag-k10"
     ],
@@ -160,7 +175,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": null
+    "supplierId": null,
+    "dailyUsage": 2,
+    "leadTime": 1,
+    "safetyStock": 6,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 2,
+        "leadTime": 1,
+        "safetyStock": 6,
+        "requiredStock": 8
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 2,
+        "leadTime": 1,
+        "safetyStock": 6,
+        "requiredStock": 8
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 2,
+        "leadTime": 1,
+        "safetyStock": 6,
+        "requiredStock": 8
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 2,
+        "leadTime": 1,
+        "safetyStock": 6,
+        "requiredStock": 8
+      }
+    ]
   },
   {
     "id": "item-011",
@@ -171,27 +219,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "유제품&치즈",
     "unit": "개",
     "currentStock": 3,
-    "dailyUsage": 0,
-    "leadTime": 1,
-    "safetyStock": 2,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 2
-      },
-      {
-        "season": "spring",
-        "requiredStock": 2
-      },
-      {
-        "season": "summer",
-        "requiredStock": 2
-      },
-      {
-        "season": "fall",
-        "requiredStock": 2
-      }
-    ],
     "menuTags": [
       "tag-k9"
     ],
@@ -199,7 +226,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": null
+    "supplierId": null,
+    "dailyUsage": 0,
+    "leadTime": 1,
+    "safetyStock": 2,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 2,
+        "requiredStock": 2
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 2,
+        "requiredStock": 2
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 2,
+        "requiredStock": 2
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 2,
+        "requiredStock": 2
+      }
+    ]
   },
   {
     "id": "item-012",
@@ -210,27 +270,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "유제품&치즈",
     "unit": "개",
     "currentStock": 1,
-    "dailyUsage": 0,
-    "leadTime": 2,
-    "safetyStock": 1,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 1
-      },
-      {
-        "season": "spring",
-        "requiredStock": 1
-      },
-      {
-        "season": "summer",
-        "requiredStock": 1
-      },
-      {
-        "season": "fall",
-        "requiredStock": 1
-      }
-    ],
     "menuTags": [
       "tag-k9"
     ],
@@ -238,7 +277,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": "sup-k1"
+    "supplierId": "sup-k1",
+    "dailyUsage": 0,
+    "leadTime": 2,
+    "safetyStock": 1,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 1,
+        "requiredStock": 1
+      }
+    ]
   },
   {
     "id": "item-013",
@@ -249,27 +321,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "유제품&치즈",
     "unit": "개",
     "currentStock": 5,
-    "dailyUsage": 0,
-    "leadTime": 1,
-    "safetyStock": 3,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 3
-      },
-      {
-        "season": "spring",
-        "requiredStock": 3
-      },
-      {
-        "season": "summer",
-        "requiredStock": 3
-      },
-      {
-        "season": "fall",
-        "requiredStock": 3
-      }
-    ],
     "menuTags": [
       "tag-k9"
     ],
@@ -277,7 +328,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": null
+    "supplierId": null,
+    "dailyUsage": 0,
+    "leadTime": 1,
+    "safetyStock": 3,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 3,
+        "requiredStock": 3
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 3,
+        "requiredStock": 3
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 3,
+        "requiredStock": 3
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 3,
+        "requiredStock": 3
+      }
+    ]
   },
   {
     "id": "item-014",
@@ -288,27 +372,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "유제품&치즈",
     "unit": "개",
     "currentStock": 2,
-    "dailyUsage": 0,
-    "leadTime": 1,
-    "safetyStock": 2,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 2
-      },
-      {
-        "season": "spring",
-        "requiredStock": 2
-      },
-      {
-        "season": "summer",
-        "requiredStock": 2
-      },
-      {
-        "season": "fall",
-        "requiredStock": 2
-      }
-    ],
     "menuTags": [
       "tag-k9"
     ],
@@ -316,7 +379,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": null
+    "supplierId": null,
+    "dailyUsage": 0,
+    "leadTime": 1,
+    "safetyStock": 2,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 2,
+        "requiredStock": 2
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 2,
+        "requiredStock": 2
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 2,
+        "requiredStock": 2
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 2,
+        "requiredStock": 2
+      }
+    ]
   },
   {
     "id": "item-015",
@@ -327,27 +423,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "가공육류&알",
     "unit": "개",
     "currentStock": 2,
-    "dailyUsage": 0,
-    "leadTime": 1,
-    "safetyStock": 2,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 2
-      },
-      {
-        "season": "spring",
-        "requiredStock": 2
-      },
-      {
-        "season": "summer",
-        "requiredStock": 2
-      },
-      {
-        "season": "fall",
-        "requiredStock": 2
-      }
-    ],
     "menuTags": [
       "tag-k9"
     ],
@@ -355,7 +430,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": "sup-k1"
+    "supplierId": "sup-k1",
+    "dailyUsage": 0,
+    "leadTime": 1,
+    "safetyStock": 2,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 2,
+        "requiredStock": 2
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 2,
+        "requiredStock": 2
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 2,
+        "requiredStock": 2
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 2,
+        "requiredStock": 2
+      }
+    ]
   },
   {
     "id": "item-001",
@@ -366,27 +474,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "유제품&치즈",
     "unit": "개",
     "currentStock": 0,
-    "dailyUsage": 0.1,
-    "leadTime": 1,
-    "safetyStock": 1,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 1
-      },
-      {
-        "season": "spring",
-        "requiredStock": 1
-      },
-      {
-        "season": "summer",
-        "requiredStock": 1
-      },
-      {
-        "season": "fall",
-        "requiredStock": 1
-      }
-    ],
     "menuTags": [
       "tag-k1"
     ],
@@ -394,7 +481,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "ordered",
     "orderedQuantity": 1,
     "orderedAt": "2026-01-11T14:53:34.600Z",
-    "supplierId": "sup-k1"
+    "supplierId": "sup-k1",
+    "dailyUsage": 0.1,
+    "leadTime": 1,
+    "safetyStock": 1,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0.1,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0.1,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0.1,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0.1,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      }
+    ]
   },
   {
     "id": "item-002",
@@ -405,27 +525,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "유제품&치즈",
     "unit": "개",
     "currentStock": 8,
-    "dailyUsage": 2,
-    "leadTime": 1,
-    "safetyStock": 10,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 12
-      },
-      {
-        "season": "spring",
-        "requiredStock": 12
-      },
-      {
-        "season": "summer",
-        "requiredStock": 12
-      },
-      {
-        "season": "fall",
-        "requiredStock": 12
-      }
-    ],
     "menuTags": [
       "tag-k2"
     ],
@@ -433,7 +532,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "ordered",
     "orderedQuantity": 4,
     "orderedAt": "2026-01-11T14:53:36.632Z",
-    "supplierId": "sup-k1"
+    "supplierId": "sup-k1",
+    "dailyUsage": 2,
+    "leadTime": 1,
+    "safetyStock": 10,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 2,
+        "leadTime": 1,
+        "safetyStock": 10,
+        "requiredStock": 12
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 2,
+        "leadTime": 1,
+        "safetyStock": 10,
+        "requiredStock": 12
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 2,
+        "leadTime": 1,
+        "safetyStock": 10,
+        "requiredStock": 12
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 2,
+        "leadTime": 1,
+        "safetyStock": 10,
+        "requiredStock": 12
+      }
+    ]
   },
   {
     "id": "item-003",
@@ -444,27 +576,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "유제품&치즈",
     "unit": "개",
     "currentStock": 2,
-    "dailyUsage": 0,
-    "leadTime": 1,
-    "safetyStock": 3,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 3
-      },
-      {
-        "season": "spring",
-        "requiredStock": 3
-      },
-      {
-        "season": "summer",
-        "requiredStock": 3
-      },
-      {
-        "season": "fall",
-        "requiredStock": 3
-      }
-    ],
     "menuTags": [
       "tag-k3",
       "tag-k4",
@@ -474,7 +585,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "ordered",
     "orderedQuantity": 1,
     "orderedAt": "2026-01-11T14:53:37.823Z",
-    "supplierId": "sup-k1"
+    "supplierId": "sup-k1",
+    "dailyUsage": 0,
+    "leadTime": 1,
+    "safetyStock": 3,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 3,
+        "requiredStock": 3
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 3,
+        "requiredStock": 3
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 3,
+        "requiredStock": 3
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 3,
+        "requiredStock": 3
+      }
+    ]
   },
   {
     "id": "item-005",
@@ -485,27 +629,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "유제품&치즈",
     "unit": "개",
     "currentStock": 0,
-    "dailyUsage": 0,
-    "leadTime": 1,
-    "safetyStock": 1,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 1
-      },
-      {
-        "season": "spring",
-        "requiredStock": 1
-      },
-      {
-        "season": "summer",
-        "requiredStock": 1
-      },
-      {
-        "season": "fall",
-        "requiredStock": 1
-      }
-    ],
     "menuTags": [
       "tag-k10",
       "tag-k5"
@@ -514,7 +637,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "ordered",
     "orderedQuantity": 1,
     "orderedAt": "2026-01-11T14:53:39.923Z",
-    "supplierId": null
+    "supplierId": null,
+    "dailyUsage": 0,
+    "leadTime": 1,
+    "safetyStock": 1,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      }
+    ]
   },
   {
     "id": "item-006",
@@ -525,27 +681,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "유제품&치즈",
     "unit": "개",
     "currentStock": 2,
-    "dailyUsage": 1,
-    "leadTime": 1,
-    "safetyStock": 2,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 3
-      },
-      {
-        "season": "spring",
-        "requiredStock": 3
-      },
-      {
-        "season": "summer",
-        "requiredStock": 3
-      },
-      {
-        "season": "fall",
-        "requiredStock": 3
-      }
-    ],
     "menuTags": [
       "tag-k1",
       "tag-k8"
@@ -554,7 +689,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "ordered",
     "orderedQuantity": 1,
     "orderedAt": "2026-01-11T14:53:41.176Z",
-    "supplierId": "sup-k1"
+    "supplierId": "sup-k1",
+    "dailyUsage": 1,
+    "leadTime": 1,
+    "safetyStock": 2,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 1,
+        "leadTime": 1,
+        "safetyStock": 2,
+        "requiredStock": 3
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 1,
+        "leadTime": 1,
+        "safetyStock": 2,
+        "requiredStock": 3
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 1,
+        "leadTime": 1,
+        "safetyStock": 2,
+        "requiredStock": 3
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 1,
+        "leadTime": 1,
+        "safetyStock": 2,
+        "requiredStock": 3
+      }
+    ]
   },
   {
     "id": "item-016",
@@ -565,27 +733,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "가공육류&알",
     "unit": "개",
     "currentStock": 2,
-    "dailyUsage": 0,
-    "leadTime": 1,
-    "safetyStock": 1,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 1
-      },
-      {
-        "season": "spring",
-        "requiredStock": 1
-      },
-      {
-        "season": "summer",
-        "requiredStock": 1
-      },
-      {
-        "season": "fall",
-        "requiredStock": 1
-      }
-    ],
     "menuTags": [
       "tag-k5",
       "tag-k8"
@@ -594,7 +741,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": "sup-k1"
+    "supplierId": "sup-k1",
+    "dailyUsage": 0,
+    "leadTime": 1,
+    "safetyStock": 1,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      }
+    ]
   },
   {
     "id": "item-017",
@@ -605,27 +785,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "잎채소&허브류",
     "unit": "g",
     "currentStock": 100,
-    "dailyUsage": 20,
-    "leadTime": 50,
-    "safetyStock": 90,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 100
-      },
-      {
-        "season": "spring",
-        "requiredStock": 100
-      },
-      {
-        "season": "summer",
-        "requiredStock": 100
-      },
-      {
-        "season": "fall",
-        "requiredStock": 100
-      }
-    ],
     "menuTags": [
       "tag-k3",
       "tag-k2",
@@ -635,7 +794,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": "sup-k3"
+    "supplierId": "sup-k3",
+    "dailyUsage": 20,
+    "leadTime": 50,
+    "safetyStock": 90,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 20,
+        "leadTime": 50,
+        "safetyStock": 90,
+        "requiredStock": 100
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 20,
+        "leadTime": 50,
+        "safetyStock": 90,
+        "requiredStock": 100
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 20,
+        "leadTime": 50,
+        "safetyStock": 90,
+        "requiredStock": 100
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 20,
+        "leadTime": 50,
+        "safetyStock": 90,
+        "requiredStock": 100
+      }
+    ]
   },
   {
     "id": "item-018",
@@ -646,27 +838,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "잎채소&허브류",
     "unit": "개",
     "currentStock": 2,
-    "dailyUsage": 0,
-    "leadTime": 2,
-    "safetyStock": 0,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 2
-      },
-      {
-        "season": "spring",
-        "requiredStock": 2
-      },
-      {
-        "season": "summer",
-        "requiredStock": 2
-      },
-      {
-        "season": "fall",
-        "requiredStock": 2
-      }
-    ],
     "menuTags": [
       "tag-k6",
       "tag-k11",
@@ -676,7 +847,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": null
+    "supplierId": null,
+    "dailyUsage": 0,
+    "leadTime": 2,
+    "safetyStock": 0,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 0,
+        "requiredStock": 2
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 0,
+        "requiredStock": 2
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 0,
+        "requiredStock": 2
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 0,
+        "requiredStock": 2
+      }
+    ]
   },
   {
     "id": "item-019",
@@ -687,27 +891,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "잎채소&허브류",
     "unit": "개",
     "currentStock": 2,
-    "dailyUsage": 0.3,
-    "leadTime": 2,
-    "safetyStock": 1,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 2
-      },
-      {
-        "season": "spring",
-        "requiredStock": 2
-      },
-      {
-        "season": "summer",
-        "requiredStock": 2
-      },
-      {
-        "season": "fall",
-        "requiredStock": 2
-      }
-    ],
     "menuTags": [
       "tag-k11"
     ],
@@ -715,7 +898,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": "sup-k1"
+    "supplierId": "sup-k1",
+    "dailyUsage": 0.3,
+    "leadTime": 2,
+    "safetyStock": 1,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0.3,
+        "leadTime": 2,
+        "safetyStock": 1,
+        "requiredStock": 2
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0.3,
+        "leadTime": 2,
+        "safetyStock": 1,
+        "requiredStock": 2
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0.3,
+        "leadTime": 2,
+        "safetyStock": 1,
+        "requiredStock": 2
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0.3,
+        "leadTime": 2,
+        "safetyStock": 1,
+        "requiredStock": 2
+      }
+    ]
   },
   {
     "id": "item-022",
@@ -726,27 +942,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "잎채소&허브류",
     "unit": "개",
     "currentStock": 3,
-    "dailyUsage": 0.5,
-    "leadTime": 2,
-    "safetyStock": 2,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 3
-      },
-      {
-        "season": "spring",
-        "requiredStock": 3
-      },
-      {
-        "season": "summer",
-        "requiredStock": 3
-      },
-      {
-        "season": "fall",
-        "requiredStock": 3
-      }
-    ],
     "menuTags": [
       "tag-k15"
     ],
@@ -754,7 +949,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": "sup-k3"
+    "supplierId": "sup-k3",
+    "dailyUsage": 0.5,
+    "leadTime": 2,
+    "safetyStock": 2,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0.5,
+        "leadTime": 2,
+        "safetyStock": 2,
+        "requiredStock": 3
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0.5,
+        "leadTime": 2,
+        "safetyStock": 2,
+        "requiredStock": 3
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0.5,
+        "leadTime": 2,
+        "safetyStock": 2,
+        "requiredStock": 3
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0.5,
+        "leadTime": 2,
+        "safetyStock": 2,
+        "requiredStock": 3
+      }
+    ]
   },
   {
     "id": "item-024",
@@ -765,27 +993,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "잎채소&허브류",
     "unit": "개",
     "currentStock": 10,
-    "dailyUsage": 0,
-    "leadTime": 2,
-    "safetyStock": 10,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 10
-      },
-      {
-        "season": "spring",
-        "requiredStock": 10
-      },
-      {
-        "season": "summer",
-        "requiredStock": 10
-      },
-      {
-        "season": "fall",
-        "requiredStock": 10
-      }
-    ],
     "menuTags": [
       "tag-k1"
     ],
@@ -793,7 +1000,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": "sup-k1"
+    "supplierId": "sup-k1",
+    "dailyUsage": 0,
+    "leadTime": 2,
+    "safetyStock": 10,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 10,
+        "requiredStock": 10
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 10,
+        "requiredStock": 10
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 10,
+        "requiredStock": 10
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 10,
+        "requiredStock": 10
+      }
+    ]
   },
   {
     "id": "item-025",
@@ -804,27 +1044,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "잎채소&허브류",
     "unit": "개",
     "currentStock": 2,
-    "dailyUsage": 0,
-    "leadTime": 2,
-    "safetyStock": 2,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 2
-      },
-      {
-        "season": "spring",
-        "requiredStock": 2
-      },
-      {
-        "season": "summer",
-        "requiredStock": 2
-      },
-      {
-        "season": "fall",
-        "requiredStock": 2
-      }
-    ],
     "menuTags": [
       "tag-k15"
     ],
@@ -832,7 +1051,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": null
+    "supplierId": null,
+    "dailyUsage": 0,
+    "leadTime": 2,
+    "safetyStock": 2,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 2,
+        "requiredStock": 2
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 2,
+        "requiredStock": 2
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 2,
+        "requiredStock": 2
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 2,
+        "requiredStock": 2
+      }
+    ]
   },
   {
     "id": "item-026",
@@ -843,27 +1095,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "잎채소&허브류",
     "unit": "개",
     "currentStock": 1,
-    "dailyUsage": 0,
-    "leadTime": 1,
-    "safetyStock": 1,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 1
-      },
-      {
-        "season": "spring",
-        "requiredStock": 1
-      },
-      {
-        "season": "summer",
-        "requiredStock": 1
-      },
-      {
-        "season": "fall",
-        "requiredStock": 1
-      }
-    ],
     "menuTags": [
       "tag-k7"
     ],
@@ -871,7 +1102,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": "sup-k1"
+    "supplierId": "sup-k1",
+    "dailyUsage": 0,
+    "leadTime": 1,
+    "safetyStock": 1,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      }
+    ]
   },
   {
     "id": "item-027",
@@ -882,27 +1146,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "잎채소&허브류",
     "unit": "개",
     "currentStock": 4,
-    "dailyUsage": 1,
-    "leadTime": 1,
-    "safetyStock": 3,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 4
-      },
-      {
-        "season": "spring",
-        "requiredStock": 4
-      },
-      {
-        "season": "summer",
-        "requiredStock": 4
-      },
-      {
-        "season": "fall",
-        "requiredStock": 4
-      }
-    ],
     "menuTags": [
       "tag-k6",
       "tag-k7"
@@ -911,7 +1154,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": "sup-k1"
+    "supplierId": "sup-k1",
+    "dailyUsage": 1,
+    "leadTime": 1,
+    "safetyStock": 3,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 1,
+        "leadTime": 1,
+        "safetyStock": 3,
+        "requiredStock": 4
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 1,
+        "leadTime": 1,
+        "safetyStock": 3,
+        "requiredStock": 4
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 1,
+        "leadTime": 1,
+        "safetyStock": 3,
+        "requiredStock": 4
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 1,
+        "leadTime": 1,
+        "safetyStock": 3,
+        "requiredStock": 4
+      }
+    ]
   },
   {
     "id": "item-028",
@@ -922,27 +1198,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "잎채소&허브류",
     "unit": "개",
     "currentStock": 3,
-    "dailyUsage": 1,
-    "leadTime": 1,
-    "safetyStock": 2,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 3
-      },
-      {
-        "season": "spring",
-        "requiredStock": 3
-      },
-      {
-        "season": "summer",
-        "requiredStock": 3
-      },
-      {
-        "season": "fall",
-        "requiredStock": 3
-      }
-    ],
     "menuTags": [
       "tag-k8",
       "tag-k11",
@@ -952,7 +1207,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": null
+    "supplierId": null,
+    "dailyUsage": 1,
+    "leadTime": 1,
+    "safetyStock": 2,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 1,
+        "leadTime": 1,
+        "safetyStock": 2,
+        "requiredStock": 3
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 1,
+        "leadTime": 1,
+        "safetyStock": 2,
+        "requiredStock": 3
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 1,
+        "leadTime": 1,
+        "safetyStock": 2,
+        "requiredStock": 3
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 1,
+        "leadTime": 1,
+        "safetyStock": 2,
+        "requiredStock": 3
+      }
+    ]
   },
   {
     "id": "item-029",
@@ -963,27 +1251,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "잎채소&허브류",
     "unit": "개",
     "currentStock": 1,
-    "dailyUsage": 0.1,
-    "leadTime": 1,
-    "safetyStock": 1,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 1
-      },
-      {
-        "season": "spring",
-        "requiredStock": 1
-      },
-      {
-        "season": "summer",
-        "requiredStock": 1
-      },
-      {
-        "season": "fall",
-        "requiredStock": 1
-      }
-    ],
     "menuTags": [
       "tag-k7"
     ],
@@ -991,7 +1258,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": "sup-k1"
+    "supplierId": "sup-k1",
+    "dailyUsage": 0.1,
+    "leadTime": 1,
+    "safetyStock": 1,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0.1,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0.1,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0.1,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0.1,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      }
+    ]
   },
   {
     "id": "item-031",
@@ -1002,27 +1302,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "채소&버섯&과일",
     "unit": "개",
     "currentStock": 0.2,
-    "dailyUsage": 0,
-    "leadTime": 1,
-    "safetyStock": 0,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 0.1
-      },
-      {
-        "season": "spring",
-        "requiredStock": 0.1
-      },
-      {
-        "season": "summer",
-        "requiredStock": 0.1
-      },
-      {
-        "season": "fall",
-        "requiredStock": 0.1
-      }
-    ],
     "menuTags": [
       "tag-k13"
     ],
@@ -1030,7 +1309,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": "sup-k1"
+    "supplierId": "sup-k1",
+    "dailyUsage": 0,
+    "leadTime": 1,
+    "safetyStock": 0,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 0,
+        "requiredStock": 0.1
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 0,
+        "requiredStock": 0.1
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 0,
+        "requiredStock": 0.1
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 0,
+        "requiredStock": 0.1
+      }
+    ]
   },
   {
     "id": "item-032",
@@ -1041,27 +1353,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "채소&버섯&과일",
     "unit": "개",
     "currentStock": 3,
-    "dailyUsage": 1,
-    "leadTime": 1,
-    "safetyStock": 2,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 3
-      },
-      {
-        "season": "spring",
-        "requiredStock": 3
-      },
-      {
-        "season": "summer",
-        "requiredStock": 3
-      },
-      {
-        "season": "fall",
-        "requiredStock": 3
-      }
-    ],
     "menuTags": [
       "tag-k4",
       "tag-k3",
@@ -1071,7 +1362,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": "sup-k1"
+    "supplierId": "sup-k1",
+    "dailyUsage": 1,
+    "leadTime": 1,
+    "safetyStock": 2,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 1,
+        "leadTime": 1,
+        "safetyStock": 2,
+        "requiredStock": 3
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 1,
+        "leadTime": 1,
+        "safetyStock": 2,
+        "requiredStock": 3
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 1,
+        "leadTime": 1,
+        "safetyStock": 2,
+        "requiredStock": 3
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 1,
+        "leadTime": 1,
+        "safetyStock": 2,
+        "requiredStock": 3
+      }
+    ]
   },
   {
     "id": "item-033",
@@ -1082,27 +1406,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "채소&버섯&과일",
     "unit": "개",
     "currentStock": 2,
-    "dailyUsage": 0.5,
-    "leadTime": 1,
-    "safetyStock": 1,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 2
-      },
-      {
-        "season": "spring",
-        "requiredStock": 2
-      },
-      {
-        "season": "summer",
-        "requiredStock": 2
-      },
-      {
-        "season": "fall",
-        "requiredStock": 2
-      }
-    ],
     "menuTags": [
       "tag-k15"
     ],
@@ -1110,7 +1413,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": null
+    "supplierId": null,
+    "dailyUsage": 0.5,
+    "leadTime": 1,
+    "safetyStock": 1,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0.5,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 2
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0.5,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 2
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0.5,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 2
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0.5,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 2
+      }
+    ]
   },
   {
     "id": "item-034",
@@ -1121,27 +1457,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "채소&버섯&과일",
     "unit": "개",
     "currentStock": 2,
-    "dailyUsage": 0.5,
-    "leadTime": 1,
-    "safetyStock": 1,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 2
-      },
-      {
-        "season": "spring",
-        "requiredStock": 2
-      },
-      {
-        "season": "summer",
-        "requiredStock": 2
-      },
-      {
-        "season": "fall",
-        "requiredStock": 2
-      }
-    ],
     "menuTags": [
       "tag-k15"
     ],
@@ -1149,7 +1464,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": null
+    "supplierId": null,
+    "dailyUsage": 0.5,
+    "leadTime": 1,
+    "safetyStock": 1,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0.5,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 2
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0.5,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 2
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0.5,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 2
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0.5,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 2
+      }
+    ]
   },
   {
     "id": "item-035",
@@ -1160,27 +1508,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "채소&버섯&과일",
     "unit": "개",
     "currentStock": 30,
-    "dailyUsage": 5,
-    "leadTime": 2,
-    "safetyStock": 10,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 20
-      },
-      {
-        "season": "spring",
-        "requiredStock": 20
-      },
-      {
-        "season": "summer",
-        "requiredStock": 20
-      },
-      {
-        "season": "fall",
-        "requiredStock": 20
-      }
-    ],
     "menuTags": [
       "tag-k3",
       "tag-k2"
@@ -1189,7 +1516,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": "sup-k3"
+    "supplierId": "sup-k3",
+    "dailyUsage": 5,
+    "leadTime": 2,
+    "safetyStock": 10,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 5,
+        "leadTime": 2,
+        "safetyStock": 10,
+        "requiredStock": 20
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 5,
+        "leadTime": 2,
+        "safetyStock": 10,
+        "requiredStock": 20
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 5,
+        "leadTime": 2,
+        "safetyStock": 10,
+        "requiredStock": 20
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 5,
+        "leadTime": 2,
+        "safetyStock": 10,
+        "requiredStock": 20
+      }
+    ]
   },
   {
     "id": "item-030",
@@ -1200,27 +1560,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "채소&버섯&과일",
     "unit": "개",
     "currentStock": 2,
-    "dailyUsage": 1,
-    "leadTime": 2,
-    "safetyStock": 2,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 4
-      },
-      {
-        "season": "spring",
-        "requiredStock": 4
-      },
-      {
-        "season": "summer",
-        "requiredStock": 4
-      },
-      {
-        "season": "fall",
-        "requiredStock": 4
-      }
-    ],
     "menuTags": [
       "tag-k13"
     ],
@@ -1228,7 +1567,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "ordered",
     "orderedQuantity": 2,
     "orderedAt": "2026-01-11T14:53:43.415Z",
-    "supplierId": "sup-k1"
+    "supplierId": "sup-k1",
+    "dailyUsage": 1,
+    "leadTime": 2,
+    "safetyStock": 2,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 1,
+        "leadTime": 2,
+        "safetyStock": 2,
+        "requiredStock": 4
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 1,
+        "leadTime": 2,
+        "safetyStock": 2,
+        "requiredStock": 4
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 1,
+        "leadTime": 2,
+        "safetyStock": 2,
+        "requiredStock": 4
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 1,
+        "leadTime": 2,
+        "safetyStock": 2,
+        "requiredStock": 4
+      }
+    ]
   },
   {
     "id": "item-036",
@@ -1239,27 +1611,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "채소&버섯&과일",
     "unit": "개",
     "currentStock": 3,
-    "dailyUsage": 0,
-    "leadTime": 1,
-    "safetyStock": 1,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 1
-      },
-      {
-        "season": "spring",
-        "requiredStock": 1
-      },
-      {
-        "season": "summer",
-        "requiredStock": 1
-      },
-      {
-        "season": "fall",
-        "requiredStock": 1
-      }
-    ],
     "menuTags": [
       "tag-k5",
       "tag-k9"
@@ -1268,7 +1619,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": "sup-k2"
+    "supplierId": "sup-k2",
+    "dailyUsage": 0,
+    "leadTime": 1,
+    "safetyStock": 1,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      }
+    ]
   },
   {
     "id": "item-038",
@@ -1279,27 +1663,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "소스&절임류",
     "unit": "개",
     "currentStock": 1,
-    "dailyUsage": 0,
-    "leadTime": 2,
-    "safetyStock": 1,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 1
-      },
-      {
-        "season": "spring",
-        "requiredStock": 1
-      },
-      {
-        "season": "summer",
-        "requiredStock": 1
-      },
-      {
-        "season": "fall",
-        "requiredStock": 1
-      }
-    ],
     "menuTags": [
       "tag-k7"
     ],
@@ -1307,7 +1670,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": "sup-k1"
+    "supplierId": "sup-k1",
+    "dailyUsage": 0,
+    "leadTime": 2,
+    "safetyStock": 1,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 1,
+        "requiredStock": 1
+      }
+    ]
   },
   {
     "id": "item-039",
@@ -1318,27 +1714,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "소스&절임류",
     "unit": "개",
     "currentStock": 1,
-    "dailyUsage": 0,
-    "leadTime": 2,
-    "safetyStock": 1,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 1
-      },
-      {
-        "season": "spring",
-        "requiredStock": 1
-      },
-      {
-        "season": "summer",
-        "requiredStock": 1
-      },
-      {
-        "season": "fall",
-        "requiredStock": 1
-      }
-    ],
     "menuTags": [
       "tag-k8"
     ],
@@ -1346,7 +1721,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": null
+    "supplierId": null,
+    "dailyUsage": 0,
+    "leadTime": 2,
+    "safetyStock": 1,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 1,
+        "requiredStock": 1
+      }
+    ]
   },
   {
     "id": "item-040",
@@ -1357,27 +1765,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "소스&절임류",
     "unit": "개",
     "currentStock": 7,
-    "dailyUsage": 1,
-    "leadTime": 2,
-    "safetyStock": 4,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 6
-      },
-      {
-        "season": "spring",
-        "requiredStock": 6
-      },
-      {
-        "season": "summer",
-        "requiredStock": 6
-      },
-      {
-        "season": "fall",
-        "requiredStock": 6
-      }
-    ],
     "menuTags": [
       "tag-k9",
       "tag-k15"
@@ -1386,7 +1773,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": "sup-k4"
+    "supplierId": "sup-k4",
+    "dailyUsage": 1,
+    "leadTime": 2,
+    "safetyStock": 4,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 1,
+        "leadTime": 2,
+        "safetyStock": 4,
+        "requiredStock": 6
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 1,
+        "leadTime": 2,
+        "safetyStock": 4,
+        "requiredStock": 6
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 1,
+        "leadTime": 2,
+        "safetyStock": 4,
+        "requiredStock": 6
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 1,
+        "leadTime": 2,
+        "safetyStock": 4,
+        "requiredStock": 6
+      }
+    ]
   },
   {
     "id": "item-041",
@@ -1397,27 +1817,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "소스&절임류",
     "unit": "개",
     "currentStock": 7,
-    "dailyUsage": 1,
-    "leadTime": 2,
-    "safetyStock": 4,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 6
-      },
-      {
-        "season": "spring",
-        "requiredStock": 6
-      },
-      {
-        "season": "summer",
-        "requiredStock": 6
-      },
-      {
-        "season": "fall",
-        "requiredStock": 6
-      }
-    ],
     "menuTags": [
       "tag-k15"
     ],
@@ -1425,7 +1824,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": "sup-k4"
+    "supplierId": "sup-k4",
+    "dailyUsage": 1,
+    "leadTime": 2,
+    "safetyStock": 4,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 1,
+        "leadTime": 2,
+        "safetyStock": 4,
+        "requiredStock": 6
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 1,
+        "leadTime": 2,
+        "safetyStock": 4,
+        "requiredStock": 6
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 1,
+        "leadTime": 2,
+        "safetyStock": 4,
+        "requiredStock": 6
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 1,
+        "leadTime": 2,
+        "safetyStock": 4,
+        "requiredStock": 6
+      }
+    ]
   },
   {
     "id": "item-042",
@@ -1436,27 +1868,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "소스&절임류",
     "unit": "개",
     "currentStock": 2,
-    "dailyUsage": 0,
-    "leadTime": 1,
-    "safetyStock": 2,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 2
-      },
-      {
-        "season": "spring",
-        "requiredStock": 2
-      },
-      {
-        "season": "summer",
-        "requiredStock": 2
-      },
-      {
-        "season": "fall",
-        "requiredStock": 2
-      }
-    ],
     "menuTags": [
       "tag-k1"
     ],
@@ -1464,7 +1875,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": null
+    "supplierId": null,
+    "dailyUsage": 0,
+    "leadTime": 1,
+    "safetyStock": 2,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 2,
+        "requiredStock": 2
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 2,
+        "requiredStock": 2
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 2,
+        "requiredStock": 2
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 2,
+        "requiredStock": 2
+      }
+    ]
   },
   {
     "id": "item-043",
@@ -1475,27 +1919,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "소스&절임류",
     "unit": "개",
     "currentStock": 2,
-    "dailyUsage": 0.1,
-    "leadTime": 1,
-    "safetyStock": 1,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 1
-      },
-      {
-        "season": "spring",
-        "requiredStock": 1
-      },
-      {
-        "season": "summer",
-        "requiredStock": 1
-      },
-      {
-        "season": "fall",
-        "requiredStock": 1
-      }
-    ],
     "menuTags": [
       "tag-k11"
     ],
@@ -1503,7 +1926,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": "sup-k1"
+    "supplierId": "sup-k1",
+    "dailyUsage": 0.1,
+    "leadTime": 1,
+    "safetyStock": 1,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0.1,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0.1,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0.1,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0.1,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      }
+    ]
   },
   {
     "id": "item-044",
@@ -1514,27 +1970,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "소스&절임류",
     "unit": "개",
     "currentStock": 1,
-    "dailyUsage": 0.1,
-    "leadTime": 1,
-    "safetyStock": 1,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 1
-      },
-      {
-        "season": "spring",
-        "requiredStock": 1
-      },
-      {
-        "season": "summer",
-        "requiredStock": 1
-      },
-      {
-        "season": "fall",
-        "requiredStock": 1
-      }
-    ],
     "menuTags": [
       "tag-k13"
     ],
@@ -1542,7 +1977,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": "sup-k1"
+    "supplierId": "sup-k1",
+    "dailyUsage": 0.1,
+    "leadTime": 1,
+    "safetyStock": 1,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0.1,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0.1,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0.1,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0.1,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      }
+    ]
   },
   {
     "id": "item-047",
@@ -1553,27 +2021,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "냉동유제품",
     "unit": "개",
     "currentStock": 4,
-    "dailyUsage": 0.5,
-    "leadTime": 3,
-    "safetyStock": 4,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 4
-      },
-      {
-        "season": "spring",
-        "requiredStock": 4
-      },
-      {
-        "season": "summer",
-        "requiredStock": 4
-      },
-      {
-        "season": "fall",
-        "requiredStock": 4
-      }
-    ],
     "menuTags": [
       "tag-k1"
     ],
@@ -1581,7 +2028,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": "sup-k1"
+    "supplierId": "sup-k1",
+    "dailyUsage": 0.5,
+    "leadTime": 3,
+    "safetyStock": 4,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0.5,
+        "leadTime": 3,
+        "safetyStock": 4,
+        "requiredStock": 4
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0.5,
+        "leadTime": 3,
+        "safetyStock": 4,
+        "requiredStock": 4
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0.5,
+        "leadTime": 3,
+        "safetyStock": 4,
+        "requiredStock": 4
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0.5,
+        "leadTime": 3,
+        "safetyStock": 4,
+        "requiredStock": 4
+      }
+    ]
   },
   {
     "id": "item-048",
@@ -1592,27 +2072,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "냉동유제품",
     "unit": "개",
     "currentStock": 19,
-    "dailyUsage": 4,
-    "leadTime": 1,
-    "safetyStock": 15,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 19
-      },
-      {
-        "season": "spring",
-        "requiredStock": 19
-      },
-      {
-        "season": "summer",
-        "requiredStock": 19
-      },
-      {
-        "season": "fall",
-        "requiredStock": 19
-      }
-    ],
     "menuTags": [
       "tag-k1",
       "tag-k3",
@@ -1623,7 +2082,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": "sup-k1"
+    "supplierId": "sup-k1",
+    "dailyUsage": 4,
+    "leadTime": 1,
+    "safetyStock": 15,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 4,
+        "leadTime": 1,
+        "safetyStock": 15,
+        "requiredStock": 19
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 4,
+        "leadTime": 1,
+        "safetyStock": 15,
+        "requiredStock": 19
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 4,
+        "leadTime": 1,
+        "safetyStock": 15,
+        "requiredStock": 19
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 4,
+        "leadTime": 1,
+        "safetyStock": 15,
+        "requiredStock": 19
+      }
+    ]
   },
   {
     "id": "item-049",
@@ -1634,27 +2126,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "냉동육류",
     "unit": "개",
     "currentStock": 11,
-    "dailyUsage": 1,
-    "leadTime": 2,
-    "safetyStock": 6,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 8
-      },
-      {
-        "season": "spring",
-        "requiredStock": 8
-      },
-      {
-        "season": "summer",
-        "requiredStock": 8
-      },
-      {
-        "season": "fall",
-        "requiredStock": 8
-      }
-    ],
     "menuTags": [
       "tag-k3",
       "tag-k5"
@@ -1663,7 +2134,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": null
+    "supplierId": null,
+    "dailyUsage": 1,
+    "leadTime": 2,
+    "safetyStock": 6,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 1,
+        "leadTime": 2,
+        "safetyStock": 6,
+        "requiredStock": 8
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 1,
+        "leadTime": 2,
+        "safetyStock": 6,
+        "requiredStock": 8
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 1,
+        "leadTime": 2,
+        "safetyStock": 6,
+        "requiredStock": 8
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 1,
+        "leadTime": 2,
+        "safetyStock": 6,
+        "requiredStock": 8
+      }
+    ]
   },
   {
     "id": "item-050",
@@ -1674,27 +2178,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "냉동육류",
     "unit": "개",
     "currentStock": 7,
-    "dailyUsage": 1,
-    "leadTime": 2,
-    "safetyStock": 5,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 6
-      },
-      {
-        "season": "spring",
-        "requiredStock": 6
-      },
-      {
-        "season": "summer",
-        "requiredStock": 6
-      },
-      {
-        "season": "fall",
-        "requiredStock": 6
-      }
-    ],
     "menuTags": [
       "tag-k4",
       "tag-k9"
@@ -1703,7 +2186,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": "sup-k1"
+    "supplierId": "sup-k1",
+    "dailyUsage": 1,
+    "leadTime": 2,
+    "safetyStock": 5,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 1,
+        "leadTime": 2,
+        "safetyStock": 5,
+        "requiredStock": 6
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 1,
+        "leadTime": 2,
+        "safetyStock": 5,
+        "requiredStock": 6
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 1,
+        "leadTime": 2,
+        "safetyStock": 5,
+        "requiredStock": 6
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 1,
+        "leadTime": 2,
+        "safetyStock": 5,
+        "requiredStock": 6
+      }
+    ]
   },
   {
     "id": "item-051",
@@ -1714,27 +2230,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "냉동육류",
     "unit": "개",
     "currentStock": 16,
-    "dailyUsage": 2,
-    "leadTime": 2,
-    "safetyStock": 6,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 10
-      },
-      {
-        "season": "spring",
-        "requiredStock": 10
-      },
-      {
-        "season": "summer",
-        "requiredStock": 10
-      },
-      {
-        "season": "fall",
-        "requiredStock": 10
-      }
-    ],
     "menuTags": [
       "tag-k1"
     ],
@@ -1742,7 +2237,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": null
+    "supplierId": null,
+    "dailyUsage": 2,
+    "leadTime": 2,
+    "safetyStock": 6,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 2,
+        "leadTime": 2,
+        "safetyStock": 6,
+        "requiredStock": 10
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 2,
+        "leadTime": 2,
+        "safetyStock": 6,
+        "requiredStock": 10
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 2,
+        "leadTime": 2,
+        "safetyStock": 6,
+        "requiredStock": 10
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 2,
+        "leadTime": 2,
+        "safetyStock": 6,
+        "requiredStock": 10
+      }
+    ]
   },
   {
     "id": "item-052",
@@ -1753,27 +2281,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "냉동육류",
     "unit": "개",
     "currentStock": 2,
-    "dailyUsage": 0,
-    "leadTime": 2,
-    "safetyStock": 1,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 1
-      },
-      {
-        "season": "spring",
-        "requiredStock": 1
-      },
-      {
-        "season": "summer",
-        "requiredStock": 1
-      },
-      {
-        "season": "fall",
-        "requiredStock": 1
-      }
-    ],
     "menuTags": [
       "tag-k1"
     ],
@@ -1781,7 +2288,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": null
+    "supplierId": null,
+    "dailyUsage": 0,
+    "leadTime": 2,
+    "safetyStock": 1,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 1,
+        "requiredStock": 1
+      }
+    ]
   },
   {
     "id": "item-053",
@@ -1792,27 +2332,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "냉동해산물",
     "unit": "개",
     "currentStock": 3,
-    "dailyUsage": 0.5,
-    "leadTime": 1,
-    "safetyStock": 3,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 3
-      },
-      {
-        "season": "spring",
-        "requiredStock": 3
-      },
-      {
-        "season": "summer",
-        "requiredStock": 3
-      },
-      {
-        "season": "fall",
-        "requiredStock": 3
-      }
-    ],
     "menuTags": [
       "tag-k13",
       "tag-k3"
@@ -1821,7 +2340,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": null
+    "supplierId": null,
+    "dailyUsage": 0.5,
+    "leadTime": 1,
+    "safetyStock": 3,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0.5,
+        "leadTime": 1,
+        "safetyStock": 3,
+        "requiredStock": 3
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0.5,
+        "leadTime": 1,
+        "safetyStock": 3,
+        "requiredStock": 3
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0.5,
+        "leadTime": 1,
+        "safetyStock": 3,
+        "requiredStock": 3
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0.5,
+        "leadTime": 1,
+        "safetyStock": 3,
+        "requiredStock": 3
+      }
+    ]
   },
   {
     "id": "item-054",
@@ -1832,27 +2384,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "냉동해산물",
     "unit": "개",
     "currentStock": 1,
-    "dailyUsage": 0,
-    "leadTime": 1,
-    "safetyStock": 1,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 1
-      },
-      {
-        "season": "spring",
-        "requiredStock": 1
-      },
-      {
-        "season": "summer",
-        "requiredStock": 1
-      },
-      {
-        "season": "fall",
-        "requiredStock": 1
-      }
-    ],
     "menuTags": [
       "tag-k11"
     ],
@@ -1860,7 +2391,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": null
+    "supplierId": null,
+    "dailyUsage": 0,
+    "leadTime": 1,
+    "safetyStock": 1,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      }
+    ]
   },
   {
     "id": "item-046",
@@ -1871,27 +2435,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "특수발주",
     "unit": "개",
     "currentStock": 0,
-    "dailyUsage": 0,
-    "leadTime": 2,
-    "safetyStock": 1,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 50
-      },
-      {
-        "season": "spring",
-        "requiredStock": 50
-      },
-      {
-        "season": "summer",
-        "requiredStock": 50
-      },
-      {
-        "season": "fall",
-        "requiredStock": 50
-      }
-    ],
     "menuTags": [
       "tag-k15"
     ],
@@ -1899,7 +2442,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "ordered",
     "orderedQuantity": 50,
     "orderedAt": "2026-01-11T14:53:55.607Z",
-    "supplierId": null
+    "supplierId": null,
+    "dailyUsage": 0,
+    "leadTime": 2,
+    "safetyStock": 1,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 1,
+        "requiredStock": 50
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 1,
+        "requiredStock": 50
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 1,
+        "requiredStock": 50
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 1,
+        "requiredStock": 50
+      }
+    ]
   },
   {
     "id": "item-056",
@@ -1910,27 +2486,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "냉동빵류",
     "unit": "개",
     "currentStock": 2,
-    "dailyUsage": 1,
-    "leadTime": 1,
-    "safetyStock": 1,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 2
-      },
-      {
-        "season": "spring",
-        "requiredStock": 2
-      },
-      {
-        "season": "summer",
-        "requiredStock": 2
-      },
-      {
-        "season": "fall",
-        "requiredStock": 2
-      }
-    ],
     "menuTags": [
       "tag-k5"
     ],
@@ -1938,7 +2493,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": "sup-k2"
+    "supplierId": "sup-k2",
+    "dailyUsage": 1,
+    "leadTime": 1,
+    "safetyStock": 1,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 1,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 2
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 1,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 2
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 1,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 2
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 1,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 2
+      }
+    ]
   },
   {
     "id": "item-057",
@@ -1949,27 +2537,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "냉동기타",
     "unit": "개",
     "currentStock": 7,
-    "dailyUsage": 1,
-    "leadTime": 1,
-    "safetyStock": 3,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 4
-      },
-      {
-        "season": "spring",
-        "requiredStock": 4
-      },
-      {
-        "season": "summer",
-        "requiredStock": 4
-      },
-      {
-        "season": "fall",
-        "requiredStock": 4
-      }
-    ],
     "menuTags": [
       "tag-k15",
       "tag-k13"
@@ -1978,7 +2545,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": null
+    "supplierId": null,
+    "dailyUsage": 1,
+    "leadTime": 1,
+    "safetyStock": 3,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 1,
+        "leadTime": 1,
+        "safetyStock": 3,
+        "requiredStock": 4
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 1,
+        "leadTime": 1,
+        "safetyStock": 3,
+        "requiredStock": 4
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 1,
+        "leadTime": 1,
+        "safetyStock": 3,
+        "requiredStock": 4
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 1,
+        "leadTime": 1,
+        "safetyStock": 3,
+        "requiredStock": 4
+      }
+    ]
   },
   {
     "id": "item-058",
@@ -1989,33 +2589,45 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "냉동기타",
     "unit": "개",
     "currentStock": 4,
+    "menuTags": [],
+    "checkDate": "2026-01-12",
+    "orderStatus": "normal",
+    "orderedQuantity": null,
+    "orderedAt": null,
+    "supplierId": null,
     "dailyUsage": 1,
     "leadTime": 1,
     "safetyStock": 3,
     "seasonalRequirements": [
       {
         "season": "winter",
+        "dailyUsage": 1,
+        "leadTime": 1,
+        "safetyStock": 3,
         "requiredStock": 4
       },
       {
         "season": "spring",
+        "dailyUsage": 1,
+        "leadTime": 1,
+        "safetyStock": 3,
         "requiredStock": 4
       },
       {
         "season": "summer",
+        "dailyUsage": 1,
+        "leadTime": 1,
+        "safetyStock": 3,
         "requiredStock": 4
       },
       {
         "season": "fall",
+        "dailyUsage": 1,
+        "leadTime": 1,
+        "safetyStock": 3,
         "requiredStock": 4
       }
-    ],
-    "menuTags": [],
-    "checkDate": "2026-01-12",
-    "orderStatus": "normal",
-    "orderedQuantity": null,
-    "orderedAt": null,
-    "supplierId": null
+    ]
   },
   {
     "id": "item-059",
@@ -2026,27 +2638,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "냉동기타",
     "unit": "개",
     "currentStock": 2,
-    "dailyUsage": 0,
-    "leadTime": 1,
-    "safetyStock": 2,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 2
-      },
-      {
-        "season": "spring",
-        "requiredStock": 2
-      },
-      {
-        "season": "summer",
-        "requiredStock": 2
-      },
-      {
-        "season": "fall",
-        "requiredStock": 2
-      }
-    ],
     "menuTags": [
       "tag-k5",
       "tag-k9"
@@ -2055,7 +2646,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": "sup-k1"
+    "supplierId": "sup-k1",
+    "dailyUsage": 0,
+    "leadTime": 1,
+    "safetyStock": 2,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 2,
+        "requiredStock": 2
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 2,
+        "requiredStock": 2
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 2,
+        "requiredStock": 2
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 2,
+        "requiredStock": 2
+      }
+    ]
   },
   {
     "id": "item-060",
@@ -2066,27 +2690,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "상온채소",
     "unit": "개",
     "currentStock": 3000,
-    "dailyUsage": 50,
-    "leadTime": 2,
-    "safetyStock": 500,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 600
-      },
-      {
-        "season": "spring",
-        "requiredStock": 600
-      },
-      {
-        "season": "summer",
-        "requiredStock": 600
-      },
-      {
-        "season": "fall",
-        "requiredStock": 600
-      }
-    ],
     "menuTags": [
       "tag-k8",
       "tag-k16"
@@ -2095,7 +2698,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": "sup-k3"
+    "supplierId": "sup-k3",
+    "dailyUsage": 50,
+    "leadTime": 2,
+    "safetyStock": 500,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 50,
+        "leadTime": 2,
+        "safetyStock": 500,
+        "requiredStock": 600
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 50,
+        "leadTime": 2,
+        "safetyStock": 500,
+        "requiredStock": 600
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 50,
+        "leadTime": 2,
+        "safetyStock": 500,
+        "requiredStock": 600
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 50,
+        "leadTime": 2,
+        "safetyStock": 500,
+        "requiredStock": 600
+      }
+    ]
   },
   {
     "id": "item-061",
@@ -2106,27 +2742,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "가공식품",
     "unit": "개",
     "currentStock": 4,
-    "dailyUsage": 0.1,
-    "leadTime": 1,
-    "safetyStock": 3,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 3
-      },
-      {
-        "season": "spring",
-        "requiredStock": 3
-      },
-      {
-        "season": "summer",
-        "requiredStock": 3
-      },
-      {
-        "season": "fall",
-        "requiredStock": 3
-      }
-    ],
     "menuTags": [
       "tag-k2",
       "tag-k9"
@@ -2135,7 +2750,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": "sup-k1"
+    "supplierId": "sup-k1",
+    "dailyUsage": 0.1,
+    "leadTime": 1,
+    "safetyStock": 3,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0.1,
+        "leadTime": 1,
+        "safetyStock": 3,
+        "requiredStock": 3
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0.1,
+        "leadTime": 1,
+        "safetyStock": 3,
+        "requiredStock": 3
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0.1,
+        "leadTime": 1,
+        "safetyStock": 3,
+        "requiredStock": 3
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0.1,
+        "leadTime": 1,
+        "safetyStock": 3,
+        "requiredStock": 3
+      }
+    ]
   },
   {
     "id": "item-063",
@@ -2146,27 +2794,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "가공식품",
     "unit": "개",
     "currentStock": 10,
-    "dailyUsage": 2,
-    "leadTime": 1,
-    "safetyStock": 8,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 10
-      },
-      {
-        "season": "spring",
-        "requiredStock": 10
-      },
-      {
-        "season": "summer",
-        "requiredStock": 10
-      },
-      {
-        "season": "fall",
-        "requiredStock": 10
-      }
-    ],
     "menuTags": [
       "tag-k4"
     ],
@@ -2174,7 +2801,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": null
+    "supplierId": null,
+    "dailyUsage": 2,
+    "leadTime": 1,
+    "safetyStock": 8,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 2,
+        "leadTime": 1,
+        "safetyStock": 8,
+        "requiredStock": 10
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 2,
+        "leadTime": 1,
+        "safetyStock": 8,
+        "requiredStock": 10
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 2,
+        "leadTime": 1,
+        "safetyStock": 8,
+        "requiredStock": 10
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 2,
+        "leadTime": 1,
+        "safetyStock": 8,
+        "requiredStock": 10
+      }
+    ]
   },
   {
     "id": "item-064",
@@ -2185,27 +2845,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "가공식품",
     "unit": "개",
     "currentStock": 8,
-    "dailyUsage": 0.5,
-    "leadTime": 1,
-    "safetyStock": 2,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 3
-      },
-      {
-        "season": "spring",
-        "requiredStock": 3
-      },
-      {
-        "season": "summer",
-        "requiredStock": 3
-      },
-      {
-        "season": "fall",
-        "requiredStock": 3
-      }
-    ],
     "menuTags": [
       "tag-k10"
     ],
@@ -2213,7 +2852,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": "sup-k1"
+    "supplierId": "sup-k1",
+    "dailyUsage": 0.5,
+    "leadTime": 1,
+    "safetyStock": 2,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0.5,
+        "leadTime": 1,
+        "safetyStock": 2,
+        "requiredStock": 3
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0.5,
+        "leadTime": 1,
+        "safetyStock": 2,
+        "requiredStock": 3
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0.5,
+        "leadTime": 1,
+        "safetyStock": 2,
+        "requiredStock": 3
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0.5,
+        "leadTime": 1,
+        "safetyStock": 2,
+        "requiredStock": 3
+      }
+    ]
   },
   {
     "id": "item-065",
@@ -2224,27 +2896,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "오일",
     "unit": "개",
     "currentStock": 2,
-    "dailyUsage": 0,
-    "leadTime": 1,
-    "safetyStock": 1,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 1
-      },
-      {
-        "season": "spring",
-        "requiredStock": 1
-      },
-      {
-        "season": "summer",
-        "requiredStock": 1
-      },
-      {
-        "season": "fall",
-        "requiredStock": 1
-      }
-    ],
     "menuTags": [
       "tag-k5",
       "tag-k8",
@@ -2255,7 +2906,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": "sup-k1"
+    "supplierId": "sup-k1",
+    "dailyUsage": 0,
+    "leadTime": 1,
+    "safetyStock": 1,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      }
+    ]
   },
   {
     "id": "item-066",
@@ -2266,27 +2950,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "오일",
     "unit": "개",
     "currentStock": 2,
-    "dailyUsage": 0,
-    "leadTime": 1,
-    "safetyStock": 1,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 1
-      },
-      {
-        "season": "spring",
-        "requiredStock": 1
-      },
-      {
-        "season": "summer",
-        "requiredStock": 1
-      },
-      {
-        "season": "fall",
-        "requiredStock": 1
-      }
-    ],
     "menuTags": [
       "tag-k6",
       "tag-k7",
@@ -2297,7 +2960,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": "sup-k1"
+    "supplierId": "sup-k1",
+    "dailyUsage": 0,
+    "leadTime": 1,
+    "safetyStock": 1,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      }
+    ]
   },
   {
     "id": "item-067",
@@ -2308,27 +3004,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "오일",
     "unit": "개",
     "currentStock": 4,
-    "dailyUsage": 1,
-    "leadTime": 1,
-    "safetyStock": 1,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 2
-      },
-      {
-        "season": "spring",
-        "requiredStock": 2
-      },
-      {
-        "season": "summer",
-        "requiredStock": 2
-      },
-      {
-        "season": "fall",
-        "requiredStock": 2
-      }
-    ],
     "menuTags": [
       "tag-k3",
       "tag-k6",
@@ -2338,7 +3013,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": "sup-k1"
+    "supplierId": "sup-k1",
+    "dailyUsage": 1,
+    "leadTime": 1,
+    "safetyStock": 1,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 1,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 2
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 1,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 2
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 1,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 2
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 1,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 2
+      }
+    ]
   },
   {
     "id": "item-068",
@@ -2349,27 +3057,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "캔",
     "unit": "개",
     "currentStock": 3,
-    "dailyUsage": 0,
-    "leadTime": 1,
-    "safetyStock": 0,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 2
-      },
-      {
-        "season": "spring",
-        "requiredStock": 2
-      },
-      {
-        "season": "summer",
-        "requiredStock": 2
-      },
-      {
-        "season": "fall",
-        "requiredStock": 2
-      }
-    ],
     "menuTags": [
       "tag-k1",
       "tag-k4"
@@ -2378,7 +3065,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": null
+    "supplierId": null,
+    "dailyUsage": 0,
+    "leadTime": 1,
+    "safetyStock": 0,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 0,
+        "requiredStock": 2
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 0,
+        "requiredStock": 2
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 0,
+        "requiredStock": 2
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 0,
+        "requiredStock": 2
+      }
+    ]
   },
   {
     "id": "item-069",
@@ -2389,27 +3109,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "캔",
     "unit": "개",
     "currentStock": 4,
-    "dailyUsage": 0.5,
-    "leadTime": 1,
-    "safetyStock": 1,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 2
-      },
-      {
-        "season": "spring",
-        "requiredStock": 2
-      },
-      {
-        "season": "summer",
-        "requiredStock": 2
-      },
-      {
-        "season": "fall",
-        "requiredStock": 2
-      }
-    ],
     "menuTags": [
       "tag-k7"
     ],
@@ -2417,7 +3116,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": null
+    "supplierId": null,
+    "dailyUsage": 0.5,
+    "leadTime": 1,
+    "safetyStock": 1,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0.5,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 2
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0.5,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 2
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0.5,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 2
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0.5,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 2
+      }
+    ]
   },
   {
     "id": "item-070",
@@ -2428,27 +3160,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "캔",
     "unit": "개",
     "currentStock": 2,
-    "dailyUsage": 0,
-    "leadTime": 1,
-    "safetyStock": 1,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 1
-      },
-      {
-        "season": "spring",
-        "requiredStock": 1
-      },
-      {
-        "season": "summer",
-        "requiredStock": 1
-      },
-      {
-        "season": "fall",
-        "requiredStock": 1
-      }
-    ],
     "menuTags": [
       "tag-k6",
       "tag-k15"
@@ -2457,7 +3168,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": "sup-k1"
+    "supplierId": "sup-k1",
+    "dailyUsage": 0,
+    "leadTime": 1,
+    "safetyStock": 1,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      }
+    ]
   },
   {
     "id": "item-071",
@@ -2468,27 +3212,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "상온소스",
     "unit": "개",
     "currentStock": 1,
-    "dailyUsage": 0,
-    "leadTime": 2,
-    "safetyStock": 1,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 1
-      },
-      {
-        "season": "spring",
-        "requiredStock": 1
-      },
-      {
-        "season": "summer",
-        "requiredStock": 1
-      },
-      {
-        "season": "fall",
-        "requiredStock": 1
-      }
-    ],
     "menuTags": [
       "tag-k15",
       "tag-k14"
@@ -2497,7 +3220,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": null
+    "supplierId": null,
+    "dailyUsage": 0,
+    "leadTime": 2,
+    "safetyStock": 1,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 1,
+        "requiredStock": 1
+      }
+    ]
   },
   {
     "id": "item-072",
@@ -2508,33 +3264,45 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "상온소스",
     "unit": "개",
     "currentStock": 1,
+    "menuTags": [],
+    "checkDate": "2026-01-12",
+    "orderStatus": "normal",
+    "orderedQuantity": null,
+    "orderedAt": null,
+    "supplierId": null,
     "dailyUsage": 0,
     "leadTime": 2,
     "safetyStock": 1,
     "seasonalRequirements": [
       {
         "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 1,
         "requiredStock": 1
       },
       {
         "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 1,
         "requiredStock": 1
       },
       {
         "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 1,
         "requiredStock": 1
       },
       {
         "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 1,
         "requiredStock": 1
       }
-    ],
-    "menuTags": [],
-    "checkDate": "2026-01-12",
-    "orderStatus": "normal",
-    "orderedQuantity": null,
-    "orderedAt": null,
-    "supplierId": null
+    ]
   },
   {
     "id": "item-074",
@@ -2545,27 +3313,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "상온소스",
     "unit": "개",
     "currentStock": 2,
-    "dailyUsage": 0,
-    "leadTime": 1,
-    "safetyStock": 1,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 1
-      },
-      {
-        "season": "spring",
-        "requiredStock": 1
-      },
-      {
-        "season": "summer",
-        "requiredStock": 1
-      },
-      {
-        "season": "fall",
-        "requiredStock": 1
-      }
-    ],
     "menuTags": [
       "tag-k8"
     ],
@@ -2573,7 +3320,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": "sup-k1"
+    "supplierId": "sup-k1",
+    "dailyUsage": 0,
+    "leadTime": 1,
+    "safetyStock": 1,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      }
+    ]
   },
   {
     "id": "item-075",
@@ -2584,27 +3364,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "상온소스",
     "unit": "개",
     "currentStock": 3,
-    "dailyUsage": 0,
-    "leadTime": 2,
-    "safetyStock": 1,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 1
-      },
-      {
-        "season": "spring",
-        "requiredStock": 1
-      },
-      {
-        "season": "summer",
-        "requiredStock": 1
-      },
-      {
-        "season": "fall",
-        "requiredStock": 1
-      }
-    ],
     "menuTags": [
       "tag-k16"
     ],
@@ -2612,7 +3371,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": null
+    "supplierId": null,
+    "dailyUsage": 0,
+    "leadTime": 2,
+    "safetyStock": 1,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 1,
+        "requiredStock": 1
+      }
+    ]
   },
   {
     "id": "item-076",
@@ -2623,27 +3415,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "상온소스",
     "unit": "개",
     "currentStock": 5,
-    "dailyUsage": 0,
-    "leadTime": 1,
-    "safetyStock": 3,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 3
-      },
-      {
-        "season": "spring",
-        "requiredStock": 3
-      },
-      {
-        "season": "summer",
-        "requiredStock": 3
-      },
-      {
-        "season": "fall",
-        "requiredStock": 3
-      }
-    ],
     "menuTags": [
       "tag-k1"
     ],
@@ -2651,7 +3422,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": null
+    "supplierId": null,
+    "dailyUsage": 0,
+    "leadTime": 1,
+    "safetyStock": 3,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 3,
+        "requiredStock": 3
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 3,
+        "requiredStock": 3
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 3,
+        "requiredStock": 3
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 3,
+        "requiredStock": 3
+      }
+    ]
   },
   {
     "id": "item-077",
@@ -2662,27 +3466,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "상온소스",
     "unit": "개",
     "currentStock": 3,
-    "dailyUsage": 0,
-    "leadTime": 3,
-    "safetyStock": 3,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 3
-      },
-      {
-        "season": "spring",
-        "requiredStock": 3
-      },
-      {
-        "season": "summer",
-        "requiredStock": 3
-      },
-      {
-        "season": "fall",
-        "requiredStock": 3
-      }
-    ],
     "menuTags": [
       "tag-k5"
     ],
@@ -2690,7 +3473,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": "sup-k2"
+    "supplierId": "sup-k2",
+    "dailyUsage": 0,
+    "leadTime": 3,
+    "safetyStock": 3,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 3,
+        "safetyStock": 3,
+        "requiredStock": 3
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 3,
+        "safetyStock": 3,
+        "requiredStock": 3
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 3,
+        "safetyStock": 3,
+        "requiredStock": 3
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 3,
+        "safetyStock": 3,
+        "requiredStock": 3
+      }
+    ]
   },
   {
     "id": "item-079",
@@ -2701,27 +3517,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "상온소스",
     "unit": "개",
     "currentStock": 2,
-    "dailyUsage": 0,
-    "leadTime": 1,
-    "safetyStock": 1,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 1
-      },
-      {
-        "season": "spring",
-        "requiredStock": 1
-      },
-      {
-        "season": "summer",
-        "requiredStock": 1
-      },
-      {
-        "season": "fall",
-        "requiredStock": 1
-      }
-    ],
     "menuTags": [
       "tag-k12",
       "tag-k4",
@@ -2732,7 +3527,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": "sup-k1"
+    "supplierId": "sup-k1",
+    "dailyUsage": 0,
+    "leadTime": 1,
+    "safetyStock": 1,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      }
+    ]
   },
   {
     "id": "item-081",
@@ -2743,27 +3571,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "상온소스",
     "unit": "개",
     "currentStock": 3,
-    "dailyUsage": 0,
-    "leadTime": 1,
-    "safetyStock": 1,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 2
-      },
-      {
-        "season": "spring",
-        "requiredStock": 2
-      },
-      {
-        "season": "summer",
-        "requiredStock": 2
-      },
-      {
-        "season": "fall",
-        "requiredStock": 2
-      }
-    ],
     "menuTags": [
       "tag-k1",
       "tag-k13",
@@ -2773,7 +3580,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": "sup-k1"
+    "supplierId": "sup-k1",
+    "dailyUsage": 0,
+    "leadTime": 1,
+    "safetyStock": 1,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 2
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 2
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 2
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 2
+      }
+    ]
   },
   {
     "id": "item-082",
@@ -2784,27 +3624,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "상온소스",
     "unit": "개",
     "currentStock": 2,
-    "dailyUsage": 0,
-    "leadTime": 1,
-    "safetyStock": 2,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 2
-      },
-      {
-        "season": "spring",
-        "requiredStock": 2
-      },
-      {
-        "season": "summer",
-        "requiredStock": 2
-      },
-      {
-        "season": "fall",
-        "requiredStock": 2
-      }
-    ],
     "menuTags": [
       "tag-k1",
       "tag-k7"
@@ -2813,7 +3632,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": "sup-k1"
+    "supplierId": "sup-k1",
+    "dailyUsage": 0,
+    "leadTime": 1,
+    "safetyStock": 2,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 2,
+        "requiredStock": 2
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 2,
+        "requiredStock": 2
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 2,
+        "requiredStock": 2
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 2,
+        "requiredStock": 2
+      }
+    ]
   },
   {
     "id": "item-083",
@@ -2824,27 +3676,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "건허브&향신료",
     "unit": "개",
     "currentStock": 1,
-    "dailyUsage": 0,
-    "leadTime": 1,
-    "safetyStock": 1,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 1
-      },
-      {
-        "season": "spring",
-        "requiredStock": 1
-      },
-      {
-        "season": "summer",
-        "requiredStock": 1
-      },
-      {
-        "season": "fall",
-        "requiredStock": 1
-      }
-    ],
     "menuTags": [
       "tag-k1"
     ],
@@ -2852,7 +3683,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": null
+    "supplierId": null,
+    "dailyUsage": 0,
+    "leadTime": 1,
+    "safetyStock": 1,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      }
+    ]
   },
   {
     "id": "item-099",
@@ -2863,27 +3727,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "가루류",
     "unit": "개",
     "currentStock": 1,
-    "dailyUsage": 20.7,
-    "leadTime": 2,
-    "safetyStock": 1,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 0
-      },
-      {
-        "season": "spring",
-        "requiredStock": 1
-      },
-      {
-        "season": "summer",
-        "requiredStock": 1
-      },
-      {
-        "season": "fall",
-        "requiredStock": 1
-      }
-    ],
     "menuTags": [
       "tag-k16"
     ],
@@ -2891,7 +3734,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": "sup-k1"
+    "supplierId": "sup-k1",
+    "dailyUsage": 20.7,
+    "leadTime": 2,
+    "safetyStock": 1,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 20.7,
+        "leadTime": 2,
+        "safetyStock": 1,
+        "requiredStock": 0
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 20.7,
+        "leadTime": 2,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 20.7,
+        "leadTime": 2,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 20.7,
+        "leadTime": 2,
+        "safetyStock": 1,
+        "requiredStock": 1
+      }
+    ]
   },
   {
     "id": "item-086",
@@ -2902,27 +3778,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "건허브&향신료",
     "unit": "개",
     "currentStock": 1,
-    "dailyUsage": 0,
-    "leadTime": 1,
-    "safetyStock": 1,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 1
-      },
-      {
-        "season": "spring",
-        "requiredStock": 1
-      },
-      {
-        "season": "summer",
-        "requiredStock": 1
-      },
-      {
-        "season": "fall",
-        "requiredStock": 1
-      }
-    ],
     "menuTags": [
       "tag-k4"
     ],
@@ -2930,7 +3785,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": null
+    "supplierId": null,
+    "dailyUsage": 0,
+    "leadTime": 1,
+    "safetyStock": 1,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      }
+    ]
   },
   {
     "id": "item-087",
@@ -2941,33 +3829,45 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "건허브&향신료",
     "unit": "개",
     "currentStock": 1,
+    "menuTags": [],
+    "checkDate": "2026-01-12",
+    "orderStatus": "normal",
+    "orderedQuantity": null,
+    "orderedAt": null,
+    "supplierId": null,
     "dailyUsage": 0,
     "leadTime": 2,
     "safetyStock": 1,
     "seasonalRequirements": [
       {
         "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 1,
         "requiredStock": 1
       },
       {
         "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 1,
         "requiredStock": 1
       },
       {
         "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 1,
         "requiredStock": 1
       },
       {
         "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 1,
         "requiredStock": 1
       }
-    ],
-    "menuTags": [],
-    "checkDate": "2026-01-12",
-    "orderStatus": "normal",
-    "orderedQuantity": null,
-    "orderedAt": null,
-    "supplierId": null
+    ]
   },
   {
     "id": "item-088",
@@ -2978,27 +3878,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "건허브&향신료",
     "unit": "개",
     "currentStock": 1,
-    "dailyUsage": 0,
-    "leadTime": 1,
-    "safetyStock": 1,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 1
-      },
-      {
-        "season": "spring",
-        "requiredStock": 1
-      },
-      {
-        "season": "summer",
-        "requiredStock": 1
-      },
-      {
-        "season": "fall",
-        "requiredStock": 1
-      }
-    ],
     "menuTags": [
       "tag-k13"
     ],
@@ -3006,7 +3885,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": null
+    "supplierId": null,
+    "dailyUsage": 0,
+    "leadTime": 1,
+    "safetyStock": 1,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      }
+    ]
   },
   {
     "id": "item-089",
@@ -3017,27 +3929,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "건허브&향신료",
     "unit": "개",
     "currentStock": 3,
-    "dailyUsage": 0,
-    "leadTime": 1,
-    "safetyStock": 1,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 3
-      },
-      {
-        "season": "spring",
-        "requiredStock": 3
-      },
-      {
-        "season": "summer",
-        "requiredStock": 3
-      },
-      {
-        "season": "fall",
-        "requiredStock": 3
-      }
-    ],
     "menuTags": [
       "tag-k5"
     ],
@@ -3045,7 +3936,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": "sup-k2"
+    "supplierId": "sup-k2",
+    "dailyUsage": 0,
+    "leadTime": 1,
+    "safetyStock": 1,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 3
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 3
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 3
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 3
+      }
+    ]
   },
   {
     "id": "item-090",
@@ -3056,27 +3980,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "건허브&향신료",
     "unit": "개",
     "currentStock": 1,
-    "dailyUsage": 0,
-    "leadTime": 1,
-    "safetyStock": 1,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 1
-      },
-      {
-        "season": "spring",
-        "requiredStock": 1
-      },
-      {
-        "season": "summer",
-        "requiredStock": 1
-      },
-      {
-        "season": "fall",
-        "requiredStock": 1
-      }
-    ],
     "menuTags": [
       "tag-k2",
       "tag-k9"
@@ -3085,7 +3988,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": "sup-k1"
+    "supplierId": "sup-k1",
+    "dailyUsage": 0,
+    "leadTime": 1,
+    "safetyStock": 1,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      }
+    ]
   },
   {
     "id": "item-091",
@@ -3096,27 +4032,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "견과류&곡물류",
     "unit": "개",
     "currentStock": 1,
-    "dailyUsage": 0,
-    "leadTime": 1,
-    "safetyStock": 1,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 1
-      },
-      {
-        "season": "spring",
-        "requiredStock": 1
-      },
-      {
-        "season": "summer",
-        "requiredStock": 1
-      },
-      {
-        "season": "fall",
-        "requiredStock": 1
-      }
-    ],
     "menuTags": [
       "tag-k2",
       "tag-k7",
@@ -3126,7 +4041,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": "sup-k1"
+    "supplierId": "sup-k1",
+    "dailyUsage": 0,
+    "leadTime": 1,
+    "safetyStock": 1,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      }
+    ]
   },
   {
     "id": "item-092",
@@ -3137,27 +4085,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "견과류&곡물류",
     "unit": "개",
     "currentStock": 1,
-    "dailyUsage": 0,
-    "leadTime": 1,
-    "safetyStock": 1,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 1
-      },
-      {
-        "season": "spring",
-        "requiredStock": 1
-      },
-      {
-        "season": "summer",
-        "requiredStock": 1
-      },
-      {
-        "season": "fall",
-        "requiredStock": 1
-      }
-    ],
     "menuTags": [
       "tag-k2",
       "tag-k9"
@@ -3166,7 +4093,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": "sup-k1"
+    "supplierId": "sup-k1",
+    "dailyUsage": 0,
+    "leadTime": 1,
+    "safetyStock": 1,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      }
+    ]
   },
   {
     "id": "item-093",
@@ -3177,27 +4137,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "견과류&곡물류",
     "unit": "개",
     "currentStock": 1,
-    "dailyUsage": 0,
-    "leadTime": 1,
-    "safetyStock": 1,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 1
-      },
-      {
-        "season": "spring",
-        "requiredStock": 1
-      },
-      {
-        "season": "summer",
-        "requiredStock": 1
-      },
-      {
-        "season": "fall",
-        "requiredStock": 1
-      }
-    ],
     "menuTags": [
       "tag-k5"
     ],
@@ -3205,7 +4144,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": null
+    "supplierId": null,
+    "dailyUsage": 0,
+    "leadTime": 1,
+    "safetyStock": 1,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      }
+    ]
   },
   {
     "id": "item-094",
@@ -3216,27 +4188,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "견과류&곡물류",
     "unit": "개",
     "currentStock": 1,
-    "dailyUsage": 0,
-    "leadTime": 1,
-    "safetyStock": 1,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 1
-      },
-      {
-        "season": "spring",
-        "requiredStock": 1
-      },
-      {
-        "season": "summer",
-        "requiredStock": 1
-      },
-      {
-        "season": "fall",
-        "requiredStock": 1
-      }
-    ],
     "menuTags": [
       "tag-k5"
     ],
@@ -3244,7 +4195,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": null
+    "supplierId": null,
+    "dailyUsage": 0,
+    "leadTime": 1,
+    "safetyStock": 1,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      }
+    ]
   },
   {
     "id": "item-095",
@@ -3255,27 +4239,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "견과류&곡물류",
     "unit": "개",
     "currentStock": 1,
-    "dailyUsage": 0,
-    "leadTime": 1,
-    "safetyStock": 1,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 1
-      },
-      {
-        "season": "spring",
-        "requiredStock": 1
-      },
-      {
-        "season": "summer",
-        "requiredStock": 1
-      },
-      {
-        "season": "fall",
-        "requiredStock": 1
-      }
-    ],
     "menuTags": [
       "tag-k5"
     ],
@@ -3283,7 +4246,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": null
+    "supplierId": null,
+    "dailyUsage": 0,
+    "leadTime": 1,
+    "safetyStock": 1,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      }
+    ]
   },
   {
     "id": "item-096",
@@ -3294,27 +4290,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "견과류&곡물류",
     "unit": "개",
     "currentStock": 1,
-    "dailyUsage": 0,
-    "leadTime": 1,
-    "safetyStock": 1,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 1
-      },
-      {
-        "season": "spring",
-        "requiredStock": 1
-      },
-      {
-        "season": "summer",
-        "requiredStock": 1
-      },
-      {
-        "season": "fall",
-        "requiredStock": 1
-      }
-    ],
     "menuTags": [
       "tag-k5"
     ],
@@ -3322,7 +4297,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": null
+    "supplierId": null,
+    "dailyUsage": 0,
+    "leadTime": 1,
+    "safetyStock": 1,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      }
+    ]
   },
   {
     "id": "item-097",
@@ -3333,27 +4341,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "견과류&곡물류",
     "unit": "개",
     "currentStock": 1,
-    "dailyUsage": 0,
-    "leadTime": 1,
-    "safetyStock": 1,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 1
-      },
-      {
-        "season": "spring",
-        "requiredStock": 1
-      },
-      {
-        "season": "summer",
-        "requiredStock": 1
-      },
-      {
-        "season": "fall",
-        "requiredStock": 1
-      }
-    ],
     "menuTags": [
       "tag-k5"
     ],
@@ -3361,7 +4348,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": null
+    "supplierId": null,
+    "dailyUsage": 0,
+    "leadTime": 1,
+    "safetyStock": 1,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      }
+    ]
   },
   {
     "id": "item-100",
@@ -3372,27 +4392,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "가루류",
     "unit": "개",
     "currentStock": 1,
-    "dailyUsage": 0,
-    "leadTime": 1,
-    "safetyStock": 1,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 1
-      },
-      {
-        "season": "spring",
-        "requiredStock": 1
-      },
-      {
-        "season": "summer",
-        "requiredStock": 1
-      },
-      {
-        "season": "fall",
-        "requiredStock": 1
-      }
-    ],
     "menuTags": [
       "tag-k5",
       "tag-k6",
@@ -3402,7 +4401,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": null
+    "supplierId": null,
+    "dailyUsage": 0,
+    "leadTime": 1,
+    "safetyStock": 1,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      }
+    ]
   },
   {
     "id": "item-101",
@@ -3413,27 +4445,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "가루류",
     "unit": "개",
     "currentStock": 1,
-    "dailyUsage": 0,
-    "leadTime": 1,
-    "safetyStock": 1,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 1
-      },
-      {
-        "season": "spring",
-        "requiredStock": 1
-      },
-      {
-        "season": "summer",
-        "requiredStock": 1
-      },
-      {
-        "season": "fall",
-        "requiredStock": 1
-      }
-    ],
     "menuTags": [
       "tag-k9",
       "tag-k5"
@@ -3442,7 +4453,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": null
+    "supplierId": null,
+    "dailyUsage": 0,
+    "leadTime": 1,
+    "safetyStock": 1,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      }
+    ]
   },
   {
     "id": "item-102",
@@ -3453,27 +4497,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "가루류",
     "unit": "개",
     "currentStock": 1,
-    "dailyUsage": 0,
-    "leadTime": 1,
-    "safetyStock": 1,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 1
-      },
-      {
-        "season": "spring",
-        "requiredStock": 1
-      },
-      {
-        "season": "summer",
-        "requiredStock": 1
-      },
-      {
-        "season": "fall",
-        "requiredStock": 1
-      }
-    ],
     "menuTags": [
       "tag-k9"
     ],
@@ -3481,7 +4504,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": null
+    "supplierId": null,
+    "dailyUsage": 0,
+    "leadTime": 1,
+    "safetyStock": 1,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      }
+    ]
   },
   {
     "id": "item-103",
@@ -3492,27 +4548,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "가루류",
     "unit": "개",
     "currentStock": 1,
-    "dailyUsage": 0,
-    "leadTime": 1,
-    "safetyStock": 1,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 1
-      },
-      {
-        "season": "spring",
-        "requiredStock": 1
-      },
-      {
-        "season": "summer",
-        "requiredStock": 1
-      },
-      {
-        "season": "fall",
-        "requiredStock": 1
-      }
-    ],
     "menuTags": [
       "tag-k14",
       "tag-k4"
@@ -3521,7 +4556,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": null
+    "supplierId": null,
+    "dailyUsage": 0,
+    "leadTime": 1,
+    "safetyStock": 1,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      }
+    ]
   },
   {
     "id": "item-085",
@@ -3532,27 +4600,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "건허브&향신료",
     "unit": "개",
     "currentStock": 2,
-    "dailyUsage": 0,
-    "leadTime": 1,
-    "safetyStock": 1,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 2
-      },
-      {
-        "season": "spring",
-        "requiredStock": 2
-      },
-      {
-        "season": "summer",
-        "requiredStock": 2
-      },
-      {
-        "season": "fall",
-        "requiredStock": 2
-      }
-    ],
     "menuTags": [
       "tag-k6",
       "tag-k8",
@@ -3563,7 +4610,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": "sup-k1"
+    "supplierId": "sup-k1",
+    "dailyUsage": 0,
+    "leadTime": 1,
+    "safetyStock": 1,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 2
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 2
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 2
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 2
+      }
+    ]
   },
   {
     "id": "item-107",
@@ -3574,33 +4654,45 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "소모품",
     "unit": "개",
     "currentStock": 2,
+    "menuTags": [],
+    "checkDate": null,
+    "orderStatus": "normal",
+    "orderedQuantity": null,
+    "orderedAt": null,
+    "supplierId": null,
     "dailyUsage": 0,
     "leadTime": 1,
     "safetyStock": 2,
     "seasonalRequirements": [
       {
         "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 2,
         "requiredStock": 2
       },
       {
         "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 2,
         "requiredStock": 2
       },
       {
         "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 2,
         "requiredStock": 2
       },
       {
         "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 2,
         "requiredStock": 2
       }
-    ],
-    "menuTags": [],
-    "checkDate": null,
-    "orderStatus": "normal",
-    "orderedQuantity": null,
-    "orderedAt": null,
-    "supplierId": null
+    ]
   },
   {
     "id": "item-108",
@@ -3611,33 +4703,45 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "소모품",
     "unit": "개",
     "currentStock": 2,
+    "menuTags": [],
+    "checkDate": null,
+    "orderStatus": "normal",
+    "orderedQuantity": null,
+    "orderedAt": null,
+    "supplierId": "sup-k1",
     "dailyUsage": 0,
     "leadTime": 1,
     "safetyStock": 2,
     "seasonalRequirements": [
       {
         "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 2,
         "requiredStock": 2
       },
       {
         "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 2,
         "requiredStock": 2
       },
       {
         "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 2,
         "requiredStock": 2
       },
       {
         "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 2,
         "requiredStock": 2
       }
-    ],
-    "menuTags": [],
-    "checkDate": null,
-    "orderStatus": "normal",
-    "orderedQuantity": null,
-    "orderedAt": null,
-    "supplierId": "sup-k1"
+    ]
   },
   {
     "id": "item-109",
@@ -3648,33 +4752,45 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "소모품",
     "unit": "개",
     "currentStock": 8,
+    "menuTags": [],
+    "checkDate": null,
+    "orderStatus": "normal",
+    "orderedQuantity": null,
+    "orderedAt": null,
+    "supplierId": "sup-k1",
     "dailyUsage": 0,
     "leadTime": 1,
     "safetyStock": 8,
     "seasonalRequirements": [
       {
         "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 8,
         "requiredStock": 8
       },
       {
         "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 8,
         "requiredStock": 8
       },
       {
         "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 8,
         "requiredStock": 8
       },
       {
         "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 8,
         "requiredStock": 8
       }
-    ],
-    "menuTags": [],
-    "checkDate": null,
-    "orderStatus": "normal",
-    "orderedQuantity": null,
-    "orderedAt": null,
-    "supplierId": "sup-k1"
+    ]
   },
   {
     "id": "item-110",
@@ -3685,33 +4801,45 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "소모품",
     "unit": "개",
     "currentStock": 3,
+    "menuTags": [],
+    "checkDate": null,
+    "orderStatus": "normal",
+    "orderedQuantity": null,
+    "orderedAt": null,
+    "supplierId": "sup-k1",
     "dailyUsage": 0,
     "leadTime": 1,
     "safetyStock": 3,
     "seasonalRequirements": [
       {
         "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 3,
         "requiredStock": 3
       },
       {
         "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 3,
         "requiredStock": 3
       },
       {
         "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 3,
         "requiredStock": 3
       },
       {
         "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 3,
         "requiredStock": 3
       }
-    ],
-    "menuTags": [],
-    "checkDate": null,
-    "orderStatus": "normal",
-    "orderedQuantity": null,
-    "orderedAt": null,
-    "supplierId": "sup-k1"
+    ]
   },
   {
     "id": "item-111",
@@ -3722,33 +4850,45 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "소모품",
     "unit": "개",
     "currentStock": 1,
+    "menuTags": [],
+    "checkDate": null,
+    "orderStatus": "normal",
+    "orderedQuantity": null,
+    "orderedAt": null,
+    "supplierId": null,
     "dailyUsage": 0,
     "leadTime": 1,
     "safetyStock": 1,
     "seasonalRequirements": [
       {
         "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
         "requiredStock": 1
       },
       {
         "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
         "requiredStock": 1
       },
       {
         "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
         "requiredStock": 1
       },
       {
         "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
         "requiredStock": 1
       }
-    ],
-    "menuTags": [],
-    "checkDate": null,
-    "orderStatus": "normal",
-    "orderedQuantity": null,
-    "orderedAt": null,
-    "supplierId": null
+    ]
   },
   {
     "id": "item-112",
@@ -3759,33 +4899,45 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "소모품",
     "unit": "개",
     "currentStock": 3,
+    "menuTags": [],
+    "checkDate": null,
+    "orderStatus": "normal",
+    "orderedQuantity": null,
+    "orderedAt": null,
+    "supplierId": null,
     "dailyUsage": 0,
     "leadTime": 1,
     "safetyStock": 3,
     "seasonalRequirements": [
       {
         "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 3,
         "requiredStock": 3
       },
       {
         "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 3,
         "requiredStock": 3
       },
       {
         "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 3,
         "requiredStock": 3
       },
       {
         "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 3,
         "requiredStock": 3
       }
-    ],
-    "menuTags": [],
-    "checkDate": null,
-    "orderStatus": "normal",
-    "orderedQuantity": null,
-    "orderedAt": null,
-    "supplierId": null
+    ]
   },
   {
     "id": "item-113",
@@ -3796,33 +4948,45 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "소모품",
     "unit": "개",
     "currentStock": 1,
+    "menuTags": [],
+    "checkDate": null,
+    "orderStatus": "normal",
+    "orderedQuantity": null,
+    "orderedAt": null,
+    "supplierId": null,
     "dailyUsage": 0,
     "leadTime": 1,
     "safetyStock": 1,
     "seasonalRequirements": [
       {
         "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
         "requiredStock": 1
       },
       {
         "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
         "requiredStock": 1
       },
       {
         "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
         "requiredStock": 1
       },
       {
         "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
         "requiredStock": 1
       }
-    ],
-    "menuTags": [],
-    "checkDate": null,
-    "orderStatus": "normal",
-    "orderedQuantity": null,
-    "orderedAt": null,
-    "supplierId": null
+    ]
   },
   {
     "id": "item-114",
@@ -3833,33 +4997,45 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "소모품",
     "unit": "개",
     "currentStock": 7,
+    "menuTags": [],
+    "checkDate": null,
+    "orderStatus": "normal",
+    "orderedQuantity": null,
+    "orderedAt": null,
+    "supplierId": "sup-k1",
     "dailyUsage": 0,
     "leadTime": 2,
     "safetyStock": 4,
     "seasonalRequirements": [
       {
         "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 4,
         "requiredStock": 4
       },
       {
         "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 4,
         "requiredStock": 4
       },
       {
         "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 4,
         "requiredStock": 4
       },
       {
         "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 4,
         "requiredStock": 4
       }
-    ],
-    "menuTags": [],
-    "checkDate": null,
-    "orderStatus": "normal",
-    "orderedQuantity": null,
-    "orderedAt": null,
-    "supplierId": "sup-k1"
+    ]
   },
   {
     "id": "item-115",
@@ -3870,33 +5046,45 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "소모품",
     "unit": "개",
     "currentStock": 1,
+    "menuTags": [],
+    "checkDate": null,
+    "orderStatus": "normal",
+    "orderedQuantity": null,
+    "orderedAt": null,
+    "supplierId": null,
     "dailyUsage": 0,
     "leadTime": 2,
     "safetyStock": 1,
     "seasonalRequirements": [
       {
         "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 1,
         "requiredStock": 1
       },
       {
         "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 1,
         "requiredStock": 1
       },
       {
         "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 1,
         "requiredStock": 1
       },
       {
         "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 1,
         "requiredStock": 1
       }
-    ],
-    "menuTags": [],
-    "checkDate": null,
-    "orderStatus": "normal",
-    "orderedQuantity": null,
-    "orderedAt": null,
-    "supplierId": null
+    ]
   },
   {
     "id": "item-117",
@@ -3907,33 +5095,45 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "소모품",
     "unit": "개",
     "currentStock": 2,
+    "menuTags": [],
+    "checkDate": null,
+    "orderStatus": "normal",
+    "orderedQuantity": null,
+    "orderedAt": null,
+    "supplierId": null,
     "dailyUsage": 0,
     "leadTime": 2,
     "safetyStock": 2,
     "seasonalRequirements": [
       {
         "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 2,
         "requiredStock": 2
       },
       {
         "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 2,
         "requiredStock": 2
       },
       {
         "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 2,
         "requiredStock": 2
       },
       {
         "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 2,
         "requiredStock": 2
       }
-    ],
-    "menuTags": [],
-    "checkDate": null,
-    "orderStatus": "normal",
-    "orderedQuantity": null,
-    "orderedAt": null,
-    "supplierId": null
+    ]
   },
   {
     "id": "item-116",
@@ -3944,33 +5144,45 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "소모품",
     "unit": "개",
     "currentStock": 2,
+    "menuTags": [],
+    "checkDate": null,
+    "orderStatus": "ordered",
+    "orderedQuantity": 2,
+    "orderedAt": "2026-01-11T14:54:03.584Z",
+    "supplierId": "sup-k1",
     "dailyUsage": 0,
     "leadTime": 2,
     "safetyStock": 1,
     "seasonalRequirements": [
       {
         "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 1,
         "requiredStock": 4
       },
       {
         "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 1,
         "requiredStock": 4
       },
       {
         "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 1,
         "requiredStock": 4
       },
       {
         "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 1,
         "requiredStock": 4
       }
-    ],
-    "menuTags": [],
-    "checkDate": null,
-    "orderStatus": "ordered",
-    "orderedQuantity": 2,
-    "orderedAt": "2026-01-11T14:54:03.584Z",
-    "supplierId": "sup-k1"
+    ]
   },
   {
     "id": "item-118",
@@ -3981,33 +5193,45 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "소모품",
     "unit": "개",
     "currentStock": 0,
+    "menuTags": [],
+    "checkDate": null,
+    "orderStatus": "ordered",
+    "orderedQuantity": 1,
+    "orderedAt": "2026-01-11T14:54:05.028Z",
+    "supplierId": "sup-k1",
     "dailyUsage": 0,
     "leadTime": 3,
     "safetyStock": 1,
     "seasonalRequirements": [
       {
         "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 3,
+        "safetyStock": 1,
         "requiredStock": 1
       },
       {
         "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 3,
+        "safetyStock": 1,
         "requiredStock": 1
       },
       {
         "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 3,
+        "safetyStock": 1,
         "requiredStock": 1
       },
       {
         "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 3,
+        "safetyStock": 1,
         "requiredStock": 1
       }
-    ],
-    "menuTags": [],
-    "checkDate": null,
-    "orderStatus": "ordered",
-    "orderedQuantity": 1,
-    "orderedAt": "2026-01-11T14:54:05.028Z",
-    "supplierId": "sup-k1"
+    ]
   },
   {
     "id": "item-105",
@@ -4018,27 +5242,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "가루류",
     "unit": "개",
     "currentStock": 1,
-    "dailyUsage": 0,
-    "leadTime": 1,
-    "safetyStock": 1,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 1
-      },
-      {
-        "season": "spring",
-        "requiredStock": 1
-      },
-      {
-        "season": "summer",
-        "requiredStock": 1
-      },
-      {
-        "season": "fall",
-        "requiredStock": 1
-      }
-    ],
     "menuTags": [
       "tag-k17"
     ],
@@ -4046,7 +5249,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": null
+    "supplierId": null,
+    "dailyUsage": 0,
+    "leadTime": 1,
+    "safetyStock": 1,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      }
+    ]
   },
   {
     "id": "item-106",
@@ -4057,27 +5293,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "가루류",
     "unit": "개",
     "currentStock": 2,
-    "dailyUsage": 0,
-    "leadTime": 1,
-    "safetyStock": 2,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 2
-      },
-      {
-        "season": "spring",
-        "requiredStock": 2
-      },
-      {
-        "season": "summer",
-        "requiredStock": 2
-      },
-      {
-        "season": "fall",
-        "requiredStock": 2
-      }
-    ],
     "menuTags": [
       "tag-k17"
     ],
@@ -4085,7 +5300,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": "sup-k1"
+    "supplierId": "sup-k1",
+    "dailyUsage": 0,
+    "leadTime": 1,
+    "safetyStock": 2,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 2,
+        "requiredStock": 2
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 2,
+        "requiredStock": 2
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 2,
+        "requiredStock": 2
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 2,
+        "requiredStock": 2
+      }
+    ]
   },
   {
     "id": "item-098",
@@ -4096,27 +5344,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "가루류",
     "unit": "개",
     "currentStock": 4,
-    "dailyUsage": 0,
-    "leadTime": 2,
-    "safetyStock": 3,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 3
-      },
-      {
-        "season": "spring",
-        "requiredStock": 3
-      },
-      {
-        "season": "summer",
-        "requiredStock": 3
-      },
-      {
-        "season": "fall",
-        "requiredStock": 3
-      }
-    ],
     "menuTags": [
       "tag-k6",
       "tag-k7",
@@ -4126,7 +5353,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": null
+    "supplierId": null,
+    "dailyUsage": 0,
+    "leadTime": 2,
+    "safetyStock": 3,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 3,
+        "requiredStock": 3
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 3,
+        "requiredStock": 3
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 3,
+        "requiredStock": 3
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 3,
+        "requiredStock": 3
+      }
+    ]
   },
   {
     "id": "item-023",
@@ -4137,27 +5397,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "잎채소&허브류",
     "unit": "개",
     "currentStock": 4,
-    "dailyUsage": 1,
-    "leadTime": 2,
-    "safetyStock": 4,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 6
-      },
-      {
-        "season": "spring",
-        "requiredStock": 6
-      },
-      {
-        "season": "summer",
-        "requiredStock": 6
-      },
-      {
-        "season": "fall",
-        "requiredStock": 6
-      }
-    ],
     "menuTags": [
       "tag-k14"
     ],
@@ -4165,7 +5404,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "ordered",
     "orderedQuantity": 2,
     "orderedAt": "2026-01-11T14:53:42.267Z",
-    "supplierId": "sup-k1"
+    "supplierId": "sup-k1",
+    "dailyUsage": 1,
+    "leadTime": 2,
+    "safetyStock": 4,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 1,
+        "leadTime": 2,
+        "safetyStock": 4,
+        "requiredStock": 6
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 1,
+        "leadTime": 2,
+        "safetyStock": 4,
+        "requiredStock": 6
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 1,
+        "leadTime": 2,
+        "safetyStock": 4,
+        "requiredStock": 6
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 1,
+        "leadTime": 2,
+        "safetyStock": 4,
+        "requiredStock": 6
+      }
+    ]
   },
   {
     "id": "item-037",
@@ -4176,27 +5448,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "채소&버섯&과일",
     "unit": "개",
     "currentStock": 0,
-    "dailyUsage": 0,
-    "leadTime": 1,
-    "safetyStock": 1,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 1
-      },
-      {
-        "season": "spring",
-        "requiredStock": 1
-      },
-      {
-        "season": "summer",
-        "requiredStock": 1
-      },
-      {
-        "season": "fall",
-        "requiredStock": 1
-      }
-    ],
     "menuTags": [
       "tag-k5"
     ],
@@ -4204,7 +5455,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "ordered",
     "orderedQuantity": 1,
     "orderedAt": "2026-01-11T14:53:44.484Z",
-    "supplierId": null
+    "supplierId": null,
+    "dailyUsage": 0,
+    "leadTime": 1,
+    "safetyStock": 1,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      }
+    ]
   },
   {
     "id": "item-078",
@@ -4215,27 +5499,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "상온소스",
     "unit": "개",
     "currentStock": 2,
-    "dailyUsage": 0,
-    "leadTime": 2,
-    "safetyStock": 2,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 2
-      },
-      {
-        "season": "spring",
-        "requiredStock": 2
-      },
-      {
-        "season": "summer",
-        "requiredStock": 2
-      },
-      {
-        "season": "fall",
-        "requiredStock": 2
-      }
-    ],
     "menuTags": [
       "tag-k2",
       "tag-k7"
@@ -4244,7 +5507,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": "sup-k1"
+    "supplierId": "sup-k1",
+    "dailyUsage": 0,
+    "leadTime": 2,
+    "safetyStock": 2,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 2,
+        "requiredStock": 2
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 2,
+        "requiredStock": 2
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 2,
+        "requiredStock": 2
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 2,
+        "requiredStock": 2
+      }
+    ]
   },
   {
     "id": "item-004",
@@ -4255,27 +5551,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "유제품&치즈",
     "unit": "개",
     "currentStock": 1,
-    "dailyUsage": 0,
-    "leadTime": 1,
-    "safetyStock": 1,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 1
-      },
-      {
-        "season": "spring",
-        "requiredStock": 1
-      },
-      {
-        "season": "summer",
-        "requiredStock": 1
-      },
-      {
-        "season": "fall",
-        "requiredStock": 1
-      }
-    ],
     "menuTags": [
       "tag-k5"
     ],
@@ -4283,7 +5558,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": null
+    "supplierId": null,
+    "dailyUsage": 0,
+    "leadTime": 1,
+    "safetyStock": 1,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      }
+    ]
   },
   {
     "id": "item-020",
@@ -4294,27 +5602,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "잎채소&허브류",
     "unit": "개",
     "currentStock": 0.2,
-    "dailyUsage": 0,
-    "leadTime": 2,
-    "safetyStock": 0,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 0.2
-      },
-      {
-        "season": "spring",
-        "requiredStock": 0.2
-      },
-      {
-        "season": "summer",
-        "requiredStock": 0.2
-      },
-      {
-        "season": "fall",
-        "requiredStock": 0.2
-      }
-    ],
     "menuTags": [
       "tag-k11"
     ],
@@ -4322,7 +5609,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": "sup-k1"
+    "supplierId": "sup-k1",
+    "dailyUsage": 0,
+    "leadTime": 2,
+    "safetyStock": 0,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 0,
+        "requiredStock": 0.2
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 0,
+        "requiredStock": 0.2
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 0,
+        "requiredStock": 0.2
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 0,
+        "requiredStock": 0.2
+      }
+    ]
   },
   {
     "id": "item-021",
@@ -4333,27 +5653,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "잎채소&허브류",
     "unit": "개",
     "currentStock": 2,
-    "dailyUsage": 0,
-    "leadTime": 2,
-    "safetyStock": 1,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 1
-      },
-      {
-        "season": "spring",
-        "requiredStock": 1
-      },
-      {
-        "season": "summer",
-        "requiredStock": 1
-      },
-      {
-        "season": "fall",
-        "requiredStock": 1
-      }
-    ],
     "menuTags": [
       "tag-k8",
       "tag-k15"
@@ -4362,7 +5661,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": "sup-k1"
+    "supplierId": "sup-k1",
+    "dailyUsage": 0,
+    "leadTime": 2,
+    "safetyStock": 1,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 2,
+        "safetyStock": 1,
+        "requiredStock": 1
+      }
+    ]
   },
   {
     "id": "item-062",
@@ -4373,27 +5705,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "가공식품",
     "unit": "개",
     "currentStock": 8,
-    "dailyUsage": 1.5,
-    "leadTime": 1,
-    "safetyStock": 6,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 8
-      },
-      {
-        "season": "spring",
-        "requiredStock": 8
-      },
-      {
-        "season": "summer",
-        "requiredStock": 8
-      },
-      {
-        "season": "fall",
-        "requiredStock": 8
-      }
-    ],
     "menuTags": [
       "tag-k3"
     ],
@@ -4401,7 +5712,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": null
+    "supplierId": null,
+    "dailyUsage": 1.5,
+    "leadTime": 1,
+    "safetyStock": 6,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 1.5,
+        "leadTime": 1,
+        "safetyStock": 6,
+        "requiredStock": 8
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 1.5,
+        "leadTime": 1,
+        "safetyStock": 6,
+        "requiredStock": 8
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 1.5,
+        "leadTime": 1,
+        "safetyStock": 6,
+        "requiredStock": 8
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 1.5,
+        "leadTime": 1,
+        "safetyStock": 6,
+        "requiredStock": 8
+      }
+    ]
   },
   {
     "id": "item-073",
@@ -4412,27 +5756,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "상온소스",
     "unit": "개",
     "currentStock": 5,
-    "dailyUsage": 0.1,
-    "leadTime": 1,
-    "safetyStock": 1,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 1
-      },
-      {
-        "season": "spring",
-        "requiredStock": 1
-      },
-      {
-        "season": "summer",
-        "requiredStock": 1
-      },
-      {
-        "season": "fall",
-        "requiredStock": 1
-      }
-    ],
     "menuTags": [
       "tag-k8"
     ],
@@ -4440,7 +5763,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": null
+    "supplierId": null,
+    "dailyUsage": 0.1,
+    "leadTime": 1,
+    "safetyStock": 1,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0.1,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0.1,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0.1,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0.1,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      }
+    ]
   },
   {
     "id": "item-084",
@@ -4451,27 +5807,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "건허브&향신료",
     "unit": "개",
     "currentStock": 2,
-    "dailyUsage": 0,
-    "leadTime": 1,
-    "safetyStock": 1,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 1
-      },
-      {
-        "season": "spring",
-        "requiredStock": 1
-      },
-      {
-        "season": "summer",
-        "requiredStock": 1
-      },
-      {
-        "season": "fall",
-        "requiredStock": 1
-      }
-    ],
     "menuTags": [
       "tag-k1"
     ],
@@ -4479,7 +5814,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": null
+    "supplierId": null,
+    "dailyUsage": 0,
+    "leadTime": 1,
+    "safetyStock": 1,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      }
+    ]
   },
   {
     "id": "item-104",
@@ -4490,27 +5858,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "가루류",
     "unit": "개",
     "currentStock": 4,
-    "dailyUsage": 0,
-    "leadTime": 1,
-    "safetyStock": 1,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 1
-      },
-      {
-        "season": "spring",
-        "requiredStock": 1
-      },
-      {
-        "season": "summer",
-        "requiredStock": 1
-      },
-      {
-        "season": "fall",
-        "requiredStock": 1
-      }
-    ],
     "menuTags": [
       "tag-k8"
     ],
@@ -4518,7 +5865,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": null
+    "supplierId": null,
+    "dailyUsage": 0,
+    "leadTime": 1,
+    "safetyStock": 1,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 1
+      }
+    ]
   },
   {
     "id": "item-045",
@@ -4529,27 +5909,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "특수발주",
     "unit": "개",
     "currentStock": 3,
-    "dailyUsage": 2,
-    "leadTime": 1,
-    "safetyStock": 2,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 3
-      },
-      {
-        "season": "spring",
-        "requiredStock": 3
-      },
-      {
-        "season": "summer",
-        "requiredStock": 3
-      },
-      {
-        "season": "fall",
-        "requiredStock": 3
-      }
-    ],
     "menuTags": [
       "tag-k16"
     ],
@@ -4557,7 +5916,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": null
+    "supplierId": null,
+    "dailyUsage": 2,
+    "leadTime": 1,
+    "safetyStock": 2,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 2,
+        "leadTime": 1,
+        "safetyStock": 2,
+        "requiredStock": 3
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 2,
+        "leadTime": 1,
+        "safetyStock": 2,
+        "requiredStock": 3
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 2,
+        "leadTime": 1,
+        "safetyStock": 2,
+        "requiredStock": 3
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 2,
+        "leadTime": 1,
+        "safetyStock": 2,
+        "requiredStock": 3
+      }
+    ]
   },
   {
     "id": "02394944-9130-42d1-b5f7-e17aa5c61a3c",
@@ -4568,33 +5960,45 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "원두·커피",
     "unit": "개",
     "currentStock": 1,
+    "menuTags": [],
+    "checkDate": null,
+    "orderStatus": "ordered",
+    "orderedQuantity": 2,
+    "orderedAt": "2026-01-11T15:17:24.976Z",
+    "supplierId": "sup-c5",
     "dailyUsage": 0.5,
     "leadTime": 2,
     "safetyStock": 5,
     "seasonalRequirements": [
       {
         "season": "winter",
+        "dailyUsage": 0.5,
+        "leadTime": 2,
+        "safetyStock": 5,
         "requiredStock": 3
       },
       {
         "season": "spring",
+        "dailyUsage": 0.5,
+        "leadTime": 2,
+        "safetyStock": 5,
         "requiredStock": 3
       },
       {
         "season": "summer",
+        "dailyUsage": 0.5,
+        "leadTime": 2,
+        "safetyStock": 5,
         "requiredStock": 3
       },
       {
         "season": "fall",
+        "dailyUsage": 0.5,
+        "leadTime": 2,
+        "safetyStock": 5,
         "requiredStock": 3
       }
-    ],
-    "menuTags": [],
-    "checkDate": null,
-    "orderStatus": "ordered",
-    "orderedQuantity": 2,
-    "orderedAt": "2026-01-11T15:17:24.976Z",
-    "supplierId": "sup-c5"
+    ]
   },
   {
     "id": "item-055",
@@ -4605,27 +6009,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "냉동빵류",
     "unit": "개",
     "currentStock": 23,
-    "dailyUsage": 1,
-    "leadTime": 2,
-    "safetyStock": 2,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 4
-      },
-      {
-        "season": "spring",
-        "requiredStock": 4
-      },
-      {
-        "season": "summer",
-        "requiredStock": 4
-      },
-      {
-        "season": "fall",
-        "requiredStock": 4
-      }
-    ],
     "menuTags": [
       "tag-k14",
       "tag-k13",
@@ -4635,7 +6018,40 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": "sup-k1"
+    "supplierId": "sup-k1",
+    "dailyUsage": 1,
+    "leadTime": 2,
+    "safetyStock": 2,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 1,
+        "leadTime": 2,
+        "safetyStock": 2,
+        "requiredStock": 4
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 1,
+        "leadTime": 2,
+        "safetyStock": 2,
+        "requiredStock": 4
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 1,
+        "leadTime": 2,
+        "safetyStock": 2,
+        "requiredStock": 4
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 1,
+        "leadTime": 2,
+        "safetyStock": 2,
+        "requiredStock": 4
+      }
+    ]
   },
   {
     "id": "item-080",
@@ -4646,27 +6062,6 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "subCategory": "상온소스",
     "unit": "개",
     "currentStock": 2,
-    "dailyUsage": 0,
-    "leadTime": 1,
-    "safetyStock": 1,
-    "seasonalRequirements": [
-      {
-        "season": "winter",
-        "requiredStock": 2
-      },
-      {
-        "season": "spring",
-        "requiredStock": 2
-      },
-      {
-        "season": "summer",
-        "requiredStock": 2
-      },
-      {
-        "season": "fall",
-        "requiredStock": 2
-      }
-    ],
     "menuTags": [
       "tag-k10"
     ],
@@ -4674,7 +6069,39 @@ export const fullInventoryData: InsertInventoryItem[] = [
     "orderStatus": "normal",
     "orderedQuantity": null,
     "orderedAt": null,
-    "supplierId": "sup-k4"
+    "supplierId": "sup-k4",
+    "dailyUsage": 0,
+    "leadTime": 1,
+    "safetyStock": 1,
+    "seasonalRequirements": [
+      {
+        "season": "winter",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 2
+      },
+      {
+        "season": "spring",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 2
+      },
+      {
+        "season": "summer",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 2
+      },
+      {
+        "season": "fall",
+        "dailyUsage": 0,
+        "leadTime": 1,
+        "safetyStock": 1,
+        "requiredStock": 2
+      }
+    ]
   }
 ];
-
