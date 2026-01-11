@@ -28,7 +28,7 @@ export function CategoryTabs({ selectedStorageType, onStorageTypeChange, actionB
 
   return (
     <div className="space-y-3 mb-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      <div className="flex flex-col sm:flex-row sm:items-center gap-3">
         <Tabs 
           value={selectedMainCategory} 
           onValueChange={(v) => setSelectedMainCategory(v as MainCategory)}
@@ -53,7 +53,7 @@ export function CategoryTabs({ selectedStorageType, onStorageTypeChange, actionB
         </Tabs>
         
         {actionButtons && (
-          <div className="flex items-center gap-2 w-full sm:w-auto sm:mr-24">
+          <div className="flex items-center gap-2">
             {actionButtons}
           </div>
         )}
