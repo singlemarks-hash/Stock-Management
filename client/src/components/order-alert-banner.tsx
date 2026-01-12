@@ -340,7 +340,7 @@ export function OrderAlertBanner() {
                         <th className="text-left p-2 font-medium w-20">사용메뉴</th>
                         <th className="text-right p-2 font-medium w-16">현재고</th>
                         <th className="text-right p-2 font-medium w-16">필요</th>
-                        <th className="text-right p-2 font-medium w-20">입고예정 수량</th>
+                        <th className="text-right p-2 font-medium w-24">발주필요 수량</th>
                         <th className="text-center p-2 font-medium w-16">발주완료</th>
                         <th className="text-left p-2 font-medium w-20">발주처</th>
                       </tr>
