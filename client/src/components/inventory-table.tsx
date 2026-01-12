@@ -10,7 +10,8 @@ import {
   ChevronRight,
   Trash2,
   ExternalLink,
-  GripVertical
+  GripVertical,
+  Star
 } from "lucide-react";
 import {
   DndContext,
@@ -521,16 +522,31 @@ export function InventoryTable({
                               )}
                               
                               <TableCell className="font-medium px-2 w-32">
-                                {isEditMode ? (
-                                  <Input
-                                    value={getEditedValue(item, "name")}
-                                    onChange={(e) => handleFieldChange(item, "name", e.target.value)}
-                                    className="h-7 text-sm w-full"
-                                    data-testid={`input-name-${item.id}`}
-                                  />
-                                ) : (
-                                  <span className="text-sm">{item.name}</span>
-                                )}
+                                <div className="flex items-center gap-1">
+                                  <button
+                                    type="button"
+                                    onClick={() => onUpdateItem(item.id, { isFavorite: item.isFavorite ? 0 : 1 })}
+                                    className="flex-shrink-0"
+                                    data-testid={`button-favorite-${item.id}`}
+                                  >
+                                    <Star 
+                                      className={cn(
+                                        "h-3 w-3",
+                                        item.isFavorite ? "fill-blue-500 text-blue-500" : "text-muted-foreground/30"
+                                      )} 
+                                    />
+                                  </button>
+                                  {isEditMode ? (
+                                    <Input
+                                      value={getEditedValue(item, "name")}
+                                      onChange={(e) => handleFieldChange(item, "name", e.target.value)}
+                                      className="h-7 text-sm w-full"
+                                      data-testid={`input-name-${item.id}`}
+                                    />
+                                  ) : (
+                                    <span className="text-sm">{item.name}</span>
+                                  )}
+                                </div>
                               </TableCell>
                               
                               {selectedMainCategory === "food" && storageTypeFilter === "all" && (
