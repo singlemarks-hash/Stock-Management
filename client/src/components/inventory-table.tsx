@@ -74,7 +74,7 @@ import {
   getSafetyStock,
   storageTypeLabels 
 } from "@shared/schema";
-import type { InventoryItem, StorageType, Supplier, SeasonalRequirement } from "@shared/schema";
+import type { InventoryItem, StorageType, Supplier, SeasonalRequirement, ItemOrder } from "@shared/schema";
 import { cn } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 
@@ -226,6 +226,21 @@ export function InventoryTable({
       return res.json();
     },
   });
+
+  const { data: pendingOrders = [] } = useQuery<ItemOrder[]>({
+    queryKey: ['/api/orders'],
+  });
+
+  const pendingOrdersByItemId = useMemo(() => {
+    const map = new Map<string, number>();
+    pendingOrders
+      .filter(o => o.status === 'pending')
+      .forEach(order => {
+        const current = map.get(order.itemId) || 0;
+        map.set(order.itemId, current + order.quantity);
+      });
+    return map;
+  }, [pendingOrders]);
 
   const filteredItems = items.filter(item => {
     if (item.team !== selectedTeam) return false;
@@ -483,27 +498,34 @@ export function InventoryTable({
                             ? Math.max(0, requiredStockValue - (currentStock as number))
                             : orderQty;
                           
-                          const computedStatus = (() => {
-                            const stock = isEditMode ? (currentStock as number) : item.currentStock;
-                            const req = isEditMode ? requiredStockValue : required;
-                            if (item.orderStatus === "ordered") return "ordered";
-                            if (stock < req) return "need-order";
-                            return "normal";
-                          })();
+                          const hasPendingOrder = pendingOrdersByItemId.has(item.id);
+                          const pendingQty = pendingOrdersByItemId.get(item.id) || 0;
+                          const stock = isEditMode ? (currentStock as number) : item.currentStock;
+                          const req = isEditMode ? requiredStockValue : required;
+                          const needsMoreOrder = stock + pendingQty < req;
                           
                           const supplier = getSupplierById(item.supplierId);
+                          
+                          const rowBgClass = needsMoreOrder 
+                            ? "bg-destructive/5" 
+                            : hasPendingOrder 
+                              ? "bg-amber-50 dark:bg-amber-900/10" 
+                              : "";
+                          
+                          const statusIcon = needsMoreOrder 
+                            ? getStatusIcon("need-order") 
+                            : hasPendingOrder 
+                              ? getStatusIcon("ordered") 
+                              : getStatusIcon("normal");
                           
                           return (
                             <TableRow 
                               key={item.id}
-                              className={cn(
-                                computedStatus === "need-order" && "bg-destructive/5",
-                                computedStatus === "ordered" && "bg-amber-50 dark:bg-amber-900/10"
-                              )}
+                              className={cn(rowBgClass)}
                               data-testid={`row-item-${item.id}`}
                             >
                               <TableCell className="w-6 px-1">
-                                {getStatusIcon(computedStatus)}
+                                {statusIcon}
                               </TableCell>
                               
                               {isEditMode && (
@@ -716,13 +738,33 @@ export function InventoryTable({
                                 )}
                               </TableCell>
                               
-                              <TableCell className="text-xs px-1 w-16">
-                                <Badge 
-                                  variant="secondary" 
-                                  className={cn("text-xs px-1.5", orderStatusColors[computedStatus])}
-                                >
-                                  {orderStatusLabels[computedStatus]}
-                                </Badge>
+                              <TableCell className="text-xs px-1 w-24">
+                                <div className="flex flex-col gap-0.5">
+                                  {needsMoreOrder && (
+                                    <Badge 
+                                      variant="secondary" 
+                                      className={cn("text-xs px-1.5", orderStatusColors["need-order"])}
+                                    >
+                                      {orderStatusLabels["need-order"]}
+                                    </Badge>
+                                  )}
+                                  {hasPendingOrder && (
+                                    <Badge 
+                                      variant="secondary" 
+                                      className={cn("text-xs px-1.5", orderStatusColors["ordered"])}
+                                    >
+                                      {orderStatusLabels["ordered"]}
+                                    </Badge>
+                                  )}
+                                  {!needsMoreOrder && !hasPendingOrder && (
+                                    <Badge 
+                                      variant="secondary" 
+                                      className={cn("text-xs px-1.5", orderStatusColors["normal"])}
+                                    >
+                                      {orderStatusLabels["normal"]}
+                                    </Badge>
+                                  )}
+                                </div>
                               </TableCell>
                               
                               <TableCell className="text-xs px-1 w-20">
