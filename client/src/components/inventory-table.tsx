@@ -79,7 +79,7 @@ import { cn } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 
 interface InventoryTableProps {
-  storageTypeFilter: StorageType | "all";
+  storageTypeFilter: StorageType | "all" | "favorites";
   onDeleteItem: (id: string) => void;
   onUpdateItem: (id: string, updates: Partial<InventoryItem>) => void;
 }
@@ -230,7 +230,9 @@ export function InventoryTable({
   const filteredItems = items.filter(item => {
     if (item.team !== selectedTeam) return false;
     if (item.mainCategory !== selectedMainCategory) return false;
-    if (selectedMainCategory === "food" && storageTypeFilter !== "all") {
+    if (storageTypeFilter === "favorites") {
+      if (!item.isFavorite) return false;
+    } else if (selectedMainCategory === "food" && storageTypeFilter !== "all") {
       if (item.storageType !== storageTypeFilter) return false;
     }
     return true;

@@ -39,7 +39,7 @@ export default function InventoryPage() {
     isLoading
   } = useInventory();
   
-  const [storageTypeFilter, setStorageTypeFilter] = useState<StorageType | "all">("all");
+  const [storageTypeFilter, setStorageTypeFilter] = useState<StorageType | "all" | "favorites">("all");
 
   const updateMutation = useMutation({
     mutationFn: async (updates: { items: Partial<InventoryItem>[] }) => {
