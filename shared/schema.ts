@@ -96,6 +96,7 @@ export const inventoryItems = pgTable("inventory_items", {
   orderedQuantity: real("ordered_quantity"),
   orderedAt: varchar("ordered_at", { length: 30 }),
   supplierId: varchar("supplier_id", { length: 36 }),
+  isFavorite: integer("is_favorite").notNull().default(0),
 });
 
 // Infer types from tables
