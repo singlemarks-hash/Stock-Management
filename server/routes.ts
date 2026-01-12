@@ -6,6 +6,7 @@ import {
   insertMenuTagSchema,
   insertSubCategorySchema,
   insertSupplierSchema,
+  insertItemOrderSchema,
   type Team,
   type MainCategory
 } from "@shared/schema";
@@ -308,6 +309,101 @@ export async function registerRoutes(
       }
     } catch (error) {
       res.status(500).json({ error: "Failed to delete supplier" });
+    }
+  });
+
+  app.get("/api/orders", async (req, res) => {
+    try {
+      const itemId = req.query.itemId as string | undefined;
+      const pendingOnly = req.query.pending === "true";
+      
+      if (itemId) {
+        const orders = pendingOnly 
+          ? await storage.getPendingOrdersByItemId(itemId)
+          : await storage.getOrdersByItemId(itemId);
+        return res.json(orders);
+      }
+      
+      const orders = await storage.getAllPendingOrders();
+      res.json(orders);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch orders" });
+    }
+  });
+
+  app.post("/api/orders", async (req, res) => {
+    try {
+      const parsed = insertItemOrderSchema.safeParse(req.body);
+      if (!parsed.success) {
+        return res.status(400).json({ 
+          error: "Invalid request body", 
+          details: parsed.error.flatten() 
+        });
+      }
+      const order = await storage.createOrder(parsed.data);
+      res.status(201).json(order);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to create order" });
+    }
+  });
+
+  app.patch("/api/orders/:id", async (req, res) => {
+    try {
+      const order = await storage.updateOrder(req.params.id, req.body);
+      if (!order) {
+        return res.status(404).json({ error: "Order not found" });
+      }
+      res.json(order);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to update order" });
+    }
+  });
+
+  app.delete("/api/orders/:id", async (req, res) => {
+    try {
+      const success = await storage.deleteOrder(req.params.id);
+      if (!success) {
+        return res.status(404).json({ error: "Order not found" });
+      }
+      res.status(204).send();
+    } catch (error) {
+      res.status(500).json({ error: "Failed to delete order" });
+    }
+  });
+
+  app.post("/api/orders/:id/deliver", async (req, res) => {
+    try {
+      const orderId = req.params.id;
+      const { deliveredQuantity } = req.body;
+      
+      const orders = await storage.getAllPendingOrders();
+      const order = orders.find(o => o.id === orderId);
+      
+      if (!order) {
+        return res.status(404).json({ error: "Order not found" });
+      }
+      
+      const item = await storage.getItem(order.itemId);
+      if (!item) {
+        return res.status(404).json({ error: "Item not found" });
+      }
+      
+      const quantityToAdd = deliveredQuantity ?? order.quantity;
+      
+      await storage.deleteOrder(orderId);
+      
+      const updatedItem = await storage.updateItem(order.itemId, {
+        currentStock: item.currentStock + quantityToAdd,
+      });
+      
+      res.json({ 
+        success: true, 
+        item: updatedItem,
+        addedQuantity: quantityToAdd 
+      });
+    } catch (error) {
+      console.error("Failed to deliver order:", error);
+      res.status(500).json({ error: "Failed to deliver order" });
     }
   });
 

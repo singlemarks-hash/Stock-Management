@@ -1,5 +1,5 @@
 import { AlertTriangle, Package, Clock, CheckCircle2, ChevronDown, ChevronUp, ExternalLink } from "lucide-react";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -10,8 +10,8 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { useInventory } from "@/lib/inventory-context";
-import { needsOrder, mainCategoryLabels, storageTypeLabels, getOrderQuantity, getRequiredStock } from "@shared/schema";
-import type { InventoryItem, StorageType, Season, Supplier, MenuTag } from "@shared/schema";
+import { mainCategoryLabels, storageTypeLabels, getRequiredStock } from "@shared/schema";
+import type { InventoryItem, ItemOrder, StorageType, Season, Supplier, MenuTag } from "@shared/schema";
 import { cn } from "@/lib/utils";
 import { apiRequest } from "@/lib/queryClient";
 import { queryClient } from "@/lib/queryClient";
@@ -31,6 +31,11 @@ interface OrderItem {
   supplierId: string | null;
 }
 
+interface PendingOrderWithItem {
+  order: ItemOrder;
+  item: InventoryItem;
+}
+
 interface AlertStats {
   total: number;
   items: OrderItem[];
@@ -38,66 +43,7 @@ interface AlertStats {
     food: { total: number; items: OrderItem[]; byStorage: Record<StorageType, OrderItem[]> };
     "non-food": { total: number; items: OrderItem[] };
   };
-  ordered: number;
-  orderedItems: (InventoryItem & { calculatedOrderQty: number })[];
-}
-
-function calculateAlertStats(items: InventoryItem[], season: Season, team: string): AlertStats {
-  const stats: AlertStats = {
-    total: 0,
-    items: [],
-    byCategory: {
-      food: { 
-        total: 0, 
-        items: [],
-        byStorage: { refrigerated: [], frozen: [], "room-temp": [] } 
-      },
-      "non-food": { total: 0, items: [] },
-    },
-    ordered: 0,
-    orderedItems: [],
-  };
-
-  items.filter(item => item.team === team).forEach(item => {
-    if (needsOrder(item, season)) {
-      const orderQty = getOrderQuantity(item, season);
-      const req = item.seasonalRequirements.find(r => r.season === season);
-      const orderItem: OrderItem = {
-        id: item.id,
-        name: item.name,
-        mainCategory: item.mainCategory,
-        storageType: item.storageType,
-        subCategory: item.subCategory,
-        unit: item.unit,
-        currentStock: item.currentStock,
-        requiredStock: req?.requiredStock ?? 0,
-        orderQuantity: orderQty,
-        menuTags: item.menuTags,
-        supplierId: item.supplierId,
-      };
-      
-      stats.total++;
-      stats.items.push(orderItem);
-      
-      if (item.mainCategory === "food") {
-        stats.byCategory.food.total++;
-        stats.byCategory.food.items.push(orderItem);
-        if (item.storageType) {
-          stats.byCategory.food.byStorage[item.storageType].push(orderItem);
-        }
-      } else {
-        stats.byCategory["non-food"].total++;
-        stats.byCategory["non-food"].items.push(orderItem);
-      }
-    }
-    if (item.orderStatus === "ordered") {
-      const calculatedOrderQty = getOrderQuantity(item, season);
-      stats.ordered++;
-      stats.orderedItems.push({ ...item, calculatedOrderQty });
-    }
-  });
-
-  return stats;
+  pendingOrders: PendingOrderWithItem[];
 }
 
 function formatDateTime(isoString: string | null): string {
@@ -113,10 +59,17 @@ function formatDateTime(isoString: string | null): string {
 
 export function OrderAlertBanner() {
   const { items, selectedSeason, selectedTeam } = useInventory();
-  const stats = calculateAlertStats(items, selectedSeason, selectedTeam);
   const [isExpanded, setIsExpanded] = useState(true);
   const [isOrderedExpanded, setIsOrderedExpanded] = useState(true);
   const [editingQuantities, setEditingQuantities] = useState<Record<string, number>>({});
+
+  const { data: pendingOrders = [] } = useQuery<ItemOrder[]>({
+    queryKey: ['/api/orders'],
+    queryFn: async () => {
+      const res = await fetch('/api/orders');
+      return res.json();
+    },
+  });
 
   const { data: tags = [] } = useQuery<MenuTag[]>({
     queryKey: ['/api/tags', selectedTeam],
@@ -134,6 +87,86 @@ export function OrderAlertBanner() {
     },
   });
 
+  const pendingOrdersByItemId = useMemo(() => {
+    const map: Record<string, ItemOrder[]> = {};
+    pendingOrders.forEach(order => {
+      if (!map[order.itemId]) {
+        map[order.itemId] = [];
+      }
+      map[order.itemId].push(order);
+    });
+    return map;
+  }, [pendingOrders]);
+
+  const getPendingTotal = (itemId: string): number => {
+    const orders = pendingOrdersByItemId[itemId] || [];
+    return orders.reduce((sum, order) => sum + order.quantity, 0);
+  };
+
+  const stats = useMemo((): AlertStats => {
+    const result: AlertStats = {
+      total: 0,
+      items: [],
+      byCategory: {
+        food: { 
+          total: 0, 
+          items: [],
+          byStorage: { refrigerated: [], frozen: [], "room-temp": [] } 
+        },
+        "non-food": { total: 0, items: [] },
+      },
+      pendingOrders: [],
+    };
+
+    const teamItems = items.filter(item => item.team === selectedTeam);
+
+    teamItems.forEach(item => {
+      const req = item.seasonalRequirements.find(r => r.season === selectedSeason);
+      const requiredStock = req?.requiredStock ?? 0;
+      const pendingTotal = getPendingTotal(item.id);
+      const deficit = requiredStock - item.currentStock - pendingTotal;
+
+      if (deficit > 0) {
+        const orderItem: OrderItem = {
+          id: item.id,
+          name: item.name,
+          mainCategory: item.mainCategory as "food" | "non-food",
+          storageType: item.storageType as StorageType | null,
+          subCategory: item.subCategory,
+          unit: item.unit,
+          currentStock: item.currentStock,
+          requiredStock,
+          orderQuantity: deficit,
+          menuTags: item.menuTags,
+          supplierId: item.supplierId,
+        };
+        
+        result.total++;
+        result.items.push(orderItem);
+        
+        if (item.mainCategory === "food") {
+          result.byCategory.food.total++;
+          result.byCategory.food.items.push(orderItem);
+          if (item.storageType) {
+            result.byCategory.food.byStorage[item.storageType as StorageType].push(orderItem);
+          }
+        } else {
+          result.byCategory["non-food"].total++;
+          result.byCategory["non-food"].items.push(orderItem);
+        }
+      }
+    });
+
+    pendingOrders.forEach(order => {
+      const item = teamItems.find(i => i.id === order.itemId);
+      if (item) {
+        result.pendingOrders.push({ order, item });
+      }
+    });
+
+    return result;
+  }, [items, selectedTeam, selectedSeason, pendingOrders, pendingOrdersByItemId]);
+
   const getTagById = (tagId: string): MenuTag | undefined => {
     return tags.find(t => t.id === tagId);
   };
@@ -143,98 +176,96 @@ export function OrderAlertBanner() {
     return suppliers.find(s => s.id === supplierId);
   };
 
-  const markOrderedMutation = useMutation({
-    mutationFn: async ({ id, orderQuantity }: { id: string; orderQuantity: number }) => {
-      return apiRequest("PATCH", `/api/inventory/${id}`, {
-        orderStatus: "ordered",
-        orderedQuantity: orderQuantity,
+  const createOrderMutation = useMutation({
+    mutationFn: async ({ itemId, quantity }: { itemId: string; quantity: number }) => {
+      return apiRequest("POST", `/api/orders`, {
+        itemId,
+        quantity,
+        status: "pending",
         orderedAt: new Date().toISOString(),
       });
     },
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/orders"] });
       queryClient.invalidateQueries({ queryKey: ["/api/inventory"] });
     },
   });
 
   const markDeliveredMutation = useMutation({
-    mutationFn: async ({ id, currentStock, orderedQuantity }: { id: string; currentStock: number; orderedQuantity: number }) => {
-      return apiRequest("PATCH", `/api/inventory/${id}`, {
-        orderStatus: "normal",
-        currentStock: currentStock + orderedQuantity,
-        orderedQuantity: null,
-        orderedAt: null,
+    mutationFn: async ({ orderId, quantity }: { orderId: string; quantity: number }) => {
+      return apiRequest("POST", `/api/orders/${orderId}/deliver`, {
+        deliveredQuantity: quantity,
       });
     },
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/orders"] });
       queryClient.invalidateQueries({ queryKey: ["/api/inventory"] });
     },
   });
 
   const updateOrderQuantityMutation = useMutation({
-    mutationFn: async ({ id, quantity }: { id: string; quantity: number }) => {
-      return apiRequest("PATCH", `/api/inventory/${id}`, {
-        orderedQuantity: quantity,
+    mutationFn: async ({ orderId, quantity }: { orderId: string; quantity: number }) => {
+      return apiRequest("PATCH", `/api/orders/${orderId}`, {
+        quantity,
       });
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/inventory"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/orders"] });
     },
   });
 
   const clearAllNeedsOrderMutation = useMutation({
     mutationFn: async (itemsToOrder: OrderItem[]) => {
-      await Promise.all(itemsToOrder.map(item => apiRequest("PATCH", `/api/inventory/${item.id}`, {
-        orderStatus: "ordered",
-        orderedQuantity: item.orderQuantity,
-        orderedAt: new Date().toISOString(),
-      })));
+      await Promise.all(itemsToOrder.map(item => 
+        apiRequest("POST", `/api/orders`, {
+          itemId: item.id,
+          quantity: item.orderQuantity,
+          status: "pending",
+          orderedAt: new Date().toISOString(),
+        })
+      ));
     },
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/orders"] });
       queryClient.invalidateQueries({ queryKey: ["/api/inventory"] });
     },
   });
 
-  const clearAllOrderedMutation = useMutation({
-    mutationFn: async (items: InventoryItem[]) => {
-      await Promise.all(items.map(item => {
-        const finalQuantity = editingQuantities[item.id] ?? item.orderedQuantity ?? 0;
-        return apiRequest("PATCH", `/api/inventory/${item.id}`, {
-          orderStatus: "normal",
-          currentStock: item.currentStock + finalQuantity,
-          orderedQuantity: null,
-          orderedAt: null,
+  const clearAllPendingMutation = useMutation({
+    mutationFn: async (pendingItems: PendingOrderWithItem[]) => {
+      for (const { order } of pendingItems) {
+        const finalQuantity = editingQuantities[order.id] ?? order.quantity;
+        await apiRequest("POST", `/api/orders/${order.id}/deliver`, {
+          deliveredQuantity: finalQuantity,
         });
-      }));
+      }
     },
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/orders"] });
       queryClient.invalidateQueries({ queryKey: ["/api/inventory"] });
     },
   });
 
-  const handleMarkOrdered = (id: string, orderQuantity: number) => {
-    markOrderedMutation.mutate({ id, orderQuantity });
+  const handleMarkOrdered = (itemId: string, orderQuantity: number) => {
+    createOrderMutation.mutate({ itemId, quantity: orderQuantity });
   };
 
-  const handleMarkDelivered = (item: InventoryItem) => {
-    const finalQuantity = editingQuantities[item.id] ?? item.orderedQuantity ?? 0;
-    markDeliveredMutation.mutate({ 
-      id: item.id, 
-      currentStock: item.currentStock, 
-      orderedQuantity: finalQuantity 
-    });
+  const handleMarkDelivered = (orderId: string, quantity: number) => {
+    const finalQuantity = editingQuantities[orderId] ?? quantity;
+    markDeliveredMutation.mutate({ orderId, quantity: finalQuantity });
   };
 
-  const handleQuantityChange = (id: string, value: string) => {
-    const numValue = parseInt(value, 10);
+  const handleQuantityChange = (orderId: string, value: string) => {
+    const numValue = parseFloat(value);
     if (!isNaN(numValue) && numValue >= 0) {
-      setEditingQuantities(prev => ({ ...prev, [id]: numValue }));
+      setEditingQuantities(prev => ({ ...prev, [orderId]: numValue }));
     }
   };
 
-  const handleQuantityBlur = (id: string, originalQuantity: number | null) => {
-    const newQuantity = editingQuantities[id];
+  const handleQuantityBlur = (orderId: string, originalQuantity: number) => {
+    const newQuantity = editingQuantities[orderId];
     if (newQuantity !== undefined && newQuantity !== originalQuantity) {
-      updateOrderQuantityMutation.mutate({ id, quantity: newQuantity });
+      updateOrderQuantityMutation.mutate({ orderId, quantity: newQuantity });
     }
   };
 
@@ -285,7 +316,7 @@ export function OrderAlertBanner() {
     return <span className="text-xs text-muted-foreground">{supplier.name}</span>;
   };
 
-  if (stats.total === 0 && stats.ordered === 0) {
+  if (stats.total === 0 && stats.pendingOrders.length === 0) {
     return (
       <div className="mb-6 rounded-md border border-primary/20 bg-primary/5 p-4">
         <div className="flex items-center gap-3">
@@ -389,7 +420,7 @@ export function OrderAlertBanner() {
                             <Checkbox
                               checked={false}
                               onCheckedChange={() => handleMarkOrdered(item.id, item.orderQuantity)}
-                              disabled={markOrderedMutation.isPending}
+                              disabled={createOrderMutation.isPending}
                               data-testid={`checkbox-mark-ordered-${item.id}`}
                             />
                           </td>
@@ -443,7 +474,7 @@ export function OrderAlertBanner() {
         </Collapsible>
       )}
 
-      {stats.ordered > 0 && (
+      {stats.pendingOrders.length > 0 && (
         <Collapsible open={isOrderedExpanded} onOpenChange={setIsOrderedExpanded}>
           <div className="rounded-md border border-chart-4/30 bg-chart-4/5">
             <CollapsibleTrigger asChild>
@@ -455,9 +486,9 @@ export function OrderAlertBanner() {
                   <Clock className="h-5 w-5 text-chart-4" />
                   <div className="text-left">
                     <p className="text-sm font-medium">
-                      발주 완료 대기: <span className="text-chart-4 font-bold">{stats.ordered}개</span>
+                      발주 완료 대기: <span className="text-chart-4 font-bold">{stats.pendingOrders.length}건</span>
                     </p>
-                    <p className="text-xs text-muted-foreground">입고 대기 중인 항목입니다</p>
+                    <p className="text-xs text-muted-foreground">입고 대기 중인 발주 건입니다</p>
                   </div>
                 </div>
                 {isOrderedExpanded ? (
@@ -489,17 +520,17 @@ export function OrderAlertBanner() {
                       </tr>
                     </thead>
                     <tbody>
-                      {stats.orderedItems.map((item, index) => {
+                      {stats.pendingOrders.map(({ order, item }, index) => {
                         const requiredStock = getRequiredStock(item, selectedSeason);
-                        const displayQuantity = editingQuantities[item.id] ?? item.orderedQuantity ?? item.calculatedOrderQty;
+                        const displayQuantity = editingQuantities[order.id] ?? order.quantity;
                         return (
                           <tr 
-                            key={item.id} 
+                            key={order.id} 
                             className={cn(
                               "border-b last:border-0",
                               index % 2 === 0 ? "bg-background" : "bg-muted/20"
                             )}
-                            data-testid={`row-ordered-item-${item.id}`}
+                            data-testid={`row-pending-order-${order.id}`}
                           >
                             <td className="p-2">
                               <div className="font-medium text-sm truncate max-w-[100px]">{item.name}</div>
@@ -508,17 +539,17 @@ export function OrderAlertBanner() {
                             <td className="p-2">
                               <div className="flex flex-col gap-0.5">
                                 <Badge variant="secondary" className="text-[9px] px-1 w-fit">
-                                  {mainCategoryLabels[item.mainCategory]}
+                                  {mainCategoryLabels[item.mainCategory as "food" | "non-food"]}
                                 </Badge>
                                 {item.storageType && (
                                   <Badge variant="outline" className="text-[9px] px-1 w-fit">
-                                    {storageTypeLabels[item.storageType]}
+                                    {storageTypeLabels[item.storageType as StorageType]}
                                   </Badge>
                                 )}
                               </div>
                             </td>
                             <td className="p-2">
-                              {renderMenuTags(item.menuTags, item.mainCategory)}
+                              {renderMenuTags(item.menuTags, item.mainCategory as "food" | "non-food")}
                             </td>
                             <td className="p-2 text-right tabular-nums text-xs">
                               {item.currentStock} {item.unit}
@@ -532,26 +563,27 @@ export function OrderAlertBanner() {
                                 <Input
                                   type="number"
                                   min={0}
+                                  step="0.1"
                                   value={displayQuantity}
-                                  onChange={(e) => handleQuantityChange(item.id, e.target.value)}
-                                  onBlur={() => handleQuantityBlur(item.id, item.orderedQuantity)}
-                                  className="w-12 h-6 text-right tabular-nums text-xs"
-                                  data-testid={`input-order-quantity-${item.id}`}
+                                  onChange={(e) => handleQuantityChange(order.id, e.target.value)}
+                                  onBlur={() => handleQuantityBlur(order.id, order.quantity)}
+                                  className="w-14 h-6 text-right tabular-nums text-xs"
+                                  data-testid={`input-order-quantity-${order.id}`}
                                 />
                                 <span className="text-[10px] text-muted-foreground">{item.unit}</span>
                               </div>
                             </td>
                             <td className="p-2 text-center">
                               <span className="text-[10px] text-muted-foreground">
-                                {formatDateTime(item.orderedAt)}
+                                {formatDateTime(order.orderedAt)}
                               </span>
                             </td>
                             <td className="p-2 text-center">
                               <Checkbox
                                 checked={false}
-                                onCheckedChange={() => handleMarkDelivered(item)}
+                                onCheckedChange={() => handleMarkDelivered(order.id, order.quantity)}
                                 disabled={markDeliveredMutation.isPending}
-                                data-testid={`checkbox-mark-delivered-${item.id}`}
+                                data-testid={`checkbox-mark-delivered-${order.id}`}
                               />
                             </td>
                             <td className="p-2">
@@ -568,8 +600,8 @@ export function OrderAlertBanner() {
                   <Button
                     variant="outline"
                     size="sm"
-                    onClick={() => clearAllOrderedMutation.mutate(stats.orderedItems)}
-                    disabled={clearAllOrderedMutation.isPending}
+                    onClick={() => clearAllPendingMutation.mutate(stats.pendingOrders)}
+                    disabled={clearAllPendingMutation.isPending}
                     data-testid="button-mark-all-delivered"
                   >
                     전체 입고완료

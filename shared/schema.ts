@@ -99,6 +99,18 @@ export const inventoryItems = pgTable("inventory_items", {
   isFavorite: integer("is_favorite").notNull().default(0),
 });
 
+export type ItemOrderStatus = "pending" | "received";
+
+export const itemOrders = pgTable("item_orders", {
+  id: varchar("id", { length: 36 }).primaryKey(),
+  itemId: varchar("item_id", { length: 36 }).notNull(),
+  quantity: real("quantity").notNull(),
+  status: varchar("status", { length: 20 }).notNull().default("pending"),
+  orderedAt: varchar("ordered_at", { length: 30 }).notNull(),
+  receivedAt: varchar("received_at", { length: 30 }),
+  notes: text("notes"),
+});
+
 // Infer types from tables
 export type Supplier = typeof suppliers.$inferSelect;
 export type InsertSupplier = typeof suppliers.$inferInsert;
@@ -111,6 +123,9 @@ export type InsertSubCategory = typeof subCategories.$inferInsert;
 
 export type InventoryItem = typeof inventoryItems.$inferSelect;
 export type InsertInventoryItem = typeof inventoryItems.$inferInsert;
+
+export type ItemOrder = typeof itemOrders.$inferSelect;
+export type InsertItemOrder = typeof itemOrders.$inferInsert;
 
 // Zod schemas for validation
 export const insertSupplierSchema = createInsertSchema(suppliers).omit({ id: true });
@@ -126,6 +141,8 @@ export const insertInventoryItemSchema = createInsertSchema(inventoryItems, {
   })),
   menuTags: z.array(z.string()),
 });
+
+export const insertItemOrderSchema = createInsertSchema(itemOrders).omit({ id: true });
 
 // Helper functions
 export function getCurrentSeason(): Season {

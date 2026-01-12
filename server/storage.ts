@@ -6,6 +6,7 @@ import {
   menuTags, 
   subCategories, 
   suppliers,
+  itemOrders,
   type InventoryItem,
   type InsertInventoryItem,
   type MenuTag,
@@ -14,6 +15,8 @@ import {
   type InsertSubCategory,
   type Supplier,
   type InsertSupplier,
+  type ItemOrder,
+  type InsertItemOrder,
   type Team,
   type MainCategory
 } from "@shared/schema";
@@ -38,6 +41,13 @@ export interface IStorage {
   getSuppliers(team: Team): Promise<Supplier[]>;
   createSupplier(supplier: InsertSupplier): Promise<Supplier>;
   deleteSupplier(id: string): Promise<boolean>;
+  
+  getOrdersByItemId(itemId: string): Promise<ItemOrder[]>;
+  getPendingOrdersByItemId(itemId: string): Promise<ItemOrder[]>;
+  getAllPendingOrders(): Promise<ItemOrder[]>;
+  createOrder(order: InsertItemOrder): Promise<ItemOrder>;
+  updateOrder(id: string, updates: Partial<ItemOrder>): Promise<ItemOrder | undefined>;
+  deleteOrder(id: string): Promise<boolean>;
   
   seedDataIfEmpty(): Promise<void>;
   forceReseed(): Promise<void>;
@@ -150,6 +160,44 @@ export class DatabaseStorage implements IStorage {
 
   async deleteSupplier(id: string): Promise<boolean> {
     const result = await db.delete(suppliers).where(eq(suppliers.id, id)).returning();
+    return result.length > 0;
+  }
+
+  async getOrdersByItemId(itemId: string): Promise<ItemOrder[]> {
+    return await db.select().from(itemOrders).where(eq(itemOrders.itemId, itemId));
+  }
+
+  async getPendingOrdersByItemId(itemId: string): Promise<ItemOrder[]> {
+    return await db.select().from(itemOrders)
+      .where(and(eq(itemOrders.itemId, itemId), eq(itemOrders.status, "pending")));
+  }
+
+  async getAllPendingOrders(): Promise<ItemOrder[]> {
+    return await db.select().from(itemOrders).where(eq(itemOrders.status, "pending"));
+  }
+
+  async createOrder(insertOrder: InsertItemOrder): Promise<ItemOrder> {
+    const id = randomUUID();
+    const [order] = await db.insert(itemOrders).values({
+      ...insertOrder,
+      id,
+      receivedAt: insertOrder.receivedAt ?? null,
+      notes: insertOrder.notes ?? null,
+    }).returning();
+    return order;
+  }
+
+  async updateOrder(id: string, updates: Partial<ItemOrder>): Promise<ItemOrder | undefined> {
+    const { id: _, ...safeUpdates } = updates as any;
+    const [updated] = await db.update(itemOrders)
+      .set(safeUpdates)
+      .where(eq(itemOrders.id, id))
+      .returning();
+    return updated;
+  }
+
+  async deleteOrder(id: string): Promise<boolean> {
+    const result = await db.delete(itemOrders).where(eq(itemOrders.id, id)).returning();
     return result.length > 0;
   }
 
@@ -317,6 +365,7 @@ export class DatabaseStorage implements IStorage {
     console.log("Force reseeding database - clearing all tables and inserting fresh data...");
     
     // Clear all tables in order (respecting foreign key constraints)
+    await db.delete(itemOrders);
     await db.delete(inventoryItems);
     await db.delete(menuTags);
     await db.delete(subCategories);
