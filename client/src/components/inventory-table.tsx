@@ -738,30 +738,30 @@ export function InventoryTable({
                                 )}
                               </TableCell>
                               
-                              <TableCell className="text-xs px-1 w-24">
-                                <div className="flex flex-col gap-0.5">
+                              <TableCell className="text-xs px-1 w-20">
+                                <div className="flex flex-col gap-0.5 items-start">
                                   {needsMoreOrder && (
                                     <Badge 
                                       variant="secondary" 
-                                      className={cn("text-xs px-1.5", orderStatusColors["need-order"])}
+                                      className={cn("text-[10px] px-1", orderStatusColors["need-order"])}
                                     >
-                                      {orderStatusLabels["need-order"]}
+                                      발주필요
                                     </Badge>
                                   )}
                                   {hasPendingOrder && (
                                     <Badge 
                                       variant="secondary" 
-                                      className={cn("text-xs px-1.5", orderStatusColors["ordered"])}
+                                      className={cn("text-[10px] px-1", orderStatusColors["ordered"])}
                                     >
-                                      {orderStatusLabels["ordered"]}
+                                      발주완료
                                     </Badge>
                                   )}
                                   {!needsMoreOrder && !hasPendingOrder && (
                                     <Badge 
                                       variant="secondary" 
-                                      className={cn("text-xs px-1.5", orderStatusColors["normal"])}
+                                      className={cn("text-[10px] px-1", orderStatusColors["normal"])}
                                     >
-                                      {orderStatusLabels["normal"]}
+                                      정상재고
                                     </Badge>
                                   )}
                                 </div>
