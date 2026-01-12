@@ -494,12 +494,12 @@ export function InventoryTable({
                             handleFieldChange(item, "seasonalRequirements", updatedReqs);
                           };
                           
-                          const editedOrderQty = isEditMode 
-                            ? Math.max(0, requiredStockValue - (currentStock as number))
-                            : orderQty;
-                          
                           const hasPendingOrder = pendingOrdersByItemId.has(item.id);
                           const pendingQty = pendingOrdersByItemId.get(item.id) || 0;
+                          
+                          const editedOrderQty = isEditMode 
+                            ? Math.max(0, requiredStockValue - (currentStock as number) - pendingQty)
+                            : Math.max(0, orderQty - pendingQty);
                           const stock = isEditMode ? (currentStock as number) : item.currentStock;
                           const req = isEditMode ? requiredStockValue : required;
                           const needsMoreOrder = stock + pendingQty < req;
