@@ -13,7 +13,7 @@ import { useInventory } from "@/lib/inventory-context";
 import { mainCategoryLabels, storageTypeLabels, getRequiredStock } from "@shared/schema";
 import type { InventoryItem, ItemOrder, StorageType, Season, Supplier, MenuTag } from "@shared/schema";
 import { cn } from "@/lib/utils";
-import { getTagColorStyle } from "@/lib/tagColors";
+import { parseStoredColor } from "@/lib/tagColors";
 import { apiRequest } from "@/lib/queryClient";
 import { queryClient } from "@/lib/queryClient";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -282,7 +282,7 @@ export function OrderAlertBanner() {
         {menuTags.map(tagId => {
           const tag = getTagById(tagId);
           if (!tag) return null;
-          const colorStyle = getTagColorStyle(tag.name);
+          const colorStyle = parseStoredColor(tag.color, tag.name);
           return (
             <Badge 
               key={tagId} 

@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { X, Plus, Trash2 } from "lucide-react";
+import { X, Plus, Trash2, Palette } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import {
@@ -12,7 +12,7 @@ import { useInventory } from "@/lib/inventory-context";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import type { MenuTag } from "@shared/schema";
 import { cn } from "@/lib/utils";
-import { getTagColorStyle } from "@/lib/tagColors";
+import { parseStoredColor, PRESET_COLORS, getContrastColor } from "@/lib/tagColors";
 
 interface MenuTagInputProps {
   selectedTagIds: string[];
@@ -20,10 +20,45 @@ interface MenuTagInputProps {
   disabled?: boolean;
 }
 
+function ColorPicker({ 
+  selectedColor, 
+  onColorSelect,
+  onClose 
+}: { 
+  selectedColor: string | null;
+  onColorSelect: (color: string) => void;
+  onClose: () => void;
+}) {
+  return (
+    <div className="p-2 space-y-2">
+      <p className="text-xs text-muted-foreground mb-2">색상 선택</p>
+      <div className="grid grid-cols-8 gap-1">
+        {PRESET_COLORS.map((color) => (
+          <button
+            key={color}
+            onClick={() => {
+              onColorSelect(color);
+              onClose();
+            }}
+            className={cn(
+              "w-5 h-5 rounded-sm border-2 transition-transform hover:scale-110",
+              selectedColor === color ? "border-foreground ring-1 ring-foreground" : "border-transparent"
+            )}
+            style={{ backgroundColor: color }}
+            data-testid={`color-${color}`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export function MenuTagInput({ selectedTagIds, onChange, disabled }: MenuTagInputProps) {
-  const { tags, addTag, removeTag, selectedTeam } = useInventory();
+  const { tags, addTag, removeTag, updateTag, selectedTeam } = useInventory();
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
+  const [selectedNewColor, setSelectedNewColor] = useState<string | null>(null);
+  const [colorPickerTagId, setColorPickerTagId] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const createTagMutation = useMutation({
@@ -35,6 +70,19 @@ export function MenuTagInput({ selectedTagIds, onChange, disabled }: MenuTagInpu
       addTag(createdTag);
       onChange([...selectedTagIds, createdTag.id]);
       setSearch("");
+      setSelectedNewColor(null);
+      queryClient.invalidateQueries({ queryKey: ["/api/inventory", selectedTeam] });
+    },
+  });
+
+  const updateTagMutation = useMutation({
+    mutationFn: async ({ id, color }: { id: string; color: string }) => {
+      const res = await apiRequest("PATCH", `/api/tags/${id}`, { color });
+      return res.json();
+    },
+    onSuccess: (updatedTag: MenuTag) => {
+      updateTag(updatedTag);
+      setColorPickerTagId(null);
       queryClient.invalidateQueries({ queryKey: ["/api/inventory", selectedTeam] });
     },
   });
@@ -72,7 +120,7 @@ export function MenuTagInput({ selectedTagIds, onChange, disabled }: MenuTagInpu
     const newTag = {
       team: selectedTeam,
       name: search.trim(),
-      color: null,
+      color: selectedNewColor,
     };
     
     createTagMutation.mutate(newTag);
@@ -87,6 +135,8 @@ export function MenuTagInput({ selectedTagIds, onChange, disabled }: MenuTagInpu
     }
   }, [open]);
 
+  const getTagStyle = (tag: MenuTag) => parseStoredColor(tag.color, tag.name);
+
   if (disabled) {
     return (
       <div className="flex flex-wrap gap-1 min-h-[28px] items-center">
@@ -94,7 +144,7 @@ export function MenuTagInput({ selectedTagIds, onChange, disabled }: MenuTagInpu
           <span className="text-xs text-muted-foreground">-</span>
         ) : (
           selectedTags.map(tag => {
-            const colorStyle = getTagColorStyle(tag.name);
+            const colorStyle = getTagStyle(tag);
             return (
               <Badge
                 key={tag.id}
@@ -126,7 +176,7 @@ export function MenuTagInput({ selectedTagIds, onChange, disabled }: MenuTagInpu
           ) : (
             <>
               {selectedTags.map(tag => {
-                const colorStyle = getTagColorStyle(tag.name);
+                const colorStyle = getTagStyle(tag);
                 return (
                   <Badge
                     key={tag.id}
@@ -152,7 +202,7 @@ export function MenuTagInput({ selectedTagIds, onChange, disabled }: MenuTagInpu
           )}
         </button>
       </PopoverTrigger>
-      <PopoverContent className="w-64 p-2" align="start">
+      <PopoverContent className="w-72 p-2" align="start">
         <div className="space-y-2">
           <Input
             ref={inputRef}
@@ -169,57 +219,109 @@ export function MenuTagInput({ selectedTagIds, onChange, disabled }: MenuTagInpu
             data-testid="input-tag-search"
           />
           
-          <div className="max-h-40 overflow-y-auto space-y-1">
-            {filteredTags.map(tag => (
-              <div
-                key={tag.id}
-                className={cn(
-                  "flex items-center justify-between w-full px-2 py-1.5 rounded-md text-left text-sm",
-                  "hover:bg-accent transition-colors group"
-                )}
-              >
-                <button
-                  onClick={() => handleSelectTag(tag.id)}
-                  className="flex-1"
-                  data-testid={`button-select-tag-${tag.id}`}
+          <div className="max-h-48 overflow-y-auto space-y-1">
+            {filteredTags.map(tag => {
+              const colorStyle = getTagStyle(tag);
+              return (
+                <div
+                  key={tag.id}
+                  className={cn(
+                    "flex items-center justify-between w-full px-2 py-1.5 rounded-md text-left text-sm",
+                    "hover:bg-accent transition-colors group"
+                  )}
                 >
-                  <Badge
-                    className="text-xs border-0"
-                    style={{ backgroundColor: getTagColorStyle(tag.name).backgroundColor, color: getTagColorStyle(tag.name).color }}
+                  <button
+                    onClick={() => handleSelectTag(tag.id)}
+                    className="flex-1"
+                    data-testid={`button-select-tag-${tag.id}`}
                   >
-                    {tag.name}
-                  </Badge>
-                </button>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    if (window.confirm(`"${tag.name}" 태그를 삭제하시겠습니까? 모든 항목에서 제거됩니다.`)) {
-                      deleteTagMutation.mutate(tag.id);
-                    }
-                  }}
-                  disabled={deleteTagMutation.isPending}
-                  className="opacity-0 group-hover:opacity-100 p-1 hover:bg-destructive/20 rounded transition-opacity"
-                  data-testid={`button-delete-tag-${tag.id}`}
-                >
-                  <Trash2 className="h-3.5 w-3.5 text-destructive" />
-                </button>
-              </div>
-            ))}
+                    <Badge
+                      className="text-xs border-0"
+                      style={{ backgroundColor: colorStyle.backgroundColor, color: colorStyle.color }}
+                    >
+                      {tag.name}
+                    </Badge>
+                  </button>
+                  <div className="flex items-center gap-1">
+                    <Popover open={colorPickerTagId === tag.id} onOpenChange={(open) => setColorPickerTagId(open ? tag.id : null)}>
+                      <PopoverTrigger asChild>
+                        <button
+                          onClick={(e) => e.stopPropagation()}
+                          className="opacity-0 group-hover:opacity-100 p-1 hover:bg-accent-foreground/10 rounded transition-opacity"
+                          data-testid={`button-color-tag-${tag.id}`}
+                        >
+                          <Palette className="h-3.5 w-3.5 text-muted-foreground" />
+                        </button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="end" side="right">
+                        <ColorPicker 
+                          selectedColor={tag.color}
+                          onColorSelect={(color) => updateTagMutation.mutate({ id: tag.id, color })}
+                          onClose={() => setColorPickerTagId(null)}
+                        />
+                      </PopoverContent>
+                    </Popover>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        if (window.confirm(`"${tag.name}" 태그를 삭제하시겠습니까? 모든 항목에서 제거됩니다.`)) {
+                          deleteTagMutation.mutate(tag.id);
+                        }
+                      }}
+                      disabled={deleteTagMutation.isPending}
+                      className="opacity-0 group-hover:opacity-100 p-1 hover:bg-destructive/20 rounded transition-opacity"
+                      data-testid={`button-delete-tag-${tag.id}`}
+                    >
+                      <Trash2 className="h-3.5 w-3.5 text-destructive" />
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
             
             {showCreateOption && (
-              <button
-                onClick={handleCreateTag}
-                disabled={createTagMutation.isPending}
-                className={cn(
-                  "flex items-center gap-2 w-full px-2 py-1.5 rounded-md text-left text-sm",
-                  "hover:bg-accent transition-colors text-primary",
-                  createTagMutation.isPending && "opacity-50"
-                )}
-                data-testid="button-create-tag"
-              >
-                <Plus className="h-3.5 w-3.5" />
-                <span>"{search}" 태그 생성</span>
-              </button>
+              <div className="border-t pt-2 mt-2">
+                <div className="flex items-center gap-2 px-2 py-1.5">
+                  <button
+                    onClick={handleCreateTag}
+                    disabled={createTagMutation.isPending}
+                    className={cn(
+                      "flex items-center gap-2 flex-1 rounded-md text-left text-sm",
+                      "text-primary",
+                      createTagMutation.isPending && "opacity-50"
+                    )}
+                    data-testid="button-create-tag"
+                  >
+                    <Plus className="h-3.5 w-3.5" />
+                    <span>"{search}" 태그 생성</span>
+                  </button>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <button
+                        className={cn(
+                          "flex items-center gap-1 px-2 py-1 rounded border text-xs",
+                          selectedNewColor ? "border-foreground/30" : "border-input"
+                        )}
+                        style={selectedNewColor ? { 
+                          backgroundColor: selectedNewColor, 
+                          color: getContrastColor(selectedNewColor) 
+                        } : undefined}
+                        data-testid="button-select-new-color"
+                      >
+                        <Palette className="h-3 w-3" />
+                        {selectedNewColor ? "색상" : "색상 선택"}
+                      </button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="end">
+                      <ColorPicker 
+                        selectedColor={selectedNewColor}
+                        onColorSelect={setSelectedNewColor}
+                        onClose={() => {}}
+                      />
+                    </PopoverContent>
+                  </Popover>
+                </div>
+              </div>
             )}
             
             {filteredTags.length === 0 && !showCreateOption && (

@@ -206,6 +206,22 @@ export async function registerRoutes(
     }
   });
 
+  app.patch("/api/tags/:id", async (req, res) => {
+    try {
+      const { color } = req.body;
+      if (typeof color !== "string") {
+        return res.status(400).json({ error: "Invalid color" });
+      }
+      const tag = await storage.updateTag(req.params.id, { color });
+      if (!tag) {
+        return res.status(404).json({ error: "Tag not found" });
+      }
+      res.json(tag);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to update tag" });
+    }
+  });
+
   app.delete("/api/tags/:id", async (req, res) => {
     try {
       const success = await storage.deleteTag(req.params.id);

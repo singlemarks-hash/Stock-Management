@@ -32,6 +32,7 @@ export interface IStorage {
   
   getTags(team?: Team): Promise<MenuTag[]>;
   createTag(tag: InsertMenuTag): Promise<MenuTag>;
+  updateTag(id: string, updates: Partial<MenuTag>): Promise<MenuTag | undefined>;
   deleteTag(id: string): Promise<boolean>;
   
   getSubCategories(team: Team, mainCategory?: MainCategory): Promise<SubCategory[]>;
@@ -109,6 +110,15 @@ export class DatabaseStorage implements IStorage {
     const id = randomUUID();
     const [tag] = await db.insert(menuTags).values({ ...insertTag, id }).returning();
     return tag;
+  }
+
+  async updateTag(id: string, updates: Partial<MenuTag>): Promise<MenuTag | undefined> {
+    const { id: _, ...safeUpdates } = updates as any;
+    const [updated] = await db.update(menuTags)
+      .set(safeUpdates)
+      .where(eq(menuTags.id, id))
+      .returning();
+    return updated;
   }
 
   async deleteTag(id: string): Promise<boolean> {
