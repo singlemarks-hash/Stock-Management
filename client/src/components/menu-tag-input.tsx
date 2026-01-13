@@ -12,26 +12,7 @@ import { useInventory } from "@/lib/inventory-context";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import type { MenuTag } from "@shared/schema";
 import { cn } from "@/lib/utils";
-
-const tagColors = [
-  "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300",
-  "bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300",
-  "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300",
-  "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-300",
-  "bg-lime-100 text-lime-700 dark:bg-lime-900/30 dark:text-lime-300",
-  "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300",
-  "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300",
-  "bg-teal-100 text-teal-700 dark:bg-teal-900/30 dark:text-teal-300",
-  "bg-cyan-100 text-cyan-700 dark:bg-cyan-900/30 dark:text-cyan-300",
-  "bg-sky-100 text-sky-700 dark:bg-sky-900/30 dark:text-sky-300",
-  "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300",
-  "bg-indigo-100 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-300",
-  "bg-violet-100 text-violet-700 dark:bg-violet-900/30 dark:text-violet-300",
-  "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300",
-  "bg-fuchsia-100 text-fuchsia-700 dark:bg-fuchsia-900/30 dark:text-fuchsia-300",
-  "bg-pink-100 text-pink-700 dark:bg-pink-900/30 dark:text-pink-300",
-  "bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-300",
-];
+import { getTagColor } from "@/lib/tagColors";
 
 interface MenuTagInputProps {
   selectedTagIds: string[];
@@ -91,7 +72,7 @@ export function MenuTagInput({ selectedTagIds, onChange, disabled }: MenuTagInpu
     const newTag = {
       team: selectedTeam,
       name: search.trim(),
-      color: tagColors[Math.floor(Math.random() * tagColors.length)],
+      color: null,
     };
     
     createTagMutation.mutate(newTag);
@@ -116,7 +97,7 @@ export function MenuTagInput({ selectedTagIds, onChange, disabled }: MenuTagInpu
             <Badge
               key={tag.id}
               variant="secondary"
-              className={cn("text-[10px] px-1.5 py-0", tag.color)}
+              className={cn("text-[10px] px-1.5 py-0", tag.color || getTagColor(tag.name))}
             >
               {tag.name}
             </Badge>
@@ -145,7 +126,7 @@ export function MenuTagInput({ selectedTagIds, onChange, disabled }: MenuTagInpu
                 <Badge
                   key={tag.id}
                   variant="secondary"
-                  className={cn("text-[10px] px-1.5 py-0 gap-0.5", tag.color)}
+                  className={cn("text-[10px] px-1.5 py-0 gap-0.5", tag.color || getTagColor(tag.name))}
                 >
                   {tag.name}
                   <button
@@ -198,7 +179,7 @@ export function MenuTagInput({ selectedTagIds, onChange, disabled }: MenuTagInpu
                 >
                   <Badge
                     variant="secondary"
-                    className={cn("text-xs", tag.color)}
+                    className={cn("text-xs", tag.color || getTagColor(tag.name))}
                   >
                     {tag.name}
                   </Badge>
