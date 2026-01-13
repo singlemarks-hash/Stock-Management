@@ -12,7 +12,7 @@ import { useInventory } from "@/lib/inventory-context";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import type { MenuTag } from "@shared/schema";
 import { cn } from "@/lib/utils";
-import { getTagColor } from "@/lib/tagColors";
+import { getTagColorStyle } from "@/lib/tagColors";
 
 interface MenuTagInputProps {
   selectedTagIds: string[];
@@ -93,14 +93,18 @@ export function MenuTagInput({ selectedTagIds, onChange, disabled }: MenuTagInpu
         {selectedTags.length === 0 ? (
           <span className="text-xs text-muted-foreground">-</span>
         ) : (
-          selectedTags.map(tag => (
-            <Badge
-              key={tag.id}
-              className={cn("text-[10px] px-1.5 py-0 border-0", tag.color || getTagColor(tag.name))}
-            >
-              {tag.name}
-            </Badge>
-          ))
+          selectedTags.map(tag => {
+            const colorStyle = getTagColorStyle(tag.name);
+            return (
+              <Badge
+                key={tag.id}
+                className="text-[10px] px-1.5 py-0 border-0"
+                style={{ backgroundColor: colorStyle.backgroundColor, color: colorStyle.color }}
+              >
+                {tag.name}
+              </Badge>
+            );
+          })
         )}
       </div>
     );
@@ -121,24 +125,28 @@ export function MenuTagInput({ selectedTagIds, onChange, disabled }: MenuTagInpu
             <span className="text-xs text-muted-foreground px-1">메뉴 태그 선택...</span>
           ) : (
             <>
-              {selectedTags.map(tag => (
-                <Badge
-                  key={tag.id}
-                  className={cn("text-[10px] px-1.5 py-0 gap-0.5 border-0", tag.color || getTagColor(tag.name))}
-                >
-                  {tag.name}
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleRemoveTag(tag.id);
-                    }}
-                    className="ml-0.5 hover:bg-black/10 dark:hover:bg-white/10 rounded-full p-0.5"
+              {selectedTags.map(tag => {
+                const colorStyle = getTagColorStyle(tag.name);
+                return (
+                  <Badge
+                    key={tag.id}
+                    className="text-[10px] px-1.5 py-0 gap-0.5 border-0"
+                    style={{ backgroundColor: colorStyle.backgroundColor, color: colorStyle.color }}
                   >
-                    <X className="h-2.5 w-2.5" />
-                  </button>
-                </Badge>
-              ))}
+                    {tag.name}
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleRemoveTag(tag.id);
+                      }}
+                      className="ml-0.5 hover:bg-black/10 dark:hover:bg-white/10 rounded-full p-0.5"
+                    >
+                      <X className="h-2.5 w-2.5" />
+                    </button>
+                  </Badge>
+                );
+              })}
               <Plus className="h-3 w-3 text-muted-foreground ml-1" />
             </>
           )}
@@ -176,7 +184,8 @@ export function MenuTagInput({ selectedTagIds, onChange, disabled }: MenuTagInpu
                   data-testid={`button-select-tag-${tag.id}`}
                 >
                   <Badge
-                    className={cn("text-xs border-0", tag.color || getTagColor(tag.name))}
+                    className="text-xs border-0"
+                    style={{ backgroundColor: getTagColorStyle(tag.name).backgroundColor, color: getTagColorStyle(tag.name).color }}
                   >
                     {tag.name}
                   </Badge>
