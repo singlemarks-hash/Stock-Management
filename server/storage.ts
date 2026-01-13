@@ -50,7 +50,6 @@ export interface IStorage {
   deleteOrder(id: string): Promise<boolean>;
   
   seedDataIfEmpty(): Promise<void>;
-  forceReseed(): Promise<void>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -359,130 +358,6 @@ export class DatabaseStorage implements IStorage {
     }
 
     console.log("Database seeded with initial data");
-  }
-
-  async forceReseed(): Promise<void> {
-    console.log("Force reseeding database - clearing all tables and inserting fresh data...");
-    
-    // Clear all tables in order (respecting foreign key constraints)
-    await db.delete(itemOrders);
-    await db.delete(inventoryItems);
-    await db.delete(menuTags);
-    await db.delete(subCategories);
-    await db.delete(suppliers);
-    console.log("Cleared all tables");
-
-    // Seed Menu Tags
-    const kitchenTags = [
-      { id: "tag-k1", team: "kitchen", name: "코티지파이", color: "bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-300" },
-      { id: "tag-k2", team: "kitchen", name: "까망베르치즈구이", color: "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300" },
-      { id: "tag-k3", team: "kitchen", name: "올리브파스타", color: "bg-lime-100 text-lime-700 dark:bg-lime-900/30 dark:text-lime-300" },
-      { id: "tag-k4", team: "kitchen", name: "잠봉파스타", color: "bg-slate-100 text-slate-700 dark:bg-slate-900/30 dark:text-slate-300" },
-      { id: "tag-k5", team: "kitchen", name: "프렌치토스트", color: "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-300" },
-      { id: "tag-k6", team: "kitchen", name: "토마토스프", color: "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300" },
-      { id: "tag-k7", team: "kitchen", name: "꿀대구", color: "bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300" },
-      { id: "tag-k8", team: "kitchen", name: "뇨끼", color: "bg-stone-100 text-stone-700 dark:bg-stone-900/30 dark:text-stone-300" },
-      { id: "tag-k9", team: "kitchen", name: "치즈팔레트", color: "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-300" },
-      { id: "tag-k10", team: "kitchen", name: "티라미슈", color: "bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300" },
-      { id: "tag-k11", team: "kitchen", name: "샐러드", color: "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300" },
-      { id: "tag-k12", team: "kitchen", name: "브루기뇽", color: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300" },
-      { id: "tag-k13", team: "kitchen", name: "감바스", color: "bg-teal-100 text-teal-700 dark:bg-teal-900/30 dark:text-teal-300" },
-      { id: "tag-k14", team: "kitchen", name: "어니언스프", color: "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300" },
-      { id: "tag-k15", team: "kitchen", name: "트러플추가", color: "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300" },
-      { id: "tag-k16", team: "kitchen", name: "오이스터", color: "bg-gray-100 text-gray-700 dark:bg-gray-900/30 dark:text-gray-300" },
-      { id: "tag-k17", team: "kitchen", name: "수제바게트", color: "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-300" },
-    ];
-    
-    const cafeTags = [
-      { id: "tag-c1", team: "cafe", name: "아메리카노", color: "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300" },
-      { id: "tag-c2", team: "cafe", name: "카페라떼", color: "bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300" },
-      { id: "tag-c3", team: "cafe", name: "바닐라라떼", color: "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-300" },
-      { id: "tag-c4", team: "cafe", name: "카푸치노", color: "bg-lime-100 text-lime-700 dark:bg-lime-900/30 dark:text-lime-300" },
-      { id: "tag-c5", team: "cafe", name: "에스프레소", color: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300" },
-      { id: "tag-c6", team: "cafe", name: "모카", color: "bg-teal-100 text-teal-700 dark:bg-teal-900/30 dark:text-teal-300" },
-    ];
-
-    await db.insert(menuTags).values([...kitchenTags, ...cafeTags]);
-    console.log("Inserted menu tags");
-
-    // Seed SubCategories
-    const kitchenSubCategories = [
-      { id: "subcat-k1", team: "kitchen", mainCategory: "food", name: "유제품&치즈" },
-      { id: "subcat-k2", team: "kitchen", mainCategory: "food", name: "가공육류&알" },
-      { id: "subcat-k3", team: "kitchen", mainCategory: "food", name: "잎채소&허브류" },
-      { id: "subcat-k4", team: "kitchen", mainCategory: "food", name: "채소&버섯&과일" },
-      { id: "subcat-k5", team: "kitchen", mainCategory: "food", name: "소스&절임류" },
-      { id: "subcat-k6", team: "kitchen", mainCategory: "food", name: "특수발주" },
-      { id: "subcat-k7", team: "kitchen", mainCategory: "food", name: "냉동유제품" },
-      { id: "subcat-k8", team: "kitchen", mainCategory: "food", name: "냉동육류" },
-      { id: "subcat-k9", team: "kitchen", mainCategory: "food", name: "냉동해산물" },
-      { id: "subcat-k10", team: "kitchen", mainCategory: "food", name: "냉동빵류" },
-      { id: "subcat-k11", team: "kitchen", mainCategory: "food", name: "냉동기타" },
-      { id: "subcat-k12", team: "kitchen", mainCategory: "food", name: "상온채소" },
-      { id: "subcat-k13", team: "kitchen", mainCategory: "food", name: "가공식품" },
-      { id: "subcat-k14", team: "kitchen", mainCategory: "food", name: "오일" },
-      { id: "subcat-k15", team: "kitchen", mainCategory: "food", name: "캔" },
-      { id: "subcat-k16", team: "kitchen", mainCategory: "food", name: "상온소스" },
-      { id: "subcat-k17", team: "kitchen", mainCategory: "food", name: "건허브&향신료" },
-      { id: "subcat-k18", team: "kitchen", mainCategory: "food", name: "견과류&곡물류" },
-      { id: "subcat-k19", team: "kitchen", mainCategory: "food", name: "가루류" },
-      { id: "subcat-k20", team: "kitchen", mainCategory: "non-food", name: "소모품" },
-    ];
-
-    const cafeSubCategories = [
-      { id: "subcat-c1", team: "cafe", mainCategory: "food", name: "원두·커피" },
-      { id: "subcat-c2", team: "cafe", mainCategory: "food", name: "시럽·소스" },
-      { id: "subcat-c3", team: "cafe", mainCategory: "non-food", name: "소모품" },
-    ];
-
-    await db.insert(subCategories).values([...kitchenSubCategories, ...cafeSubCategories]);
-    console.log("Inserted subcategories");
-
-    // Seed Suppliers
-    const kitchenSuppliers = [
-      { id: "sup-k1", team: "kitchen", name: "도레미", url: null },
-      { id: "sup-k2", team: "kitchen", name: "쿠팡", url: "https://www.coupang.com" },
-      { id: "sup-k3", team: "kitchen", name: "그린팜", url: null },
-      { id: "sup-k4", team: "kitchen", name: "네이버", url: "https://shopping.naver.com" },
-      { id: "sup-k5", team: "kitchen", name: "기타", url: null },
-    ];
-
-    const cafeSuppliers = [
-      { id: "sup-c1", team: "cafe", name: "도레미", url: null },
-      { id: "sup-c2", team: "cafe", name: "쿠팡", url: "https://www.coupang.com" },
-      { id: "sup-c3", team: "cafe", name: "그린팜", url: null },
-      { id: "sup-c4", team: "cafe", name: "네이버", url: "https://shopping.naver.com" },
-      { id: "sup-c5", team: "cafe", name: "기타", url: null },
-    ];
-
-    await db.insert(suppliers).values([...kitchenSuppliers, ...cafeSuppliers]);
-    console.log("Inserted suppliers");
-
-    // Seed inventory items
-    if (fullInventoryData && fullInventoryData.length > 0) {
-      const batchSize = 20;
-      let insertedCount = 0;
-      for (let i = 0; i < fullInventoryData.length; i += batchSize) {
-        const batch = fullInventoryData.slice(i, i + batchSize);
-        try {
-          await db.insert(inventoryItems).values(batch as any[]);
-          insertedCount += batch.length;
-        } catch (batchError) {
-          console.error(`Error inserting batch starting at index ${i}:`, batchError);
-          for (const item of batch) {
-            try {
-              await db.insert(inventoryItems).values(item as any);
-              insertedCount++;
-            } catch (itemError) {
-              console.error(`Failed to insert item ${item.id}:`, itemError);
-            }
-          }
-        }
-      }
-      console.log(`Inserted ${insertedCount}/${fullInventoryData.length} inventory items`);
-    }
-
-    console.log("Force reseed completed!");
   }
 }
 

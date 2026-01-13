@@ -55,15 +55,6 @@ shared/
 - `PUT /api/inventory/bulk` - 일괄 수정
 - `GET /api/tags` - 태그 목록 조회
 - `POST /api/tags` - 태그 생성
-- `POST /api/admin/reseed` - 관리자 데이터베이스 리시드 (x-admin-key 헤더 필요)
-
-## 프로덕션 데이터 동기화
-프로덕션 데이터베이스를 개발 데이터와 동기화하려면:
-```bash
-curl -X POST https://your-app.replit.app/api/admin/reseed \
-  -H "x-admin-key: reseed-2026"
-```
-기본 키: `reseed-2026` (ADMIN_RESEED_KEY 환경변수로 변경 가능)
 
 ## 실행 방법
 ```bash
