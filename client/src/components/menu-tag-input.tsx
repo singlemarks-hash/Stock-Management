@@ -84,6 +84,7 @@ export function MenuTagInput({ selectedTagIds, onChange, disabled }: MenuTagInpu
       updateTag(updatedTag);
       setColorPickerTagId(null);
       queryClient.invalidateQueries({ queryKey: ["/api/inventory", selectedTeam] });
+      queryClient.invalidateQueries({ queryKey: ["/api/tags"] });
     },
   });
 

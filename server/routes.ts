@@ -209,8 +209,8 @@ export async function registerRoutes(
   app.patch("/api/tags/:id", async (req, res) => {
     try {
       const { color } = req.body;
-      if (typeof color !== "string") {
-        return res.status(400).json({ error: "Invalid color" });
+      if (typeof color !== "string" || !/^#[0-9A-Fa-f]{6}$/.test(color)) {
+        return res.status(400).json({ error: "Invalid color format. Use hex format like #ff0000" });
       }
       const tag = await storage.updateTag(req.params.id, { color });
       if (!tag) {
