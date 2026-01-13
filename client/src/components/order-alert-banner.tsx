@@ -488,7 +488,7 @@ export function OrderAlertBanner() {
                   <Clock className="h-5 w-5 text-chart-4" />
                   <div className="text-left">
                     <p className="text-sm font-medium">
-                      발주 완료 대기: <span className="text-chart-4 font-bold">{stats.pendingOrders.length}건</span>
+                      발주완료 후 입고대기: <span className="text-chart-4 font-bold">{stats.pendingOrders.length}건</span>
                     </p>
                     <p className="text-xs text-muted-foreground">입고 대기 중인 발주 건입니다</p>
                   </div>
