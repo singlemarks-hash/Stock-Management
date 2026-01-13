@@ -16,11 +16,6 @@ export const TAG_COLOR_CLASSES = [
   'bg-fuchsia-100 text-fuchsia-800 dark:bg-fuchsia-900/30 dark:text-fuchsia-300',
   'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300',
   'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300',
-  'bg-stone-100 text-stone-800 dark:bg-stone-900/30 dark:text-stone-300',
-  'bg-slate-100 text-slate-800 dark:bg-slate-900/30 dark:text-slate-300',
-  'bg-zinc-100 text-zinc-800 dark:bg-zinc-900/30 dark:text-zinc-300',
-  'bg-neutral-100 text-neutral-800 dark:bg-neutral-900/30 dark:text-neutral-300',
-  'bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-300',
 ] as const;
 
 export type TagColorClass = typeof TAG_COLOR_CLASSES[number];
