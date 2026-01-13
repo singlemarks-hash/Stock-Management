@@ -286,8 +286,7 @@ export function OrderAlertBanner() {
           return (
             <Badge 
               key={tagId} 
-              variant="secondary" 
-              className={cn("text-[9px] px-1 py-0", colorClass)}
+              className={cn("text-[9px] px-1 py-0 border-0", colorClass)}
             >
               {tag.name}
             </Badge>

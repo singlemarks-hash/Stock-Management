@@ -27,7 +27,7 @@ export function MenuTagInput({ selectedTagIds, onChange, disabled }: MenuTagInpu
   const inputRef = useRef<HTMLInputElement>(null);
 
   const createTagMutation = useMutation({
-    mutationFn: async (newTag: { team: string; name: string; color: string }) => {
+    mutationFn: async (newTag: { team: string; name: string; color: string | null }) => {
       const res = await apiRequest("POST", "/api/tags", newTag);
       return res.json();
     },
@@ -96,8 +96,7 @@ export function MenuTagInput({ selectedTagIds, onChange, disabled }: MenuTagInpu
           selectedTags.map(tag => (
             <Badge
               key={tag.id}
-              variant="secondary"
-              className={cn("text-[10px] px-1.5 py-0", tag.color || getTagColor(tag.name))}
+              className={cn("text-[10px] px-1.5 py-0 border-0", tag.color || getTagColor(tag.name))}
             >
               {tag.name}
             </Badge>
@@ -125,8 +124,7 @@ export function MenuTagInput({ selectedTagIds, onChange, disabled }: MenuTagInpu
               {selectedTags.map(tag => (
                 <Badge
                   key={tag.id}
-                  variant="secondary"
-                  className={cn("text-[10px] px-1.5 py-0 gap-0.5", tag.color || getTagColor(tag.name))}
+                  className={cn("text-[10px] px-1.5 py-0 gap-0.5 border-0", tag.color || getTagColor(tag.name))}
                 >
                   {tag.name}
                   <button
@@ -178,8 +176,7 @@ export function MenuTagInput({ selectedTagIds, onChange, disabled }: MenuTagInpu
                   data-testid={`button-select-tag-${tag.id}`}
                 >
                   <Badge
-                    variant="secondary"
-                    className={cn("text-xs", tag.color || getTagColor(tag.name))}
+                    className={cn("text-xs border-0", tag.color || getTagColor(tag.name))}
                   >
                     {tag.name}
                   </Badge>
