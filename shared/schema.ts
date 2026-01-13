@@ -59,7 +59,7 @@ export const menuTags = pgTable("menu_tags", {
   id: varchar("id", { length: 36 }).primaryKey(),
   team: varchar("team", { length: 20 }).notNull(),
   name: varchar("name", { length: 100 }).notNull(),
-  color: varchar("color", { length: 200 }).notNull(),
+  color: varchar("color", { length: 200 }),
 });
 
 export const subCategories = pgTable("sub_categories", {
