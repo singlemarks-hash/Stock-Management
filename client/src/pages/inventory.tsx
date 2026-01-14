@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { Pencil, Save, X, Loader2, Snowflake, Flower2, Sun, Leaf } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { useToast } from "@/hooks/use-toast";
 import { OrderAlertBanner } from "@/components/order-alert-banner";
 import { CategoryTabs } from "@/components/category-tabs";
@@ -132,7 +131,7 @@ export default function InventoryPage() {
   }
 
   return (
-    <ScrollArea className="h-full">
+    <div className="h-full overflow-y-auto">
       <div className="p-4 sm:p-6 max-w-7xl mx-auto">
         <div className="mb-4 sm:mb-6">
           <h1 className="text-xl sm:text-2xl font-semibold">
@@ -200,6 +199,6 @@ export default function InventoryPage() {
           onUpdateItem={handleUpdateItem}
         />
       </div>
-    </ScrollArea>
+    </div>
   );
 }
