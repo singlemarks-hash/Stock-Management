@@ -212,7 +212,8 @@ export function InventoryTable({
     collapsedGroups,
     toggleGroupCollapse,
     getSubCategoryOrder,
-    setSubCategoryOrder
+    setSubCategoryOrder,
+    searchQuery
   } = useInventory();
   
   const [selectAllDate, setSelectAllDate] = useState<Date | undefined>();
@@ -249,6 +250,12 @@ export function InventoryTable({
       if (!item.isFavorite) return false;
     } else if (selectedMainCategory === "food" && storageTypeFilter !== "all") {
       if (item.storageType !== storageTypeFilter) return false;
+    }
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase().trim();
+      const nameMatch = item.name.toLowerCase().includes(query);
+      const subCategoryMatch = item.subCategory?.toLowerCase().includes(query);
+      if (!nameMatch && !subCategoryMatch) return false;
     }
     return true;
   });

@@ -1,8 +1,9 @@
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Input } from "@/components/ui/input";
 import { useInventory } from "@/lib/inventory-context";
 import { mainCategoryLabels, storageTypeLabels } from "@shared/schema";
 import type { MainCategory, StorageType } from "@shared/schema";
-import { Package, ShoppingBag, Snowflake, ThermometerSnowflake, Warehouse, Star } from "lucide-react";
+import { Package, ShoppingBag, Snowflake, ThermometerSnowflake, Warehouse, Star, Search, X } from "lucide-react";
 
 const mainCategoryIcons: Record<MainCategory, typeof Package> = {
   food: Package,
@@ -22,7 +23,7 @@ interface CategoryTabsProps {
 }
 
 export function CategoryTabs({ selectedStorageType, onStorageTypeChange, actionButtons }: CategoryTabsProps) {
-  const { selectedMainCategory, setSelectedMainCategory } = useInventory();
+  const { selectedMainCategory, setSelectedMainCategory, searchQuery, setSearchQuery } = useInventory();
   
   const storageTypes: (StorageType | "all" | "favorites")[] = ["all", "refrigerated", "frozen", "room-temp", "favorites"];
 
@@ -59,7 +60,8 @@ export function CategoryTabs({ selectedStorageType, onStorageTypeChange, actionB
         )}
       </div>
 
-      <Tabs 
+      <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+        <Tabs 
           value={selectedStorageType} 
           onValueChange={(v) => onStorageTypeChange(v as StorageType | "all" | "favorites")}
         >
@@ -95,6 +97,29 @@ export function CategoryTabs({ selectedStorageType, onStorageTypeChange, actionB
             </TabsTrigger>
           </TabsList>
         </Tabs>
+        
+        <div className="relative flex-1 max-w-xs">
+          <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Input
+            type="text"
+            placeholder="재료 검색..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="pl-8 pr-8 h-8 text-sm"
+            data-testid="input-search-inventory"
+          />
+          {searchQuery && (
+            <button
+              type="button"
+              onClick={() => setSearchQuery("")}
+              className="absolute right-2 top-1/2 -translate-y-1/2 p-0.5 rounded-full hover:bg-muted transition-colors"
+              data-testid="button-clear-search"
+            >
+              <X className="h-3.5 w-3.5 text-muted-foreground" />
+            </button>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

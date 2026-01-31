@@ -33,6 +33,8 @@ interface InventoryContextType {
   toggleGroupCollapse: (subCategory: string) => void;
   getSubCategoryOrder: (storageType: string) => string[];
   setSubCategoryOrder: (storageType: string, order: string[]) => void;
+  searchQuery: string;
+  setSearchQuery: (query: string) => void;
 }
 
 const InventoryContext = createContext<InventoryContextType | undefined>(undefined);
@@ -62,6 +64,8 @@ export function InventoryProvider({ children }: { children: React.ReactNode }) {
     const saved = localStorage.getItem("inventory-subcategory-orders");
     return saved ? JSON.parse(saved) : {};
   });
+
+  const [searchQuery, setSearchQuery] = useState("");
 
   const { data, isLoading } = useQuery<{ items: InventoryItem[]; tags: MenuTag[] }>({
     queryKey: ["/api/inventory", selectedTeam],
@@ -173,6 +177,8 @@ export function InventoryProvider({ children }: { children: React.ReactNode }) {
       toggleGroupCollapse,
       getSubCategoryOrder,
       setSubCategoryOrder,
+      searchQuery,
+      setSearchQuery,
     }}>
       {children}
     </InventoryContext.Provider>
