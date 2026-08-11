@@ -189,21 +189,3 @@ export function getOrderQuantity(item: InventoryItem, season: Season): number {
   return deficit > 0 ? deficit : 0;
 }
 
-// Legacy interface types for compatibility
-export interface AppSettings {
-  selectedTeam: Team;
-  selectedSeason: Season;
-}
-
-export interface User {
-  id: string;
-  username: string;
-  password: string;
-}
-
-export const insertUserSchema = z.object({
-  username: z.string(),
-  password: z.string(),
-});
-
-export type InsertUser = z.infer<typeof insertUserSchema>;
